@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nivel 1 — Principiante | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+<div style="border-bottom:1px solid var(--border); background:var(--bg-alt)">
+  <div class="container" style="padding:10px 20px; font-size:.88rem">
+    <a href="../../practica/index.html">← Volver a Práctica</a>
+  </div>
+</div>
+
+<main>
+  <div class="container hero">
+    <span class="level-tag">Nivel 1</span>
+    <h1 style="margin-top:10px">Principiante — Fundamentos absolutos</h1>
+    <p class="lead">Empezamos desde cero absoluto: qué significa invertir, cómo funciona una bolsa, qué es una acción y cómo dar tus primeros pasos con seguridad. No se da nada por sabido — cada término se explica la primera vez que aparece.</p>
+    <div class="progress-bar" style="max-width:400px"><span id="pbLevel" style="width:0%"></span></div>
+    <p class="progress-label" id="plLevel">0 / 14 lecciones completadas</p>
+  </div>
+
+  <div class="container section">
+    <div class="grid" id="lessonGrid" style="grid-template-columns: 1fr;">
+      <!-- rellenado por JS -->
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">Inversiones IA — Nivel 1 de 4.</div>
+</footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSONS = [
+    { id: "leccion-01", title: "Invertir vs. especular vs. hacer trading", desc: "Las tres diferencias que hay que tener claras antes de empezar." },
+    { id: "leccion-02", title: "El dinero, la inflación y por qué invertir", desc: "Por qué dejar el dinero quieto también tiene un coste." },
+    { id: "leccion-03", title: "El interés compuesto", desc: "La fuerza más poderosa para hacer crecer tu dinero a largo plazo." },
+    { id: "leccion-04", title: "Qué es una acción y una empresa cotizada", desc: "Convertirte en propietario de una parte de una empresa real." },
+    { id: "leccion-05", title: "Qué es una bolsa de valores (BME)", desc: "Cómo funciona el mercado donde se compran y venden acciones." },
+    { id: "leccion-06", title: "Qué es un índice bursátil (IBEX 35, S&P 500...)", desc: "El termómetro que resume cómo va un mercado entero." },
+    { id: "leccion-07", title: "Tipos de activos: acciones, bonos, ETFs, fondos, materias primas, divisas y cripto", desc: "El mapa completo de dónde puedes invertir tu dinero." },
+    { id: "leccion-08", title: "Cómo se gana dinero: dividendos vs. plusvalías", desc: "Las dos únicas formas de obtener rentabilidad de una inversión." },
+    { id: "leccion-09", title: "Riesgo y rentabilidad", desc: "Por qué no existe la inversión segura con rentabilidad alta." },
+    { id: "leccion-10", title: "Diversificación", desc: "No poner todos los huevos en la misma cesta, en la práctica." },
+    { id: "leccion-11", title: "Qué es un bróker y cómo elegirlo (regulación y CNMV)", desc: "El intermediario que necesitas para poder invertir." },
+    { id: "leccion-12", title: "Fiscalidad básica en España", desc: "IRPF, retenciones y qué hacienda espera que declares." },
+    { id: "leccion-13", title: "Tipos de órdenes: mercado, limitada y stop", desc: "Cómo decirle exactamente al bróker qué quieres comprar o vender." },
+    { id: "leccion-14", title: "Primeros pasos prácticos y checklist final", desc: "Cómo abrir tu primera cuenta y qué comprobar antes de invertir un euro." }
+  ];
+
+  var grid = document.getElementById("lessonGrid");
+  LESSONS.forEach(function (l, i) {
+    var done = Progress.isDone("nivel-1-principiante", l.id);
+    var el = document.createElement("a");
+    el.href = l.id + ".html";
+    el.className = "card";
+    el.style.textDecoration = "none";
+    el.style.flexDirection = "row";
+    el.style.alignItems = "center";
+    el.style.justifyContent = "space-between";
+    el.style.gap = "16px";
+    el.innerHTML =
+      '<div style="display:flex;gap:14px;align-items:center;min-width:0">' +
+      '<div style="width:36px;height:36px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;background:' + (done ? 'var(--primary-soft);color:var(--primary)' : 'var(--bg-alt);color:var(--text-muted);border:1px solid var(--border)') + '">' + (done ? "✓" : (i + 1)) + '</div>' +
+      '<div style="min-width:0"><h3 style="margin:0">' + l.title + '</h3><p style="margin-top:2px">' + l.desc + '</p></div>' +
+      '</div>' +
+      '<span class="btn btn-outline btn-sm" style="flex:none">' + (done ? "Repasar" : "Empezar") + '</span>';
+    grid.appendChild(el);
+  });
+
+  var ids = LESSONS.map(function (l) { return l.id; });
+  var stats = Progress.levelStats("nivel-1-principiante", ids);
+  document.getElementById("pbLevel").style.width = stats.pct + "%";
+  document.getElementById("plLevel").textContent = stats.done + " / " + stats.total + " lecciones completadas";
+</script>
+</body>
+</html>

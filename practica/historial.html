@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Historial y estadísticas | Inversiones IA</title>
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../index.html">Inicio</a>
+      <a href="index.html" class="active">Práctica</a>
+      <a href="../invertir/index.html">Invertir</a>
+      <a href="../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+<div style="border-bottom:1px solid var(--border); background:var(--bg-alt)">
+  <div class="container" style="display:flex; gap:18px; padding:10px 20px; font-size:.88rem; flex-wrap:wrap">
+    <a href="index.html">← Volver a Práctica</a>
+    <a href="simulador.html">Simulador</a>
+    <a href="historial.html" style="font-weight:700; color:var(--primary)">Historial</a>
+  </div>
+</div>
+
+<main class="container section" style="padding-top:24px">
+  <h1 style="margin:0 0 6px">Historial y estadísticas</h1>
+  <p style="color:var(--text-muted); margin:0 0 20px">Revisa todas tus operaciones simuladas y cómo de bien (o mal) te está yendo.</p>
+
+  <div class="stat-row">
+    <div class="stat-tile"><div class="label">Operaciones cerradas</div><div class="value" id="statTrades">—</div></div>
+    <div class="stat-tile"><div class="label">% de acierto</div><div class="value" id="statWinRate">—</div></div>
+    <div class="stat-tile"><div class="label">Mejor operación</div><div class="value" id="statBest">—</div></div>
+    <div class="stat-tile"><div class="label">Peor operación</div><div class="value" id="statWorst">—</div></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Todas las operaciones</h3>
+    <div style="overflow-x:auto">
+      <table class="data-table" id="historyTable">
+        <thead><tr><th>Fecha</th><th>Valor</th><th>Tipo</th><th>Cantidad</th><th>Precio</th><th>Total</th><th>P&amp;L realizado</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Simulador educativo. Dinero 100% virtual.</div></footer>
+
+<script src="../js/progress.js"></script>
+<script src="../js/portfolio.js"></script>
+<script>
+(function () {
+  function fmtEUR(n) {
+    if (n == null || isNaN(n)) return "—";
+    return n.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
+  }
+
+  var state = Portfolio.getState();
+  var tradeStats = Portfolio.getTradeStats();
+
+  document.getElementById("statTrades").textContent = tradeStats.totalTrades;
+  document.getElementById("statWinRate").textContent = tradeStats.totalTrades ? tradeStats.winRate.toFixed(1) + "%" : "—";
+
+  var bestEl = document.getElementById("statBest");
+  if (tradeStats.bestTrade) {
+    bestEl.textContent = fmtEUR(tradeStats.bestTrade.realizedPL);
+    bestEl.classList.add(tradeStats.bestTrade.realizedPL >= 0 ? "pos" : "neg");
+  } else bestEl.textContent = "—";
+
+  var worstEl = document.getElementById("statWorst");
+  if (tradeStats.worstTrade) {
+    worstEl.textContent = fmtEUR(tradeStats.worstTrade.realizedPL);
+    worstEl.classList.add(tradeStats.worstTrade.realizedPL >= 0 ? "pos" : "neg");
+  } else worstEl.textContent = "—";
+
+  var tbody = document.querySelector("#historyTable tbody");
+  if (!state.history.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="color:var(--text-muted)">Todavía no has realizado ninguna operación. Ve al <a href="simulador.html">simulador</a> para empezar.</td></tr>';
+  } else {
+    state.history.forEach(function (h) {
+      var date = new Date(h.ts).toLocaleString("es-ES");
+      var tr = document.createElement("tr");
+      var plCell = h.side === "sell"
+        ? '<td style="color:' + (h.realizedPL >= 0 ? "var(--success)" : "var(--danger)") + '">' + fmtEUR(h.realizedPL) + "</td>"
+        : "<td>—</td>";
+      tr.innerHTML =
+        "<td>" + date + "</td>" +
+        "<td>" + h.name + " (" + h.symbol + ")</td>" +
+        '<td><span class="badge ' + (h.side === "buy" ? "buy" : "sell") + '">' + (h.side === "buy" ? "Compra" : "Venta") + "</span></td>" +
+        "<td>" + h.qty + "</td>" +
+        "<td>" + h.price.toFixed(2) + " €</td>" +
+        "<td>" + fmtEUR(h.total) + "</td>" +
+        plCell;
+      tbody.appendChild(tr);
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Simulador — Zona de práctica | Inversiones IA</title>
+<link rel="stylesheet" href="../css/styles.css" />
+<script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../index.html">Inicio</a>
+      <a href="index.html" class="active">Práctica</a>
+      <a href="../invertir/index.html">Invertir</a>
+      <a href="../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+<div style="border-bottom:1px solid var(--border); background:var(--bg-alt)">
+  <div class="container" style="display:flex; gap:18px; padding:10px 20px; font-size:.88rem; flex-wrap:wrap">
+    <a href="index.html">← Volver a Práctica</a>
+    <a href="simulador.html" style="font-weight:700; color:var(--primary)">Simulador</a>
+    <a href="historial.html">Historial</a>
+  </div>
+</div>
+
+<main class="container section" style="padding-top:24px">
+  <h1 style="margin:0 0 6px">Simulador de inversión — Mercado español (IBEX 35)</h1>
+  <p style="color:var(--text-muted); margin:0 0 20px">Opera con datos reales y dinero 100% virtual. Empieza aquí antes de arriesgar un euro real.</p>
+
+  <div class="alert info" id="dataSourceAlert">
+    Los precios proceden de <strong>Yahoo Finance</strong> (sin necesidad de clave ni registro), a través del proxy local del proyecto. Si acabas de instalar la web, asegúrate de que <code>node proxy/proxy.js</code> esté en marcha (se arranca solo si seguiste la configuración del README). Los datos pueden llevar cierto retraso respecto al mercado en tiempo real.
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-tile"><div class="label">Saldo en efectivo</div><div class="value" id="statCash">—</div></div>
+    <div class="stat-tile"><div class="label">Valor en posiciones</div><div class="value" id="statPositions">—</div></div>
+    <div class="stat-tile"><div class="label">Valor total cartera</div><div class="value" id="statTotal">—</div></div>
+    <div class="stat-tile"><div class="label">Resultado total</div><div class="value" id="statPL">—</div></div>
+  </div>
+
+  <div class="practice-layout">
+    <div class="card">
+      <h3 style="margin-top:0">IBEX 35 — Valores</h3>
+      <div class="watchlist" id="watchlist"></div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:20px">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px">
+          <div>
+            <h3 style="margin:0" id="selectedName">Selecciona un valor</h3>
+            <p style="margin:2px 0 0; color:var(--text-muted)" id="selectedTicker">—</p>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:1.6rem; font-weight:800" id="selectedPrice">—</div>
+            <div id="selectedChange">—</div>
+          </div>
+        </div>
+        <div class="chart-box" id="chart" style="margin-top:16px"></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Comprar / Vender</h3>
+        <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end">
+          <div class="field" style="margin:0">
+            <label for="qtyInput">Cantidad (acciones)</label>
+            <input type="number" id="qtyInput" min="1" step="1" value="1" style="width:140px" />
+          </div>
+          <div class="field" style="margin:0">
+            <label>Coste / ingreso estimado</label>
+            <div style="padding:9px 0; font-weight:700" id="estTotal">0,00 €</div>
+          </div>
+          <button class="btn btn-primary" id="buyBtn">Comprar</button>
+          <button class="btn btn-danger" id="sellBtn">Vender</button>
+        </div>
+        <p class="quiz-feedback" id="orderFeedback" style="margin-top:10px"></p>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <h3 style="margin:0">Posiciones abiertas</h3>
+          <button class="btn btn-outline btn-sm" id="resetBtn">Reiniciar simulación</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table" id="positionsTable">
+            <thead><tr><th>Valor</th><th>Cantidad</th><th>Coste medio</th><th>Precio actual</th><th>P&amp;L no realizado</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Simulador educativo. Dinero 100% virtual. Ninguna parte de esta web constituye asesoramiento financiero.</div></footer>
+
+<script src="../js/progress.js"></script>
+<script src="../js/marketData.js"></script>
+<script src="../js/charts.js"></script>
+<script src="../js/portfolio.js"></script>
+<script>
+(function () {
+  var constituents = [];
+  var selectedSymbol = null;
+  var lastQuotes = {};
+  var chart = null;
+
+  function fmtEUR(n) {
+    if (n == null || isNaN(n)) return "—";
+    return n.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
+  }
+  function fmtPct(n) {
+    if (n == null || isNaN(n)) return "—";
+    return (n >= 0 ? "+" : "") + n.toFixed(2) + "%";
+  }
+
+  function setValueClass(el, n) {
+    el.classList.remove("pos", "neg");
+    if (n > 0) el.classList.add("pos");
+    else if (n < 0) el.classList.add("neg");
+  }
+
+  /* ---------- Watchlist ---------- */
+  var watchlistEl = document.getElementById("watchlist");
+
+  function renderWatchlist() {
+    watchlistEl.innerHTML = "";
+    constituents.forEach(function (c) {
+      var q = lastQuotes[c.symbol];
+      var row = document.createElement("div");
+      row.className = "watchlist-item" + (c.symbol === selectedSymbol ? " active" : "");
+      row.setAttribute("data-symbol", c.symbol);
+      var priceTxt = q ? q.price.toFixed(2) + " €" : "—";
+      var changeTxt = q ? fmtPct(q.changePercent) : "";
+      var changeColor = q ? (q.changePercent >= 0 ? "var(--success)" : "var(--danger)") : "var(--text-muted)";
+      row.innerHTML =
+        '<div><div class="wl-name">' + c.name + '</div><div class="wl-ticker">' + c.symbol + " · " + c.sector + '</div></div>' +
+        '<div><div class="wl-price">' + priceTxt + '</div><div class="wl-change" style="color:' + changeColor + '">' + changeTxt + "</div></div>";
+      row.addEventListener("click", function () { selectSymbol(c.symbol); });
+      watchlistEl.appendChild(row);
+    });
+  }
+
+  async function refreshWatchlist() {
+    if (!constituents.length) return;
+    try {
+      var quotes = await MarketData.getQuotes(constituents.map(function (c) { return c.symbol; }));
+      Object.assign(lastQuotes, quotes);
+      renderWatchlist();
+      if (selectedSymbol && quotes[selectedSymbol]) updateSelectedHeader(quotes[selectedSymbol]);
+      renderPositions();
+      clearConnectionIssue();
+    } catch (e) {
+      showConnectionIssue(e);
+    }
+  }
+
+  function clearConnectionIssue() {
+    var alertEl = document.getElementById("dataSourceAlert");
+    if (alertEl.className !== "alert info") {
+      alertEl.className = "alert info";
+      alertEl.textContent = "Los precios proceden de Yahoo Finance a través del proxy local. Los datos pueden llevar cierto retraso respecto al mercado en tiempo real.";
+    }
+  }
+
+  function showConnectionIssue(e) {
+    var alertEl = document.getElementById("dataSourceAlert");
+    alertEl.className = "alert warn";
+    var isNetwork = e && /Failed to fetch|NetworkError|Load failed/i.test(e.message || "");
+    if (isNetwork) {
+      alertEl.innerHTML = "No se ha podido conectar con el proxy local. <strong>Solución:</strong> abre una terminal en la carpeta del proyecto, ejecuta <code>node proxy/proxy.js</code>, déjalo abierto y recarga esta página.";
+    } else {
+      alertEl.textContent = "No se han podido obtener precios (" + (e && e.message ? e.message : "error desconocido") + "). Se reintentará automáticamente.";
+    }
+  }
+
+  /* ---------- Selección de valor y gráfico ---------- */
+  function updateSelectedHeader(q) {
+    document.getElementById("selectedPrice").textContent = q.price.toFixed(2) + " €";
+    var changeEl = document.getElementById("selectedChange");
+    changeEl.textContent = fmtPct(q.changePercent) + " (" + (q.change >= 0 ? "+" : "") + q.change.toFixed(2) + " €)";
+    changeEl.style.color = q.changePercent >= 0 ? "var(--success)" : "var(--danger)";
+    updateEstTotal();
+  }
+
+  async function selectSymbol(symbol) {
+    selectedSymbol = symbol;
+    var c = constituents.find(function (x) { return x.symbol === symbol; });
+    document.getElementById("selectedName").textContent = c ? c.name : symbol;
+    document.getElementById("selectedTicker").textContent = symbol;
+    renderWatchlist();
+    document.getElementById("orderFeedback").textContent = "";
+
+    if (!chart) chart = Charts.create("chart");
+
+    try {
+      var series = await MarketData.getTimeSeries(symbol, "1d", "6mo");
+      if (chart) chart.setData(series);
+      var quotes = await MarketData.getQuotes([symbol]);
+      Object.assign(lastQuotes, quotes);
+      if (quotes[symbol]) updateSelectedHeader(quotes[symbol]);
+      renderPositions();
+      clearConnectionIssue();
+    } catch (e) {
+      showConnectionIssue(e);
+    }
+  }
+
+  /* ---------- Compra / venta ---------- */
+  var qtyInput = document.getElementById("qtyInput");
+  qtyInput.addEventListener("input", updateEstTotal);
+
+  function updateEstTotal() {
+    var q = selectedSymbol ? lastQuotes[selectedSymbol] : null;
+    var qty = parseFloat(qtyInput.value) || 0;
+    var total = q ? q.price * qty : 0;
+    document.getElementById("estTotal").textContent = fmtEUR(total);
+  }
+
+  document.getElementById("buyBtn").addEventListener("click", function () {
+    var fb = document.getElementById("orderFeedback");
+    try {
+      if (!selectedSymbol || !lastQuotes[selectedSymbol]) throw new Error("Selecciona primero un valor con precio disponible.");
+      var c = constituents.find(function (x) { return x.symbol === selectedSymbol; });
+      var qty = parseFloat(qtyInput.value);
+      Portfolio.buy(selectedSymbol, c.name, qty, lastQuotes[selectedSymbol].price);
+      fb.className = "quiz-feedback ok";
+      fb.textContent = "Compra ejecutada: " + qty + " x " + selectedSymbol + " a " + lastQuotes[selectedSymbol].price.toFixed(2) + " €.";
+      refreshStats();
+      renderPositions();
+    } catch (e) {
+      fb.className = "quiz-feedback ko";
+      fb.textContent = e.message;
+    }
+  });
+
+  document.getElementById("sellBtn").addEventListener("click", function () {
+    var fb = document.getElementById("orderFeedback");
+    try {
+      if (!selectedSymbol || !lastQuotes[selectedSymbol]) throw new Error("Selecciona primero un valor con precio disponible.");
+      var qty = parseFloat(qtyInput.value);
+      Portfolio.sell(selectedSymbol, qty, lastQuotes[selectedSymbol].price);
+      fb.className = "quiz-feedback ok";
+      fb.textContent = "Venta ejecutada: " + qty + " x " + selectedSymbol + " a " + lastQuotes[selectedSymbol].price.toFixed(2) + " €.";
+      refreshStats();
+      renderPositions();
+    } catch (e) {
+      fb.className = "quiz-feedback ko";
+      fb.textContent = e.message;
+    }
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function () {
+    if (!confirm("¿Seguro que quieres reiniciar la simulación? Se perderá todo tu historial y posiciones virtuales.")) return;
+    Portfolio.reset(Portfolio.DEFAULT_BALANCE);
+    refreshStats();
+    renderPositions();
+  });
+
+  /* ---------- Estadísticas y posiciones ---------- */
+  function currentPricesMap() {
+    var map = {};
+    Object.keys(lastQuotes).forEach(function (s) { map[s] = lastQuotes[s].price; });
+    return map;
+  }
+
+  function refreshStats() {
+    var stats = Portfolio.getStats(currentPricesMap());
+    document.getElementById("statCash").textContent = fmtEUR(stats.cash);
+    document.getElementById("statPositions").textContent = fmtEUR(stats.positionsValue);
+    document.getElementById("statTotal").textContent = fmtEUR(stats.totalValue);
+    var plEl = document.getElementById("statPL");
+    plEl.textContent = fmtEUR(stats.totalPL) + " (" + fmtPct(stats.totalPLPercent) + ")";
+    setValueClass(plEl, stats.totalPL);
+  }
+
+  function renderPositions() {
+    var state = Portfolio.getState();
+    var tbody = document.querySelector("#positionsTable tbody");
+    tbody.innerHTML = "";
+    var symbols = Object.keys(state.positions);
+    if (!symbols.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="color:var(--text-muted)">Todavía no tienes posiciones abiertas.</td></tr>';
+      return;
+    }
+    symbols.forEach(function (sym) {
+      var pos = state.positions[sym];
+      var price = lastQuotes[sym] ? lastQuotes[sym].price : pos.avgCost;
+      var pl = (price - pos.avgCost) * pos.qty;
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + pos.name + " (" + sym + ")</td><td>" + pos.qty + "</td><td>" + pos.avgCost.toFixed(2) + " €</td><td>" + price.toFixed(2) + " €</td>" +
+        '<td style="color:' + (pl >= 0 ? "var(--success)" : "var(--danger)") + '">' + fmtEUR(pl) + "</td>";
+      tbody.appendChild(tr);
+    });
+  }
+
+  /* ---------- Arranque ---------- */
+  async function init() {
+    refreshStats();
+    renderPositions();
+
+    var res = await fetch("../data/ibex35.json");
+    var data = await res.json();
+    constituents = data.constituents;
+    renderWatchlist();
+
+    refreshWatchlist();
+    setInterval(refreshWatchlist, 20000);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

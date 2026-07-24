@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Práctica — Cursos y simulador | Inversiones IA</title>
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../index.html">Inicio</a>
+      <a href="index.html" class="active">Práctica</a>
+      <a href="../invertir/index.html">Invertir</a>
+      <a href="../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container hero">
+    <h1>Práctica — Cursos y simulador general</h1>
+    <p class="lead">Sigue los cuatro niveles del curso (de principiante a experto) y practica con el simulador general, con precios reales del IBEX 35 y un saldo virtual de 10.000 €.</p>
+  </div>
+
+  <div class="container section">
+    <h2 class="section-title">Ruta de aprendizaje</h2>
+    <p class="section-sub">Sigue los niveles en orden. Cada lección incluye un cuestionario final que debes superar para marcarla como completada.</p>
+    <div class="grid" id="levelsGrid">
+
+      <div class="card level-card">
+        <span class="level-tag">Nivel 1</span>
+        <h3>Principiante — Fundamentos absolutos</h3>
+        <p>Qué es invertir, qué es una acción, cómo funciona la bolsa, brókeres, órdenes y fiscalidad básica. Sin dar nada por sabido.</p>
+        <div class="progress-bar"><span id="pb-nivel-1" style="width:0%"></span></div>
+        <p class="progress-label" id="pl-nivel-1">0 / 14 lecciones</p>
+        <a class="btn btn-outline btn-sm" href="../cursos/nivel-1-principiante/index.html" style="margin-top:auto">Entrar</a>
+      </div>
+
+      <div class="card level-card">
+        <span class="level-tag">Nivel 2</span>
+        <h3>Intermedio — Análisis y gestión del riesgo</h3>
+        <p>Análisis fundamental y técnico, indicadores, gestión del riesgo, psicología del inversor y construcción de cartera.</p>
+        <div class="progress-bar"><span id="pb-nivel-2" style="width:0%"></span></div>
+        <p class="progress-label" id="pl-nivel-2">0 / 10 lecciones</p>
+        <a class="btn btn-outline btn-sm" href="../cursos/nivel-2-intermedio/index.html" style="margin-top:auto">Entrar</a>
+      </div>
+
+      <div class="card level-card">
+        <span class="level-tag">Nivel 3</span>
+        <h3>Avanzado — Derivados y macroeconomía</h3>
+        <p>Patrones chartistas, derivados y apalancamiento, análisis macro, ciclos económicos y fiscalidad avanzada en España.</p>
+        <div class="progress-bar"><span id="pb-nivel-3" style="width:0%"></span></div>
+        <p class="progress-label" id="pl-nivel-3">0 / 8 lecciones</p>
+        <a class="btn btn-outline btn-sm" href="../cursos/nivel-3-avanzado/index.html" style="margin-top:auto">Entrar</a>
+      </div>
+
+      <div class="card level-card">
+        <span class="level-tag">Nivel 4</span>
+        <h3>Experto — Gestión profesional</h3>
+        <p>Gestión de carteras profesional, opciones avanzadas, trading intradía, sistemas propios y tu plan de inversión.</p>
+        <div class="progress-bar"><span id="pb-nivel-4" style="width:0%"></span></div>
+        <p class="progress-label" id="pl-nivel-4">0 / 6 lecciones</p>
+        <a class="btn btn-outline btn-sm" href="../cursos/nivel-4-experto/index.html" style="margin-top:auto">Entrar</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container section">
+    <h2 class="section-title">Simulador general</h2>
+    <p class="section-sub">Un simulador sencillo para dar tus primeros pasos, ligado a lo que vas aprendiendo en los cursos.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>📈 Simulador con datos reales</h3>
+        <p>Consulta precios reales del IBEX 35, abre un gráfico de velas y realiza compras/ventas con un saldo virtual de 10.000 €.</p>
+        <a class="btn btn-primary btn-sm" href="simulador.html" style="margin-top:auto">Abrir simulador</a>
+      </div>
+      <div class="card">
+        <h3>📊 Historial y estadísticas</h3>
+        <p>Revisa tus operaciones pasadas, tu rentabilidad total, el porcentaje de acierto y tu mejor/peor operación.</p>
+        <a class="btn btn-outline btn-sm" href="historial.html" style="margin-top:auto">Ver historial</a>
+      </div>
+    </div>
+    <p style="margin-top:18px; font-size:.88rem; color:var(--text-muted)">Si ya dominas las bases, prueba las herramientas dedicadas de <a href="../invertir/index.html">Invertir</a> (largo plazo) y <a href="../trading/index.html">Trading</a> (corto plazo), cada una con su propio saldo virtual independiente.</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">Inversiones IA — Práctica: cursos y simulador general.</div>
+</footer>
+
+<script src="../js/progress.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var levels = [
+      { key: "nivel-1-principiante", total: 14 },
+      { key: "nivel-2-intermedio", total: 10 },
+      { key: "nivel-3-avanzado", total: 8 },
+      { key: "nivel-4-experto", total: 6 }
+    ];
+    levels.forEach(function (lv, i) {
+      var ids = [];
+      for (var n = 1; n <= lv.total; n++) ids.push("leccion-" + String(n).padStart(2, "0"));
+      var stats = Progress.levelStats(lv.key, ids);
+      var pb = document.getElementById("pb-nivel-" + (i + 1));
+      var pl = document.getElementById("pl-nivel-" + (i + 1));
+      if (pb) pb.style.width = stats.pct + "%";
+      if (pl) pl.textContent = stats.done + " / " + stats.total + " lecciones";
+    });
+  });
+</script>
+</body>
+</html>

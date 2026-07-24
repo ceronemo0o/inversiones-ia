@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Money management avanzado: Kelly, correlación y VaR | Nivel 3 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 3 · Avanzado</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Patrones chartistas y Fibonacci</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Derivados I: futuros y opciones</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Derivados II: CFDs y apalancamiento</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Análisis macroeconómico</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Ciclos económicos y sectores</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Introducción al backtesting</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Money management avanzado</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Fiscalidad avanzada</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Money management avanzado: criterio de Kelly, correlación y VaR</h1>
+    <p class="lesson-meta">Nivel 3 · Avanzado — Lección 7 de 8 · <span id="lessonDoneState"></span></p>
+
+    <p>En el Nivel 2 aprendiste a arriesgar un porcentaje fijo del capital por operación (por ejemplo, 1-2%). Existen modelos matemáticos más sofisticados para afinar esa decisión.</p>
+
+    <h2>El criterio de Kelly</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Criterio de Kelly</div>
+      Fórmula matemática que calcula la fracción óptima del capital a arriesgar en una apuesta o inversión repetida, para maximizar el crecimiento compuesto del capital a largo plazo, en función de la probabilidad de acierto y del ratio de ganancia/pérdida esperado.
+    </div>
+    <p>Fórmula simplificada: <strong>f* = p − (1 − p) / b</strong>, donde <em>f*</em> es la fracción del capital a arriesgar, <em>p</em> es la probabilidad de acierto estimada, y <em>b</em> es la relación entre lo que se gana y lo que se arriesga por operación.</p>
+    <div class="callout example">
+      Si estimas que una estrategia acierta el 55% de las veces (p = 0,55) y su ratio ganancia/pérdida es de 1 (b = 1), el criterio de Kelly sugeriría arriesgar: 0,55 − (0,45/1) = 0,10, es decir, un 10% del capital por operación.
+    </div>
+    <div class="callout warn">
+      <div class="callout-title">Aviso importante</div>
+      El Kelly "puro" (f* completo) suele generar una volatilidad de la cuenta muy elevada y depende totalmente de estimaciones de probabilidad que, en mercados reales, son inciertas por naturaleza (a diferencia de un juego de azar con probabilidades conocidas). En la práctica, la inmensa mayoría de traders e inversores profesionales que usan Kelly aplican solo una <strong>fracción de Kelly</strong> (por ejemplo, un cuarto o la mitad del resultado de la fórmula) para reducir drásticamente esa volatilidad, sacrificando algo de crecimiento teórico a cambio de mucha menos probabilidad de pérdidas catastróficas por error en la estimación.
+    </div>
+
+    <h2>Correlación entre posiciones de una cartera</h2>
+    <p>Ya viste la correlación en el Nivel 1 aplicada a la diversificación general. En la gestión activa del riesgo de una cartera de varias posiciones simultáneas, es clave revisar la correlación <strong>entre las posiciones abiertas en un momento dado</strong>, no solo entre categorías de activos en general.</p>
+    <div class="callout example">
+      Si tienes cinco posiciones abiertas, pero las cinco son acciones del sector bancario español, tu riesgo real "efectivo" se parece mucho más al de tener una sola posición grande en banca que al de tener cinco posiciones independientes, porque es muy probable que se muevan de forma parecida ante una misma noticia sectorial (por ejemplo, un cambio en los tipos de interés).
+    </div>
+
+    <h2>VaR (Value at Risk / Valor en Riesgo)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · VaR</div>
+      Estimación estadística de la pérdida máxima esperada de una cartera, en un horizonte temporal determinado (por ejemplo, 1 día) y con un nivel de confianza determinado (por ejemplo, 95%), bajo condiciones normales de mercado.
+    </div>
+    <div class="callout example">
+      Un VaR diario al 95% de 5.000 € sobre una cartera significa, de forma simplificada: "en condiciones normales de mercado, esperamos no perder más de 5.000 € en un día, en el 95% de los días". Es decir, en promedio, en 1 de cada 20 días podríamos esperar una pérdida superior a esa cifra.
+    </div>
+    <div class="callout warn">
+      <div class="callout-title">Limitación importante del VaR</div>
+      El VaR estima el riesgo bajo condiciones "normales" de mercado, pero por construcción dice muy poco sobre la magnitud de las pérdidas en el escenario menos favorable restante (el 5% de "cola" en el ejemplo anterior) — precisamente los episodios de crisis, donde las correlaciones entre activos suelen dispararse (activos que normalmente no se movían juntos, de repente caen todos a la vez) y las pérdidas reales pueden superar ampliamente lo sugerido por el VaR calculado en periodos tranquilos.
+    </div>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>El criterio de Kelly calcula matemáticamente la fracción óptima de capital a arriesgar según probabilidad de acierto y ratio ganancia/pérdida, pero en la práctica se usa solo una fracción reducida de su resultado.</li>
+      <li>La correlación entre posiciones abiertas simultáneamente puede hacer que una cartera "diversificada en número" no lo esté realmente en riesgo efectivo.</li>
+      <li>El VaR estima la pérdida máxima esperada en condiciones normales, pero tiende a subestimar el riesgo en episodios de crisis, cuando las correlaciones se disparan.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-06.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-08.html">Siguiente: Fiscalidad avanzada →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 3 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué calcula el criterio de Kelly?", options: ["El PER óptimo de una empresa", "La fracción óptima de capital a arriesgar para maximizar el crecimiento compuesto a largo plazo", "El tipo de interés del BCE", "El drawdown máximo de una estrategia"], correct: 1, explain: "El criterio de Kelly determina, matemáticamente, qué fracción del capital arriesgar en función de la probabilidad de acierto y el ratio ganancia/pérdida." },
+    { q: "¿Por qué en la práctica se suele usar solo una 'fracción de Kelly' en lugar del resultado completo de la fórmula?", options: ["Porque el Kelly completo siempre da un resultado negativo", "Porque el Kelly puro genera mucha volatilidad y depende de estimaciones de probabilidad inciertas en mercados reales", "Porque la fórmula de Kelly no existe realmente", "Porque solo se puede aplicar a bonos del Estado"], correct: 1, explain: "Usar una fracción reducida del resultado de Kelly reduce la volatilidad y el riesgo derivado de estimaciones de probabilidad imprecisas." },
+    { q: "¿Por qué la correlación entre posiciones abiertas simultáneamente es relevante para el riesgo real de una cartera?", options: ["No tiene ninguna relevancia si hay muchas posiciones", "Posiciones muy correlacionadas pueden hacer que el riesgo efectivo se parezca al de tener una única posición grande", "La correlación solo afecta a los bonos, nunca a las acciones", "Cuantas más posiciones correlacionadas, menor es siempre el riesgo"], correct: 1, explain: "Varias posiciones muy correlacionadas se mueven de forma parecida ante los mismos eventos, reduciendo la diversificación real de la cartera." },
+    { q: "¿Cuál es una limitación importante del VaR?", options: ["Que solo puede calcularse para carteras de un único activo", "Que tiende a subestimar las pérdidas en episodios de crisis, cuando las correlaciones entre activos se disparan", "Que garantiza con certeza absoluta la pérdida máxima posible", "Que no puede expresarse en términos monetarios"], correct: 1, explain: "El VaR se calcula bajo condiciones normales de mercado y tiende a subestimar el riesgo real en crisis, cuando las correlaciones aumentan bruscamente." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-3-avanzado", "leccion-07");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-3-avanzado", "leccion-07");
+</script>
+</body>
+</html>

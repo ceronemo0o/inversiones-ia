@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Construcción de cartera (asset allocation) | Nivel 2 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 2 · Intermedio</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Análisis fundamental</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Ratios fundamentales</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Análisis técnico y velas</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Soportes y resistencias</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Indicadores técnicos</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Gestión del riesgo</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Psicología del inversor</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Estilos de trading/inversión</a></li>
+      <li><a data-lid="leccion-09" href="leccion-09.html">9. ETFs a fondo</a></li>
+      <li><a data-lid="leccion-10" href="leccion-10.html">10. Construcción de cartera</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Construcción de cartera (asset allocation)</h1>
+    <p class="lesson-meta">Nivel 2 · Intermedio — Lección 10 de 10 · <span id="lessonDoneState"></span></p>
+
+    <p>Última lección del Nivel 2: vamos a juntar todo lo aprendido —tipos de activos, riesgo, diversificación, ETFs— en un marco práctico para construir tu propia cartera.</p>
+
+    <h2>Qué es el asset allocation</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Asset allocation (asignación de activos)</div>
+      Decisión de cómo repartir el capital total de una cartera entre las grandes categorías de activos (renta variable, renta fija, liquidez, y opcionalmente otros como materias primas o inmobiliario), en las proporciones que mejor encajan con el perfil de riesgo y el horizonte temporal del inversor.
+    </div>
+    <p>Numerosos estudios académicos sobre gestión de carteras coinciden en que la decisión de asset allocation (cuánto en renta variable, cuánto en renta fija) explica una parte muy sustancial de la variabilidad de resultados de una cartera a largo plazo — más que la elección de valores individuales concretos dentro de cada categoría.</p>
+
+    <h2>Factores que determinan tu allocation</h2>
+    <ul>
+      <li><strong>Horizonte temporal</strong>: cuanto más lejano sea tu objetivo (jubilación a 30 años vs. una compra dentro de 3 años), más peso en renta variable puedes permitirte, porque hay más tiempo para superar caídas temporales.</li>
+      <li><strong>Tolerancia al riesgo</strong>: tu capacidad psicológica real (no solo teórica) de ver caer el valor de tu cartera un 20-30% sin vender por pánico.</li>
+      <li><strong>Capacidad financiera de asumir riesgo</strong>: tu situación de ingresos, ahorro y estabilidad laboral, independiente de cómo "te sientas" respecto al riesgo.</li>
+      <li><strong>Objetivos concretos</strong>: no es lo mismo invertir para la jubilación que para la entrada de una vivienda dentro de 5 años.</li>
+    </ul>
+
+    <h2>Ejemplos orientativos de carteras (solo con fines educativos)</h2>
+    <div class="callout warn">
+      <div class="callout-title">Aviso</div>
+      Los siguientes ejemplos son simplificaciones didácticas habituales en la literatura de educación financiera, no una recomendación personalizada. Tu situación concreta puede requerir un reparto distinto.
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Perfil</th><th>Renta variable</th><th>Renta fija / liquidez</th><th>Horizonte típico</th></tr></thead>
+      <tbody>
+        <tr><td>Conservador</td><td>20-30%</td><td>70-80%</td><td>Corto-medio plazo o baja tolerancia al riesgo</td></tr>
+        <tr><td>Moderado</td><td>50-60%</td><td>40-50%</td><td>Medio-largo plazo</td></tr>
+        <tr><td>Agresivo</td><td>80-100%</td><td>0-20%</td><td>Largo plazo, alta tolerancia al riesgo</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Rebalanceo de cartera</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Rebalanceo</div>
+      Proceso periódico de vender parte de los activos que han crecido por encima de su peso objetivo y comprar los que han quedado por debajo, para devolver la cartera a su reparto original entre categorías.
+    </div>
+    <div class="callout example">
+      Tu objetivo es 60% renta variable / 40% renta fija. Tras un buen año de bolsa, tu cartera pasa a ser 70% renta variable / 30% renta fija (la parte de acciones ha crecido más). Rebalancear implicaría vender parte de la renta variable y comprar renta fija hasta volver, aproximadamente, al 60/40 original. Esto tiene el efecto (no garantizado, pero estadísticamente razonable) de "vender relativamente caro y comprar relativamente barato" de forma disciplinada.
+    </div>
+
+    <h2>Núcleo y satélite (core-satellite)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Estrategia core-satellite</div>
+      Enfoque de cartera que combina un <strong>núcleo (core)</strong> grande y estable, habitualmente compuesto por ETFs indexados ampliamente diversificados, con una porción menor de <strong>satélites</strong>: posiciones más concretas, activas o tácticas (una empresa concreta, un sector, o incluso una pequeña porción destinada a practicar trading) sobre las que el inversor tiene convicción o interés particular de aprendizaje.
+    </div>
+    <p>Este enfoque permite mantener la disciplina y bajo coste de una cartera indexada de fondo, mientras se reserva una parte pequeña y acotada del capital para aprender, experimentar o expresar convicciones concretas, sin poner en riesgo el conjunto del patrimonio.</p>
+
+    <h2>Resumen del Nivel 2</h2>
+    <ul>
+      <li>El asset allocation (reparto entre grandes categorías de activos) suele explicar una parte muy relevante del resultado de una cartera a largo plazo.</li>
+      <li>El reparto adecuado depende de horizonte temporal, tolerancia y capacidad de asumir riesgo, y objetivos concretos.</li>
+      <li>El rebalanceo periódico mantiene la cartera alineada con el perfil de riesgo objetivo.</li>
+      <li>Un enfoque core-satellite combina un núcleo diversificado de bajo coste con una porción acotada para posiciones más activas o de aprendizaje.</li>
+    </ul>
+
+    <div class="callout tip">
+      <div class="callout-title">Siguiente paso</div>
+      Con el Nivel 2 completado, ya dominas los fundamentos de análisis, gestión del riesgo y construcción de cartera. El <a href="../nivel-3-avanzado/index.html">Nivel 3</a> profundiza en análisis técnico avanzado, derivados, macroeconomía y fiscalidad más compleja. Aprovecha también para practicar aplicando estos conceptos —especialmente el rebalanceo y el ratio riesgo/beneficio— en el <a href="../../practica/simulador.html">simulador</a>.
+    </div>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-09.html">← Anterior</a>
+      <a class="btn btn-primary" href="../nivel-3-avanzado/index.html">Ir al Nivel 3: Avanzado →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 2 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué es el asset allocation?", options: ["La elección de una única acción concreta para invertir todo el capital", "El reparto del capital entre grandes categorías de activos (renta variable, renta fija, liquidez...)", "Un tipo de orden de bolsa", "El cálculo del PER de una empresa"], correct: 1, explain: "El asset allocation determina cómo se reparte el capital entre las grandes categorías de activos según el perfil del inversor." },
+    { q: "¿Qué es el rebalanceo de cartera?", options: ["Vender toda la cartera cada mes", "Ajustar periódicamente los pesos de cada categoría para volver al reparto objetivo original", "Invertir siempre en el activo que más ha subido recientemente", "Un trámite fiscal obligatorio anual"], correct: 1, explain: "El rebalanceo devuelve la cartera a su asignación objetivo, vendiendo lo que ha crecido en exceso y comprando lo que ha quedado rezagado." },
+    { q: "¿Qué caracteriza a la estrategia core-satellite?", options: ["Invertir el 100% del capital en una sola empresa satélite", "Combinar un núcleo diversificado y estable (core) con una porción menor de posiciones más activas o tácticas (satélites)", "Evitar por completo los ETFs indexados", "Cambiar de estrategia cada semana según el estado de ánimo"], correct: 1, explain: "El enfoque core-satellite reserva la mayor parte del capital a un núcleo diversificado de bajo coste, y una porción acotada a posiciones más activas." },
+    { q: "Según la lección, ¿qué factor NO determina directamente tu asset allocation adecuado?", options: ["Tu horizonte temporal", "Tu tolerancia y capacidad de asumir riesgo", "El color de la interfaz de tu bróker", "Tus objetivos financieros concretos"], correct: 2, explain: "El color de la interfaz del bróker es irrelevante para decidir el reparto de activos; los factores relevantes son horizonte, riesgo y objetivos." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-2-intermedio", "leccion-10");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-2-intermedio", "leccion-10");
+</script>
+</body>
+</html>

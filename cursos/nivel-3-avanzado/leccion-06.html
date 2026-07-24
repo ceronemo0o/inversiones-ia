@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Introducción al backtesting de estrategias | Nivel 3 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 3 · Avanzado</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Patrones chartistas y Fibonacci</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Derivados I: futuros y opciones</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Derivados II: CFDs y apalancamiento</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Análisis macroeconómico</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Ciclos económicos y sectores</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Introducción al backtesting</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Money management avanzado</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Fiscalidad avanzada</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Introducción al backtesting de estrategias</h1>
+    <p class="lesson-meta">Nivel 3 · Avanzado — Lección 6 de 8 · <span id="lessonDoneState"></span></p>
+
+    <p>Antes de arriesgar capital real en una estrategia (por ejemplo, "comprar cuando el RSI baje de 30 y el precio esté por encima de la media móvil de 200 días"), es razonable preguntarse: ¿habría funcionado esto en el pasado? El backtesting es la herramienta para responder a esa pregunta de forma sistemática.</p>
+
+    <h2>Qué es el backtesting</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Backtesting</div>
+      Proceso de aplicar un conjunto de reglas de trading o inversión perfectamente definidas sobre datos históricos, para evaluar qué resultados habría generado esa estrategia en el pasado.
+    </div>
+
+    <h2>Métricas habituales para evaluar un backtest</h2>
+    <table class="data-table">
+      <thead><tr><th>Métrica</th><th>Qué mide</th></tr></thead>
+      <tbody>
+        <tr><td>Rentabilidad total / anualizada</td><td>Ganancia acumulada generada por la estrategia en el periodo probado</td></tr>
+        <tr><td>Drawdown máximo</td><td>La mayor caída porcentual desde un máximo hasta un mínimo posterior durante el periodo — mide el "peor momento" que habrías vivido</td></tr>
+        <tr><td>Ratio de Sharpe</td><td>Rentabilidad obtenida por unidad de riesgo (volatilidad) asumido; a mayor ratio, mejor relación rentabilidad/riesgo</td></tr>
+        <tr><td>% de operaciones ganadoras</td><td>Porcentaje de operaciones cerradas con beneficio</td></tr>
+        <tr><td>Ratio riesgo/beneficio medio</td><td>Relación media entre ganancia media y pérdida media por operación</td></tr>
+        <tr><td>Número de operaciones</td><td>Relevante para valorar si hay suficiente "muestra estadística" para confiar en el resultado</td></tr>
+      </tbody>
+    </table>
+
+    <h2>El gran peligro del backtesting: el sobreajuste (overfitting)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Overfitting (sobreajuste)</div>
+      Error habitual por el que una estrategia se ajusta tanto a los datos históricos concretos usados para probarla (incluyendo su "ruido" aleatorio particular) que deja de generalizar bien a datos futuros, funcionando mucho peor en la práctica de lo que su backtest sugería.
+    </div>
+    <div class="callout example">
+      Si pruebas cientos de combinaciones de parámetros distintos (por ejemplo, docenas de valores posibles para el periodo del RSI o de las medias móviles) sobre el mismo histórico de datos hasta encontrar la combinación que da mejor resultado pasado, es muy probable que estés simplemente "memorizando" ese periodo histórico concreto, en lugar de haber encontrado una ventaja real y repetible.
+    </div>
+
+    <h2>Buenas prácticas para reducir el overfitting</h2>
+    <ul>
+      <li><strong>Dividir los datos</strong>: probar y ajustar la estrategia en una parte de los datos históricos (in-sample) y validarla después en datos distintos que no se usaron para ajustarla (out-of-sample).</li>
+      <li><strong>Preferir estrategias simples</strong>: cuantos menos parámetros ajustables tenga una estrategia, menos margen hay para el sobreajuste.</li>
+      <li><strong>Exigir una base lógica</strong>: la estrategia debería tener sentido económico o de comportamiento de mercado, no ser solo "lo que mejor funcionó por azar" en un backtest.</li>
+      <li><strong>Probar en varios mercados y periodos</strong>: una estrategia robusta suele mantener cierta coherencia en distintos activos y ventanas temporales, no solo en un periodo muy concreto y favorable.</li>
+    </ul>
+
+    <h2>Limitaciones del backtesting</h2>
+    <div class="callout warn">
+      <div class="callout-title">Aviso</div>
+      "Rentabilidades pasadas no garantizan rentabilidades futuras" no es solo una frase legal obligatoria: es una realidad estadística. Un backtest no incluye automáticamente factores como el <em>slippage</em> real, cambios estructurales del mercado, comisiones exactas, o la dificultad psicológica real de ejecutar la estrategia sin desviarse durante un drawdown largo. El backtesting es una herramienta de apoyo a la decisión, no una garantía de resultados futuros.
+    </div>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>El backtesting aplica reglas de trading definidas sobre datos históricos para evaluar resultados pasados.</li>
+      <li>Métricas clave incluyen rentabilidad, drawdown máximo, ratio de Sharpe y ratio riesgo/beneficio.</li>
+      <li>El overfitting (sobreajuste) es el principal riesgo: ajustar tanto a los datos pasados que la estrategia deja de funcionar en el futuro.</li>
+      <li>Dividir datos in-sample/out-of-sample y preferir estrategias simples reduce (sin eliminar) el riesgo de sobreajuste.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-05.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-07.html">Siguiente: Money management avanzado →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 3 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué es el backtesting?", options: ["Predecir con certeza el precio futuro de una acción", "Aplicar reglas de trading definidas sobre datos históricos para evaluar resultados pasados", "Un tipo de orden stop-limit", "Un ratio de rentabilidad contable"], correct: 1, explain: "El backtesting evalúa cómo se habría comportado una estrategia con reglas definidas sobre datos históricos." },
+    { q: "¿Qué mide el 'drawdown máximo'?", options: ["El número total de operaciones realizadas", "La mayor caída porcentual desde un máximo hasta un mínimo posterior en el periodo probado", "El PER medio de la cartera", "El tipo de interés del banco central"], correct: 1, explain: "El drawdown máximo refleja la peor caída sufrida durante el periodo, un indicador clave del riesgo real vivido con la estrategia." },
+    { q: "¿Qué es el overfitting (sobreajuste) en backtesting?", options: ["Probar la estrategia en muy pocos datos históricos", "Ajustar tanto la estrategia a un histórico concreto que deja de funcionar bien con datos futuros", "Usar una estrategia demasiado simple", "Un tipo de comisión que cobra el bróker"], correct: 1, explain: "El overfitting ocurre cuando una estrategia se ajusta en exceso al 'ruido' de un histórico concreto, perdiendo capacidad de generalizar a datos futuros." },
+    { q: "¿Qué práctica ayuda a reducir el riesgo de sobreajuste?", options: ["Ajustar la estrategia usando todos los datos disponibles sin reservar ninguno para validar", "Dividir los datos en una muestra para ajustar (in-sample) y otra para validar (out-of-sample)", "Añadir tantos parámetros ajustables como sea posible", "Probar la estrategia en un único periodo muy corto y favorable"], correct: 1, explain: "Separar datos in-sample y out-of-sample permite comprobar si la estrategia generaliza bien más allá del periodo usado para ajustarla." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-3-avanzado", "leccion-06");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-3-avanzado", "leccion-06");
+</script>
+</body>
+</html>

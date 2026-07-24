@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Derivados I: futuros y opciones | Nivel 3 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 3 · Avanzado</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Patrones chartistas y Fibonacci</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Derivados I: futuros y opciones</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Derivados II: CFDs y apalancamiento</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Análisis macroeconómico</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Ciclos económicos y sectores</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Introducción al backtesting</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Money management avanzado</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Fiscalidad avanzada</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Derivados I: futuros y opciones</h1>
+    <p class="lesson-meta">Nivel 3 · Avanzado — Lección 2 de 8 · <span id="lessonDoneState"></span></p>
+
+    <div class="callout warn">
+      <div class="callout-title">Aviso importante</div>
+      Los derivados son productos complejos que pueden generar pérdidas superiores al capital inicialmente invertido. Esta lección tiene un objetivo puramente formativo: entender qué son y cómo funcionan, no una invitación a operarlos sin la formación y experiencia adecuadas.
+    </div>
+
+    <h2>Qué es un derivado</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Derivado financiero</div>
+      Instrumento financiero cuyo valor "deriva" del precio de otro activo (llamado activo subyacente): una acción, un índice, una materia prima o una divisa. No se compra la propiedad del activo en sí, sino un contrato relacionado con su precio futuro.
+    </div>
+
+    <h2>Futuros</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Contrato de futuros</div>
+      Acuerdo estandarizado y negociado en un mercado organizado para comprar o vender una cantidad determinada de un activo subyacente, a un precio fijado hoy, en una fecha futura concreta (vencimiento).
+    </div>
+    <p>Los futuros nacieron originalmente en mercados agrícolas (un agricultor podía "fijar hoy" el precio al que venderá su cosecha dentro de meses, protegiéndose de caídas de precio — esto se llama <strong>cobertura o hedging</strong>). Hoy existen futuros sobre índices bursátiles (como el futuro mini del IBEX 35), materias primas, divisas y tipos de interés, usados tanto para cobertura como para especulación.</p>
+    <p>Una característica clave de los futuros es que se negocian con <strong>margen</strong>: solo hace falta depositar una fracción del valor total del contrato, lo que genera un apalancamiento inherente (verás el apalancamiento en detalle en la próxima lección).</p>
+
+    <h2>Opciones</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Opción financiera</div>
+      Contrato que otorga al comprador el <strong>derecho, pero no la obligación</strong>, de comprar (opción call) o vender (opción put) un activo subyacente a un precio determinado (precio de ejercicio o strike) antes de o en una fecha de vencimiento, a cambio del pago de una prima. El vendedor de la opción sí asume una obligación si el comprador decide ejercer su derecho.
+    </div>
+    <ul>
+      <li><strong>Opción call</strong>: da derecho a comprar. Se compra cuando se espera que el precio suba por encima del strike.</li>
+      <li><strong>Opción put</strong>: da derecho a vender. Se compra cuando se espera que el precio baje por debajo del strike, o para protegerse (cobertura) de caídas en una posición ya existente.</li>
+      <li><strong>Prima</strong>: precio que paga el comprador de la opción al vendedor por adquirir ese derecho. Es la pérdida máxima posible para el comprador de una opción (si nunca le interesa ejercerla, simplemente pierde la prima pagada).</li>
+    </ul>
+
+    <div class="callout example">
+      Compras una opción call sobre una acción, con strike 50 € y vencimiento en 3 meses, pagando una prima de 2 €. Si al vencimiento la acción cotiza a 60 €, puedes ejercer tu derecho a comprarla a 50 € y venderla inmediatamente a 60 €, obteniendo un beneficio de 10 € menos la prima pagada (2 €) = 8 € de beneficio neto por acción. Si, en cambio, la acción cotiza a 45 € al vencimiento, no ejercerás la opción (no tiene sentido comprar a 50 € algo que vale 45 €), y tu pérdida se limita a la prima pagada: 2 €.
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-title">Idea clave sobre el riesgo asimétrico</div>
+      Para el <strong>comprador</strong> de una opción, la pérdida máxima está limitada a la prima pagada, mientras que la ganancia potencial puede ser muy superior. Para el <strong>vendedor</strong> de una opción, ocurre lo contrario: el beneficio máximo se limita a la prima cobrada, mientras que la pérdida potencial puede ser muy superior (en el caso de vender calls "al descubierto", teóricamente ilimitada). Por eso vender opciones sin cobertura adecuada se considera una estrategia de alto riesgo, reservada a operadores experimentados.
+    </div>
+
+    <h2>Para qué se usan los derivados</h2>
+    <ul>
+      <li><strong>Cobertura (hedging)</strong>: proteger una cartera existente frente a movimientos adversos de precio (por ejemplo, comprar puts sobre un índice para proteger una cartera de acciones ante una posible caída del mercado).</li>
+      <li><strong>Especulación</strong>: buscar beneficio del movimiento de precio del subyacente, con el apalancamiento inherente a estos productos.</li>
+      <li><strong>Arbitraje</strong>: aprovechar diferencias de precio entre mercados o instrumentos relacionados, una actividad principalmente reservada a inversores institucionales.</li>
+    </ul>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>Un derivado obtiene su valor del precio de un activo subyacente.</li>
+      <li>Un futuro obliga a comprar/vender el subyacente a un precio fijado en una fecha futura.</li>
+      <li>Una opción da un derecho (no obligación) a comprar (call) o vender (put) a un precio determinado, a cambio de una prima.</li>
+      <li>El comprador de una opción arriesga como máximo la prima pagada; el vendedor asume un riesgo potencialmente mucho mayor.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-01.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-03.html">Siguiente: Derivados II — CFDs y apalancamiento →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 3 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué es un derivado financiero?", options: ["Un tipo de acción de dividendo elevado", "Un instrumento cuyo valor deriva del precio de un activo subyacente", "Un fondo de inversión indexado", "Una cuenta bancaria de ahorro"], correct: 1, explain: "Un derivado obtiene su valor a partir del comportamiento del precio de otro activo (el subyacente), sin ser propiedad directa de ese activo." },
+    { q: "¿Qué obliga un contrato de futuros?", options: ["Nada, es solo un derecho opcional", "A comprar o vender el subyacente a un precio fijado, en una fecha futura determinada", "A pagar dividendos al comprador", "A convertirse en accionista permanente de la empresa"], correct: 1, explain: "Un futuro es un compromiso (no un derecho opcional) de comprar/vender el activo subyacente a un precio y fecha determinados." },
+    { q: "Al comprar una opción call, ¿cuál es la pérdida máxima posible para el comprador?", options: ["Ilimitada", "La prima pagada por la opción", "El doble del precio de ejercicio (strike)", "Nunca hay riesgo de pérdida"], correct: 1, explain: "El comprador de una opción arriesga, como máximo, la prima pagada, independientemente de cómo se mueva el precio del subyacente." },
+    { q: "¿Por qué se considera de alto riesgo vender opciones 'al descubierto' (sin cobertura)?", options: ["Porque está prohibido legalmente en toda la UE", "Porque la pérdida potencial del vendedor puede ser muy superior a la prima cobrada", "Porque nunca genera ningún ingreso", "Porque solo puede hacerse con acciones del IBEX 35"], correct: 1, explain: "El vendedor de una opción sin cobertura asume un riesgo de pérdida que puede superar ampliamente la prima cobrada, a diferencia del comprador." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-3-avanzado", "leccion-02");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-3-avanzado", "leccion-02");
+</script>
+</body>
+</html>

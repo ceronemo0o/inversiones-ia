@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fiscalidad avanzada en España | Nivel 3 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 3 · Avanzado</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Patrones chartistas y Fibonacci</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Derivados I: futuros y opciones</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Derivados II: CFDs y apalancamiento</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Análisis macroeconómico</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Ciclos económicos y sectores</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Introducción al backtesting</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Money management avanzado</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Fiscalidad avanzada</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Fiscalidad avanzada de la inversión en España</h1>
+    <p class="lesson-meta">Nivel 3 · Avanzado — Lección 8 de 8 · <span id="lessonDoneState"></span></p>
+
+    <div class="callout warn">
+      <div class="callout-title">Aviso</div>
+      Igual que en la lección de fiscalidad básica del Nivel 1, esta lección explica mecánica general y conceptos, no cifras ni normativa cerrada para un ejercicio fiscal concreto. Consulta siempre la normativa vigente o a un asesor fiscal antes de declarar.
+    </div>
+
+    <h2>Método FIFO para calcular ganancias y pérdidas</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · FIFO (First In, First Out)</div>
+      Criterio obligatorio en España para calcular la ganancia o pérdida patrimonial cuando se han comprado acciones del mismo valor en distintos momentos y a distintos precios: se considera que las acciones vendidas son, a efectos fiscales, las que se compraron <strong>primero</strong> (las más antiguas), independientemente del orden real en que decidieras venderlas.
+    </div>
+    <div class="callout example">
+      Compraste 100 acciones de una empresa a 10 € en enero y otras 100 acciones de la misma empresa a 15 € en junio. En noviembre vendes 100 acciones a 18 €. A efectos fiscales (FIFO), Hacienda considera que has vendido las 100 acciones más antiguas (las compradas a 10 € en enero), por lo que tu ganancia patrimonial calculada será de (18 − 10) × 100 = 800 €, no de (18 − 15) × 100 = 300 €, aunque tú "mentalmente" pensaras en vender las últimas compradas.
+    </div>
+
+    <h2>Compensación de pérdidas a varios años</h2>
+    <p>Ya viste en el Nivel 1 que las pérdidas patrimoniales de un año se compensan con las ganancias del mismo año. Si tras esa compensación queda un remanente de pérdidas sin compensar, la normativa española permite, con carácter general, arrastrar ese remanente para compensarlo con ganancias patrimoniales de los <strong>cuatro ejercicios fiscales siguientes</strong>.</p>
+    <div class="callout tip">
+      <div class="callout-title">Idea clave</div>
+      Esto hace que llevar un buen registro histórico de pérdidas no compensadas sea muy valioso: una pérdida de hace tres años todavía podría estar disponible para reducir la factura fiscal de ganancias de este año, si no se compensó completamente en su momento.
+    </div>
+
+    <h2>La regla de los dos meses (venta y recompra)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Restricción anti-aplicación de pérdidas (regla de recompra)</div>
+      Normativa que impide computar fiscalmente una pérdida patrimonial en valores homogéneos (el mismo valor, o uno muy similar) si se recompra el mismo activo dentro de un plazo determinado alrededor de la venta (habitualmente dos meses para valores cotizados en mercados de la UE, o un año para no cotizados/no negociados en mercados regulados). La pérdida no se pierde, pero se pospone: se sumará al coste de compra de la nueva adquisición.
+    </div>
+    <p>Esta norma existe para evitar que un inversor "venda para materializar la pérdida fiscal" sin cambiar realmente de posición económica (vendiendo y recomprando casi inmediatamente el mismo valor).</p>
+
+    <h2>Obligaciones informativas sobre activos en el extranjero</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Modelo 720 / Modelo D-6</div>
+      Los residentes fiscales españoles con determinados activos o cuentas en el extranjero por encima de ciertos umbrales pueden tener obligaciones informativas específicas ante la Agencia Tributaria (históricamente canalizadas, entre otros, a través del conocido como "Modelo 720"), independientes de la obligación de declarar la renta generada por esos activos. De forma similar, ciertas inversiones exteriores pueden requerir declaración ante el Banco de España (Modelo D-6), especialmente participaciones relevantes en sociedades extranjeras.
+    </div>
+    <div class="callout warn">
+      <div class="callout-title">Aviso</div>
+      Estas obligaciones informativas han sido objeto de modificaciones normativas relevantes en los últimos años (incluyendo pronunciamientos judiciales europeos sobre el régimen sancionador original). Si mantienes o vas a mantener activos en el extranjero de forma relevante, es muy recomendable consultar a un asesor fiscal especializado para conocer tus obligaciones vigentes exactas.
+    </div>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>El método FIFO obliga a considerar vendidas primero las acciones compradas más antiguas del mismo valor.</li>
+      <li>Las pérdidas no compensadas en el año pueden arrastrarse hasta cuatro ejercicios siguientes.</li>
+      <li>Recomprar el mismo valor poco después de venderlo con pérdidas puede posponer (no eliminar) el cómputo fiscal de esa pérdida.</li>
+      <li>Mantener activos relevantes en el extranjero puede generar obligaciones informativas específicas que conviene revisar con un asesor.</li>
+    </ul>
+
+    <div class="callout tip">
+      <div class="callout-title">Fin del Nivel 3</div>
+      Has completado el Nivel 3. Ya conoces herramientas de análisis técnico avanzado, derivados y apalancamiento, el contexto macroeconómico, backtesting, gestión del riesgo avanzada y fiscalidad más compleja. El <a href="../nivel-4-experto/index.html">Nivel 4</a> te llevará a un nivel de gestión profesional: carteras óptimas, opciones avanzadas, trading intradía y tu propio plan de inversión.
+    </div>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-07.html">← Anterior</a>
+      <a class="btn btn-primary" href="../nivel-4-experto/index.html">Ir al Nivel 4: Experto →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 3 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué establece el método FIFO para calcular ganancias/pérdidas patrimoniales en España?", options: ["Que se puede elegir libremente qué lote de acciones se considera vendido", "Que se consideran vendidas primero las acciones compradas más antiguas del mismo valor", "Que solo se puede vender una vez al año", "Que las pérdidas nunca pueden compensarse"], correct: 1, explain: "FIFO (First In, First Out) obliga a considerar vendidas primero las acciones más antiguas compradas del mismo valor, con independencia de la intención real del inversor." },
+    { q: "Si tienes un remanente de pérdidas patrimoniales sin compensar tras el cierre del ejercicio, ¿qué puedes hacer, con carácter general?", options: ["Nada, la pérdida desaparece definitivamente", "Compensarla con ganancias patrimoniales de los cuatro ejercicios fiscales siguientes", "Solo se puede compensar en el extranjero", "Convertirla automáticamente en un dividendo"], correct: 1, explain: "La normativa española permite, con carácter general, arrastrar el remanente de pérdidas para compensarlo en los cuatro años fiscales siguientes." },
+    { q: "¿Qué efecto tiene recomprar el mismo valor poco después de venderlo con pérdidas, según la 'regla de recompra'?", options: ["Ningún efecto, la pérdida se computa igualmente sin restricciones", "La pérdida no se pierde, pero se pospone, sumándose al coste de la nueva compra", "Se duplica automáticamente el beneficio fiscal", "Se prohíbe legalmente volver a comprar ese valor"], correct: 1, explain: "La pérdida se pospone (no se pierde) cuando se recompra el mismo valor dentro del plazo establecido, sumándose al coste de la nueva adquisición." },
+    { q: "¿Qué tipo de obligación puede aplicar a residentes fiscales españoles con activos relevantes en el extranjero?", options: ["Ninguna, los activos en el extranjero nunca se declaran", "Obligaciones informativas específicas ante la Agencia Tributaria y, en su caso, el Banco de España", "Solo aplica a empresas, nunca a particulares", "Solo aplica si el activo está denominado en euros"], correct: 1, explain: "Mantener determinados activos en el extranjero por encima de ciertos umbrales puede generar obligaciones informativas específicas, más allá de la declaración de la renta generada." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-3-avanzado", "leccion-08");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-3-avanzado", "leccion-08");
+</script>
+</body>
+</html>

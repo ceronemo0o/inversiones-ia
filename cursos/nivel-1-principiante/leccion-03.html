@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>El interés compuesto | Nivel 1 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 1 · Principiante</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Invertir vs. especular vs. trading</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Dinero e inflación</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Interés compuesto</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Qué es una acción</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. La bolsa (BME)</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Índices bursátiles</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Tipos de activos</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Dividendos vs. plusvalías</a></li>
+      <li><a data-lid="leccion-09" href="leccion-09.html">9. Riesgo y rentabilidad</a></li>
+      <li><a data-lid="leccion-10" href="leccion-10.html">10. Diversificación</a></li>
+      <li><a data-lid="leccion-11" href="leccion-11.html">11. El bróker y la CNMV</a></li>
+      <li><a data-lid="leccion-12" href="leccion-12.html">12. Fiscalidad básica</a></li>
+      <li><a data-lid="leccion-13" href="leccion-13.html">13. Tipos de órdenes</a></li>
+      <li><a data-lid="leccion-14" href="leccion-14.html">14. Primeros pasos</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>El interés compuesto</h1>
+    <p class="lesson-meta">Nivel 1 · Principiante — Lección 3 de 14 · <span id="lessonDoneState"></span></p>
+
+    <p>Einstein no dijo realmente la famosa frase que se le atribuye sobre el interés compuesto, pero la idea que resume es real y es, probablemente, el concepto matemático más importante de toda la inversión: el dinero que genera rendimientos, y esos rendimientos generan a su vez más rendimientos.</p>
+
+    <h2>Interés simple vs. interés compuesto</h2>
+    <p>Con <strong>interés simple</strong>, solo el capital inicial genera intereses cada periodo. Con <strong>interés compuesto</strong>, los intereses generados se suman al capital y, a partir de ahí, también generan intereses. La diferencia es pequeña al principio y enorme con el paso de los años.</p>
+
+    <div class="callout def">
+      <div class="callout-title">Definición · Interés compuesto</div>
+      Rendimiento que se calcula sobre el capital inicial <strong>más</strong> los intereses acumulados en periodos anteriores. Fórmula: <strong>VF = VI × (1 + r)ⁿ</strong>, donde VF es el valor final, VI el valor inicial, r la rentabilidad periódica y n el número de periodos.
+    </div>
+
+    <h3>Ejemplo: 1.000 € al 7% anual</h3>
+    <table class="data-table">
+      <thead><tr><th>Año</th><th>Interés simple (7% sobre 1.000€)</th><th>Interés compuesto (7% acumulado)</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>1.000,00 €</td><td>1.000,00 €</td></tr>
+        <tr><td>5</td><td>1.350,00 €</td><td>1.402,55 €</td></tr>
+        <tr><td>10</td><td>1.700,00 €</td><td>1.967,15 €</td></tr>
+        <tr><td>20</td><td>2.400,00 €</td><td>3.869,68 €</td></tr>
+        <tr><td>30</td><td>3.100,00 €</td><td>7.612,26 €</td></tr>
+      </tbody>
+    </table>
+    <p>A los 30 años, el interés compuesto genera más del doble que el interés simple sobre el mismo capital y la misma rentabilidad anual. Esa diferencia es exclusivamente el efecto de que "los intereses generan intereses".</p>
+
+    <h2>La regla del 72</h2>
+    <div class="callout tip">
+      <div class="callout-title">Truco mental · Regla del 72</div>
+      Para saber, de forma aproximada, cuántos años tardará una inversión en duplicarse, divide 72 entre la rentabilidad anual esperada (en %). Al 6% anual: 72 / 6 = 12 años para duplicar el capital. Al 9% anual: 72 / 9 = 8 años.
+    </div>
+
+    <h2>Por qué empezar pronto importa más que la cantidad</h2>
+    <p>El interés compuesto premia el <strong>tiempo</strong> por encima de casi cualquier otra variable. Compara a dos personas que invierten al 7% anual:</p>
+    <ul>
+      <li><strong>Ana</strong> invierte 200 €/mes empezando a los 25 años, durante 15 años (hasta los 40), y luego deja de aportar pero mantiene lo invertido hasta los 65.</li>
+      <li><strong>Bruno</strong> empieza a los 40 e invierte 200 €/mes de forma constante hasta los 65 (25 años de aportaciones, el doble de tiempo aportando que Ana).</li>
+    </ul>
+    <div class="callout example">
+      Ana aporta en total 36.000 € (200 € × 12 meses × 15 años) y, gracias a que su dinero tiene 40 años en total para crecer, termina con una cifra que supera con holgura a Bruno, quien aporta 60.000 € en total (200 € × 12 meses × 25 años) pero durante menos tiempo total de crecimiento compuesto. Esto ilustra por qué, en interés compuesto, <strong>el tiempo en el mercado suele pesar más que el importe aportado</strong>.
+    </div>
+
+    <h2>Aplicación práctica</h2>
+    <p>Este principio es la razón fundamental por la que este curso empieza por invertir a largo plazo antes de trading: el interés compuesto solo funciona si dejas que el dinero permanezca invertido y reinvertido durante años, algo incompatible con estrategias de entradas y salidas constantes si aún no dominas la gestión del riesgo.</p>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>El interés compuesto hace que los rendimientos generen, a su vez, más rendimientos.</li>
+      <li>Fórmula: VF = VI × (1 + r)ⁿ.</li>
+      <li>La regla del 72 estima en cuántos años se duplica un capital.</li>
+      <li>Empezar pronto suele importar más que la cantidad aportada.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-02.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-04.html">Siguiente: Qué es una acción →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 1 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué diferencia al interés compuesto del interés simple?", options: ["El compuesto solo aplica a acciones", "El compuesto calcula intereses también sobre los intereses acumulados", "El simple siempre rinde más", "No hay ninguna diferencia"], correct: 1, explain: "El interés compuesto reinvierte los intereses generados, que a su vez generan más intereses." },
+    { q: "Según la regla del 72, ¿en cuántos años se duplica aproximadamente un capital al 8% anual?", options: ["3 años", "6 años", "9 años", "16 años"], correct: 2, explain: "72 / 8 = 9 años aproximadamente." },
+    { q: "¿Por qué empezar a invertir pronto suele ser más determinante que la cantidad inicial?", options: ["Porque los bancos solo aceptan inversores jóvenes", "Porque el interés compuesto necesita tiempo para desplegar todo su efecto", "Porque las acciones son más baratas antes", "No es cierto, la cantidad siempre importa más que el tiempo"], correct: 1, explain: "El efecto multiplicador del interés compuesto crece de forma acelerada cuanto más tiempo permanece invertido el capital." },
+    { q: "En la fórmula VF = VI × (1 + r)ⁿ, ¿qué representa 'n'?", options: ["La rentabilidad anual", "El valor inicial invertido", "El número de periodos", "El valor final"], correct: 2, explain: "'n' es el número de periodos (normalmente años) durante los que se compone el interés." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-1-principiante", "leccion-03");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-1-principiante", "leccion-03");
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gestión de carteras profesional | Nivel 4 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 4 · Experto</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Gestión de carteras profesional</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Opciones avanzadas y griegas</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Trading intradía profesional</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Trading sistemático y algorítmico</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Tu plan propio y diario de operaciones</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Cómo seguir formándote</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Gestión de carteras profesional: Markowitz, frontera eficiente y ratios de Sharpe/Sortino</h1>
+    <p class="lesson-meta">Nivel 4 · Experto — Lección 1 de 6 · <span id="lessonDoneState"></span></p>
+
+    <p>En 1952, Harry Markowitz publicó un trabajo que sentó las bases de lo que hoy se llama Teoría Moderna de Carteras (Modern Portfolio Theory), y que le valió más tarde el Premio Nobel de Economía. Su idea central: no basta con analizar activos por separado, hay que analizar cómo se combinan entre sí.</p>
+
+    <h2>La idea central de Markowitz</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Teoría Moderna de Carteras</div>
+      Marco matemático que demuestra que, combinando activos con correlaciones no perfectas entre sí (recuerda el Nivel 1), es posible construir carteras que ofrecen una rentabilidad esperada determinada con menor riesgo total del que tendría cualquiera de los activos individuales por separado, o bien maximizar la rentabilidad esperada para un nivel de riesgo determinado.
+    </div>
+
+    <h2>La frontera eficiente</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Frontera eficiente</div>
+      Conjunto de carteras que ofrecen la máxima rentabilidad esperada posible para cada nivel de riesgo (volatilidad) dado, construidas a partir de las rentabilidades esperadas, volatilidades y correlaciones de los activos disponibles. Cualquier cartera que no esté sobre esta frontera es, matemáticamente, "mejorable": existe otra combinación de los mismos activos que ofrece más rentabilidad para el mismo riesgo, o el mismo riesgo con menos rentabilidad esperada… es decir, es ineficiente.
+    </div>
+    <p>En la práctica, calcular la frontera eficiente exacta requiere estimaciones fiables de rentabilidad esperada, volatilidad y correlación de cada activo — estimaciones que, en la realidad, son inciertas y cambian con el tiempo. Por eso la frontera eficiente se usa más como marco conceptual que como fórmula mecánica exacta para inversores particulares.</p>
+
+    <h2>Ratio de Sharpe</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Ratio de Sharpe</div>
+      <strong>Ratio de Sharpe = (Rentabilidad de la cartera − Tipo libre de riesgo) / Volatilidad de la cartera</strong>. Mide cuánta rentabilidad adicional (sobre el activo "sin riesgo", como letras del Tesoro a corto plazo) se ha obtenido por cada unidad de riesgo (volatilidad total) asumida.
+    </div>
+    <p>Permite comparar carteras o estrategias con niveles de riesgo distintos de forma más justa que comparando solo la rentabilidad bruta: una cartera con más rentabilidad pero mucha más volatilidad puede tener, en realidad, un Sharpe peor que otra más "aburrida" pero más estable.</p>
+
+    <h2>Ratio de Sortino</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Ratio de Sortino</div>
+      Variante del ratio de Sharpe que solo penaliza la volatilidad <strong>a la baja</strong> (las caídas), ignorando la volatilidad al alza (que, en realidad, a ningún inversor le "molesta"). Se considera, para muchos propósitos, una medida más representativa del riesgo "real" que le importa a un inversor.
+    </div>
+    <div class="callout tip">
+      <div class="callout-title">Por qué importa esta distinción</div>
+      El Sharpe trata por igual una subida fuerte inesperada que una caída fuerte inesperada (ambas aumentan la "volatilidad"), aunque el inversor solo tema realmente las caídas. El Sortino corrige esa asimetría, centrándose específicamente en el riesgo de pérdida.
+    </div>
+
+    <h2>Limitaciones prácticas de estos modelos</h2>
+    <div class="callout warn">
+      <div class="callout-title">Aviso</div>
+      Estos modelos asumen, de forma simplificada, que la volatilidad histórica y las correlaciones pasadas son una buena estimación del futuro — algo que no siempre se cumple, especialmente en episodios de crisis (recuerda la lección de VaR del Nivel 3: las correlaciones tienden a dispararse precisamente cuando más importa que no lo hagan). Son herramientas de apoyo muy valiosas, no fórmulas infalibles.
+    </div>
+
+    <h2>Aplicación práctica para un inversor particular</h2>
+    <p>No necesitas calcular fronteras eficientes con software especializado para beneficiarte de estas ideas. La aplicación práctica más directa es: al construir tu cartera (asset allocation, Nivel 2), prioriza combinaciones de activos con baja correlación entre sí, y evalúa el resultado de tu cartera no solo por su rentabilidad, sino por su rentabilidad ajustada al riesgo asumido (Sharpe/Sortino), especialmente al comparar entre distintas alternativas de inversión.</p>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>La Teoría Moderna de Carteras de Markowitz muestra que combinar activos con baja correlación reduce el riesgo total sin sacrificar necesariamente rentabilidad.</li>
+      <li>La frontera eficiente representa las carteras óptimas para cada nivel de riesgo, aunque su cálculo exacto depende de estimaciones inciertas.</li>
+      <li>El ratio de Sharpe mide la rentabilidad ajustada al riesgo total; el Sortino hace lo propio centrándose solo en el riesgo de caídas.</li>
+      <li>Estos modelos son herramientas de apoyo, no garantías, especialmente en episodios de crisis.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="index.html">← Volver al índice del nivel</a>
+      <a class="btn btn-primary" href="leccion-02.html">Siguiente: Opciones avanzadas y griegas →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 4 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Cuál es la idea central de la Teoría Moderna de Carteras de Markowitz?", options: ["Invertir siempre en un único activo con el PER más bajo", "Combinar activos con correlaciones no perfectas puede reducir el riesgo total de la cartera sin sacrificar necesariamente rentabilidad", "El análisis técnico es más fiable que el fundamental", "La diversificación no tiene ningún efecto sobre el riesgo"], correct: 1, explain: "Markowitz demostró que combinar activos con baja correlación puede reducir el riesgo total de la cartera para un nivel de rentabilidad esperado dado." },
+    { q: "¿Qué representa la frontera eficiente?", options: ["El conjunto de acciones más volátiles del mercado", "Las carteras que ofrecen la máxima rentabilidad esperada para cada nivel de riesgo dado", "Un tipo de orden stop-limit", "El límite legal de apalancamiento en la UE"], correct: 1, explain: "La frontera eficiente agrupa las combinaciones de activos que maximizan la rentabilidad esperada para cada nivel de riesgo asumido." },
+    { q: "¿Qué diferencia principal tiene el ratio de Sortino frente al de Sharpe?", options: ["El Sortino ignora por completo el riesgo", "El Sortino solo penaliza la volatilidad a la baja (caídas), no la volatilidad al alza", "El Sharpe solo se puede calcular para bonos", "No existe ninguna diferencia real"], correct: 1, explain: "El Sortino se centra específicamente en la volatilidad de las caídas, mientras que el Sharpe penaliza por igual toda la volatilidad, al alza y a la baja." },
+    { q: "¿Cuál es una limitación reconocida de estos modelos de cartera?", options: ["Que garantizan resultados exactos en cualquier escenario de mercado", "Que asumen que la volatilidad y correlaciones pasadas son una buena estimación del futuro, algo que falla especialmente en crisis", "Que solo se pueden aplicar a un único activo", "Que eliminan por completo el riesgo sistemático"], correct: 1, explain: "Estos modelos dependen de estimaciones de volatilidad y correlación que pueden fallar de forma notable, especialmente durante episodios de crisis de mercado." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-4-experto", "leccion-01");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-4-experto", "leccion-01");
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Riesgo y rentabilidad | Nivel 1 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 1 · Principiante</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Invertir vs. especular vs. trading</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Dinero e inflación</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Interés compuesto</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Qué es una acción</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. La bolsa (BME)</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Índices bursátiles</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Tipos de activos</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Dividendos vs. plusvalías</a></li>
+      <li><a data-lid="leccion-09" href="leccion-09.html">9. Riesgo y rentabilidad</a></li>
+      <li><a data-lid="leccion-10" href="leccion-10.html">10. Diversificación</a></li>
+      <li><a data-lid="leccion-11" href="leccion-11.html">11. El bróker y la CNMV</a></li>
+      <li><a data-lid="leccion-12" href="leccion-12.html">12. Fiscalidad básica</a></li>
+      <li><a data-lid="leccion-13" href="leccion-13.html">13. Tipos de órdenes</a></li>
+      <li><a data-lid="leccion-14" href="leccion-14.html">14. Primeros pasos</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Riesgo y rentabilidad</h1>
+    <p class="lesson-meta">Nivel 1 · Principiante — Lección 9 de 14 · <span id="lessonDoneState"></span></p>
+
+    <p>Si alguien te ofrece una inversión "segura, sin riesgo, con un 20% de rentabilidad garantizada al año", desconfía inmediatamente. La relación entre riesgo y rentabilidad es una de las leyes más consistentes de las finanzas.</p>
+
+    <h2>La relación riesgo-rentabilidad</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Relación riesgo-rentabilidad</div>
+      Principio según el cual, para atraer capital, los activos más arriesgados deben ofrecer, en promedio y a largo plazo, una rentabilidad esperada mayor que los activos más seguros. Si no fuera así, nadie asumiría el riesgo extra.
+    </div>
+    <p>Esto no significa que un activo arriesgado vaya a rendir más <em>siempre</em> ni en cualquier periodo concreto —de hecho puede perder mucho valor durante años—, sino que, para que alguien acepte ese riesgo, la <strong>rentabilidad esperada</strong> a largo plazo debe compensarlo.</p>
+
+    <h2>Qué es la volatilidad</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Volatilidad</div>
+      Medida de cuánto varía el precio de un activo en un periodo de tiempo. Se suele expresar como la desviación típica de sus rentabilidades. Una acción muy volátil puede subir o bajar un 5% en un solo día; una muy poco volátil (como una letra del Tesoro) apenas se mueve.
+    </div>
+    <p>La volatilidad no es exactamente lo mismo que "riesgo de perder dinero para siempre", pero es la forma más habitual de aproximarlo, porque una alta volatilidad implica que en según qué momento puedas necesitar vender, el precio podría estar muy por debajo de lo que pagaste.</p>
+
+    <h2>Riesgo sistemático vs. riesgo no sistemático</h2>
+    <ul>
+      <li><strong>Riesgo sistemático (o de mercado)</strong>: afecta a todo el mercado a la vez (una crisis económica, una subida de tipos de interés, una guerra). No se puede eliminar diversificando, porque afecta a casi todos los activos de riesgo simultáneamente.</li>
+      <li><strong>Riesgo no sistemático (o específico)</strong>: afecta a una empresa o sector concreto (un escándalo contable, un mal resultado trimestral, un competidor que le quita cuota de mercado). <strong>Sí se puede reducir mucho diversificando</strong> entre muchas empresas y sectores distintos (lo verás en la próxima lección).</li>
+    </ul>
+
+    <h2>Escala aproximada de riesgo por tipo de activo</h2>
+    <table class="data-table">
+      <thead><tr><th>Activo (orientativo)</th><th>Riesgo/volatilidad típica</th><th>Rentabilidad esperada a largo plazo</th></tr></thead>
+      <tbody>
+        <tr><td>Letras del Tesoro / depósitos</td><td>Muy baja</td><td>Baja</td></tr>
+        <tr><td>Bonos corporativos de alta calidad</td><td>Baja-media</td><td>Baja-media</td></tr>
+        <tr><td>Acciones de grandes empresas estables (large caps)</td><td>Media</td><td>Media-alta</td></tr>
+        <tr><td>Acciones de pequeñas empresas (small caps)</td><td>Alta</td><td>Alta (más dispersión de resultados)</td></tr>
+        <tr><td>Criptomonedas</td><td>Muy alta</td><td>Muy incierta / muy dispersa</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Tu perfil de riesgo y el horizonte temporal</h2>
+    <p>Cuánto riesgo "deberías" asumir depende de dos cosas principalmente: tu <strong>horizonte temporal</strong> (cuánto tiempo puedes dejar el dinero invertido sin necesitarlo) y tu <strong>tolerancia psicológica</strong> a ver el valor de tu cartera bajar temporalmente sin vender por pánico. Un horizonte largo permite, en general, asumir más volatilidad, porque hay más tiempo para recuperarse de caídas temporales.</p>
+
+    <div class="callout warn">
+      <div class="callout-title">Aviso importante</div>
+      Nunca inviertas en activos volátiles dinero que vayas a necesitar a corto plazo (por ejemplo, para un pago importante dentro de 6 meses). Si necesitas vender justo quiere el mercado esté bajo, puedes verte obligado a materializar una pérdida que, con más tiempo, quizá se habría recuperado.
+    </div>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>A mayor riesgo asumido, mayor debe ser la rentabilidad esperada a largo plazo para que compense.</li>
+      <li>La volatilidad mide cuánto varía el precio de un activo.</li>
+      <li>El riesgo sistemático afecta a todo el mercado; el no sistemático es específico de una empresa/sector y se reduce diversificando.</li>
+      <li>Tu horizonte temporal y tu tolerancia psicológica determinan cuánto riesgo te conviene asumir.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-08.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-10.html">Siguiente: Diversificación →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 1 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "Según el principio riesgo-rentabilidad, ¿por qué los activos más arriesgados deberían ofrecer más rentabilidad esperada a largo plazo?", options: ["Por ley, es obligatorio", "Para compensar a quien asume ese riesgo extra; si no, nadie lo asumiría", "Porque siempre suben más rápido cada día", "No existe tal relación"], correct: 1, explain: "Si un activo arriesgado no ofreciera más rentabilidad esperada, nadie estaría dispuesto a asumir su riesgo en lugar de uno más seguro." },
+    { q: "¿Qué tipo de riesgo se reduce diversificando entre muchas empresas y sectores?", options: ["El riesgo sistemático", "El riesgo no sistemático (específico de cada empresa)", "Ningún tipo de riesgo se reduce diversificando", "El riesgo de tipo de cambio únicamente"], correct: 1, explain: "El riesgo no sistemático (específico de una empresa o sector) se reduce mucho al diversificar; el sistemático afecta a todo el mercado por igual." },
+    { q: "¿Por qué no se debería invertir en activos volátiles el dinero que necesitarás en 6 meses?", options: ["Porque está prohibido por ley", "Porque podrías verte obligado a vender en un mal momento y materializar una pérdida", "Porque los brókeres no lo permiten", "Porque la inflación no afecta a corto plazo"], correct: 1, explain: "Un horizonte temporal corto no da margen para recuperarse de una caída temporal, aumentando el riesgo de tener que vender con pérdidas." },
+    { q: "¿Qué mide la volatilidad de un activo?", options: ["El número de accionistas que tiene", "Cuánto varía su precio en un periodo de tiempo", "El importe de sus dividendos", "El país donde cotiza"], correct: 1, explain: "La volatilidad mide la magnitud de las variaciones de precio de un activo, habitualmente mediante la desviación típica de sus rentabilidades." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-1-principiante", "leccion-09");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-1-principiante", "leccion-09");
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gestión del riesgo: stop loss, take profit y tamaño de posición | Nivel 2 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 2 · Intermedio</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Análisis fundamental</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Ratios fundamentales</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Análisis técnico y velas</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Soportes y resistencias</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Indicadores técnicos</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Gestión del riesgo</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Psicología del inversor</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Estilos de trading/inversión</a></li>
+      <li><a data-lid="leccion-09" href="leccion-09.html">9. ETFs a fondo</a></li>
+      <li><a data-lid="leccion-10" href="leccion-10.html">10. Construcción de cartera</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Gestión del riesgo: stop loss, take profit y tamaño de posición</h1>
+    <p class="lesson-meta">Nivel 2 · Intermedio — Lección 6 de 10 · <span id="lessonDoneState"></span></p>
+
+    <p>Esta es, probablemente, la lección más importante de todo el Nivel 2. Los traders e inversores con más experiencia coinciden en algo: a largo plazo, sobrevivir en los mercados depende más de <strong>cuánto arriesgas en cada operación</strong> que de acertar la dirección del precio.</p>
+
+    <h2>Por qué las pérdidas grandes son matemáticamente más peligrosas de lo que parecen</h2>
+    <div class="callout example">
+      Si pierdes un 10% de tu capital, necesitas ganar un 11,1% solo para volver al punto de partida. Si pierdes un 50%, necesitas ganar un 100% (duplicar lo que te queda) solo para recuperar lo perdido. Si pierdes un 90%, necesitas multiplicar por 10 lo que te queda. Cuanto mayor es la pérdida porcentual, de forma desproporcionada (no lineal) más difícil es recuperarla.
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Pérdida sufrida</th><th>Ganancia necesaria para recuperarla</th></tr></thead>
+      <tbody>
+        <tr><td>-10%</td><td>+11,1%</td></tr>
+        <tr><td>-20%</td><td>+25%</td></tr>
+        <tr><td>-50%</td><td>+100%</td></tr>
+        <tr><td>-80%</td><td>+400%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Tamaño de posición</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Tamaño de posición (position sizing)</div>
+      Cantidad de capital que se destina a una operación concreta, generalmente decidida en función de un porcentaje máximo del capital total que se está dispuesto a arriesgar en esa operación si sale mal.
+    </div>
+    <p>Una regla muy extendida entre traders es no arriesgar más de un <strong>1-2% del capital total</strong> en una sola operación (es decir, si la operación llega al stop loss, la pérdida total no debería superar ese 1-2% del capital, no el 100% de lo invertido en esa operación).</p>
+
+    <div class="callout example">
+      Tienes 10.000 € de capital y decides arriesgar como máximo un 1% (100 €) en una operación. Compras una acción a 50 € y colocas el stop loss a 45 € (un riesgo de 5 € por acción). El número de acciones a comprar sería: 100 € / 5 € = 20 acciones (1.000 € de inversión total), de modo que si el stop se activa, la pérdida máxima es de exactamente 100 €, el 1% de tu capital.
+    </div>
+
+    <h2>Take profit</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Take profit</div>
+      Orden que fija de antemano el precio al que se cerrará una posición ganadora, asegurando el beneficio antes de que un giro del mercado pueda hacer desaparecer esa ganancia.
+    </div>
+
+    <h2>Ratio riesgo/beneficio</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Ratio riesgo/beneficio</div>
+      Relación entre lo que se arriesga (distancia hasta el stop loss) y lo que se espera ganar (distancia hasta el take profit) en una operación. Un ratio de 1:3 significa que se arriesga 1 € por cada 3 € que se espera ganar.
+    </div>
+    <div class="callout tip">
+      <div class="callout-title">Por qué esto es tan importante</div>
+      Con un ratio riesgo/beneficio favorable (por ejemplo, 1:3), no hace falta acertar la mayoría de las operaciones para ser rentable en conjunto. Con un ratio de 1:3, acertando solo el 30% de las operaciones y perdiendo el 70% restante, el resultado global puede seguir siendo positivo (30% × 3 = 0,9 de ganancia esperada frente a 70% × 1 = 0,7 de pérdida esperada). Esto ilustra por qué la gestión del riesgo puede importar más que "acertar siempre".
+    </div>
+
+    <h2>Regla de oro resumida</h2>
+    <ol>
+      <li>Define tu riesgo máximo por operación (por ejemplo, 1-2% del capital) <strong>antes</strong> de entrar.</li>
+      <li>Coloca siempre un stop loss coherente con ese riesgo máximo.</li>
+      <li>Busca operaciones con un ratio riesgo/beneficio favorable (idealmente 1:2 o superior).</li>
+      <li>Respeta el plan una vez definido: no muevas el stop loss "para darle más margen" cuando la operación va en tu contra — esa es una de las formas más comunes de convertir una pérdida pequeña en una pérdida grande.</li>
+    </ol>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>Las pérdidas porcentuales grandes requieren ganancias desproporcionadamente mayores para recuperarse.</li>
+      <li>El tamaño de posición limita cuánto se arriesga en cada operación individual (regla habitual: 1-2% del capital).</li>
+      <li>El take profit asegura beneficios de antemano; el ratio riesgo/beneficio compara lo arriesgado con lo esperado ganar.</li>
+      <li>Un buen ratio riesgo/beneficio permite ser rentable en conjunto incluso acertando menos de la mitad de las operaciones.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-05.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-07.html">Siguiente: Psicología del inversor →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 2 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "Si tu cartera pierde un 50% de su valor, ¿qué rentabilidad necesitas para volver al punto de partida?", options: ["+50%", "+75%", "+100%", "+25%"], correct: 2, explain: "Tras perder el 50%, te queda la mitad del capital; necesitas duplicarlo (+100%) para recuperar el valor original." },
+    { q: "¿Qué es el 'tamaño de posición'?", options: ["El número total de acciones que existen de una empresa", "La cantidad de capital arriesgada en una operación concreta, en función de un límite de riesgo definido", "El precio actual de la acción", "El plazo de vencimiento de un bono"], correct: 1, explain: "El tamaño de posición determina cuánto capital se destina a una operación según el riesgo máximo que se está dispuesto a asumir." },
+    { q: "Con un ratio riesgo/beneficio de 1:3, ¿qué significa?", options: ["Se arriesgan 3 € por cada 1 € que se espera ganar", "Se arriesga 1 € por cada 3 € que se espera ganar", "Se opera 3 veces por cada operación ganadora", "El stop loss está 3 veces más lejos que el take profit"], correct: 1, explain: "Un ratio 1:3 implica que la distancia hasta el take profit es 3 veces mayor que la distancia hasta el stop loss." },
+    { q: "Según la lección, ¿qué error común empeora una pérdida pequeña convirtiéndola en una pérdida grande?", options: ["Colocar el stop loss antes de entrar en la operación", "Mover el stop loss más lejos 'para darle más margen' cuando la operación va en contra", "Definir el tamaño de posición antes de operar", "Buscar un ratio riesgo/beneficio favorable"], correct: 1, explain: "Mover el stop loss para 'dar más margen' cuando el precio va en contra es una forma habitual de dejar que una pérdida controlada se convierta en una pérdida mucho mayor." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-2-intermedio", "leccion-06");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-2-intermedio", "leccion-06");
+</script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trading — Terminal de operativa | Inversiones IA</title>
+<link rel="stylesheet" href="../css/styles.css" />
+<script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../index.html">Inicio</a>
+      <a href="../practica/index.html">Práctica</a>
+      <a href="../invertir/index.html">Invertir</a>
+      <a href="index.html" class="active">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container section" style="padding-top:24px">
+  <h1 style="margin:0 0 6px">Trading — Terminal de operativa a corto plazo (mercado español)</h1>
+  <p style="color:var(--text-muted); margin:0 0 20px">Opera con distintos plazos temporales, órdenes a mercado, limitadas y stop, sobre precios reales del IBEX 35 y dinero 100% virtual. Saldo independiente del de Práctica e Invertir.</p>
+
+  <div class="alert info" id="dataSourceAlert">
+    Precios en tiempo real vía <strong>Yahoo Finance</strong> (sin necesidad de clave ni registro), a través del proxy local del proyecto. Los datos pueden llevar cierto retraso respecto al mercado en tiempo real.
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-tile"><div class="label">Saldo en efectivo</div><div class="value" id="statCash">—</div></div>
+    <div class="stat-tile"><div class="label">Valor en posiciones</div><div class="value" id="statPositions">—</div></div>
+    <div class="stat-tile"><div class="label">Valor total cartera</div><div class="value" id="statTotal">—</div></div>
+    <div class="stat-tile"><div class="label">Resultado total</div><div class="value" id="statPL">—</div></div>
+  </div>
+
+  <div class="practice-layout">
+    <div class="card">
+      <h3 style="margin-top:0">IBEX 35 — Valores</h3>
+      <div class="watchlist" id="watchlist"></div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:20px">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px">
+          <div>
+            <h3 style="margin:0" id="selectedName">Selecciona un valor</h3>
+            <p style="margin:2px 0 0; color:var(--text-muted)" id="selectedTicker">—</p>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:1.6rem; font-weight:800" id="selectedPrice">—</div>
+            <div id="selectedChange">—</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:6px; margin-top:12px" id="timeframeSelector">
+          <button class="btn btn-outline btn-sm tf-btn" data-interval="1m" data-range="1d">1 min</button>
+          <button class="btn btn-outline btn-sm tf-btn" data-interval="5m" data-range="5d">5 min</button>
+          <button class="btn btn-outline btn-sm tf-btn" data-interval="15m" data-range="1mo">15 min</button>
+          <button class="btn btn-outline btn-sm tf-btn" data-interval="60m" data-range="3mo">1 hora</button>
+          <button class="btn btn-primary btn-sm tf-btn" data-interval="1d" data-range="1y">Diario</button>
+        </div>
+        <div class="chart-box" id="chart" style="margin-top:12px"></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Nueva orden</h3>
+        <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end">
+          <div class="field" style="margin:0">
+            <label for="qtyInput">Cantidad (acciones)</label>
+            <input type="number" id="qtyInput" min="1" step="1" value="1" style="width:120px" />
+          </div>
+          <div class="field" style="margin:0">
+            <label for="orderTypeSelect">Tipo de orden</label>
+            <select id="orderTypeSelect" style="width:150px">
+              <option value="market">Mercado</option>
+              <option value="limit">Limitada</option>
+              <option value="stop">Stop</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0" id="triggerPriceField" hidden>
+            <label for="triggerPriceInput" id="triggerPriceLabel">Precio límite</label>
+            <input type="number" id="triggerPriceInput" min="0" step="0.01" style="width:130px" />
+          </div>
+          <div class="field" style="margin:0">
+            <label>Coste / ingreso estimado</label>
+            <div style="padding:9px 0; font-weight:700" id="estTotal">0,00 €</div>
+          </div>
+          <button class="btn btn-primary" id="buyBtn">Comprar</button>
+          <button class="btn btn-danger" id="sellBtn">Vender</button>
+        </div>
+        <p style="margin-top:10px; font-size:.82rem; color:var(--text-muted)" id="orderHint">Orden a mercado: se ejecuta al instante al precio actual.</p>
+        <p class="quiz-feedback" id="orderFeedback" style="margin-top:6px"></p>
+      </div>
+
+      <div class="card" id="pendingCard" style="display:none">
+        <h3 style="margin-top:0">Órdenes pendientes</h3>
+        <div style="overflow-x:auto">
+          <table class="data-table" id="pendingTable">
+            <thead><tr><th>Valor</th><th>Tipo</th><th>Cantidad</th><th>Precio disparo</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <h3 style="margin:0">Posiciones abiertas</h3>
+          <button class="btn btn-outline btn-sm" id="resetBtn">Reiniciar cuenta</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table" id="positionsTable">
+            <thead><tr><th>Valor</th><th>Cantidad</th><th>Coste medio</th><th>Precio actual</th><th>P&amp;L no realizado</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Historial de operaciones</h3>
+        <div style="overflow-x:auto">
+          <table class="data-table" id="historyTable">
+            <thead><tr><th>Fecha</th><th>Valor</th><th>Tipo</th><th>Cantidad</th><th>Precio</th><th>Total</th><th>P&amp;L realizado</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Terminal de trading educativo. Dinero 100% virtual. Ninguna parte de esta web constituye asesoramiento financiero.</div></footer>
+
+<script src="../js/progress.js"></script>
+<script src="../js/marketData.js"></script>
+<script src="../js/charts.js"></script>
+<script src="../js/portfolio.js"></script>
+<script>
+(function () {
+  var PortfolioTrading = PortfolioFactory("invia_portfolio_trading_v1", 10000);
+
+  var constituents = [];
+  var selectedSymbol = null;
+  var lastQuotes = {};
+  var chart = null;
+  var currentInterval = "1d";
+  var currentRange = "1y";
+
+  function fmtEUR(n) {
+    if (n == null || isNaN(n)) return "—";
+    return n.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
+  }
+  function fmtPct(n) {
+    if (n == null || isNaN(n)) return "—";
+    return (n >= 0 ? "+" : "") + n.toFixed(2) + "%";
+  }
+  function setValueClass(el, n) {
+    el.classList.remove("pos", "neg");
+    if (n > 0) el.classList.add("pos");
+    else if (n < 0) el.classList.add("neg");
+  }
+
+  /* ---------- Timeframe ---------- */
+  document.querySelectorAll(".tf-btn").forEach(function (btn) {
+    btn.addEventListener("click", async function () {
+      document.querySelectorAll(".tf-btn").forEach(function (b) { b.classList.remove("btn-primary"); b.classList.add("btn-outline"); });
+      btn.classList.remove("btn-outline");
+      btn.classList.add("btn-primary");
+      currentInterval = btn.getAttribute("data-interval");
+      currentRange = btn.getAttribute("data-range");
+      if (selectedSymbol) {
+        try {
+          var series = await MarketData.getTimeSeries(selectedSymbol, currentInterval, currentRange);
+          if (chart) chart.setData(series);
+          clearConnectionIssue();
+        } catch (e) { showConnectionIssue(e); }
+      }
+    });
+  });
+
+  /* ---------- Watchlist ---------- */
+  var watchlistEl = document.getElementById("watchlist");
+  function renderWatchlist() {
+    watchlistEl.innerHTML = "";
+    constituents.forEach(function (c) {
+      var q = lastQuotes[c.symbol];
+      var row = document.createElement("div");
+      row.className = "watchlist-item" + (c.symbol === selectedSymbol ? " active" : "");
+      var priceTxt = q ? q.price.toFixed(2) + " €" : "—";
+      var changeTxt = q ? fmtPct(q.changePercent) : "";
+      var changeColor = q ? (q.changePercent >= 0 ? "var(--success)" : "var(--danger)") : "var(--text-muted)";
+      row.innerHTML =
+        '<div><div class="wl-name">' + c.name + '</div><div class="wl-ticker">' + c.symbol + " · " + c.sector + '</div></div>' +
+        '<div><div class="wl-price">' + priceTxt + '</div><div class="wl-change" style="color:' + changeColor + '">' + changeTxt + "</div></div>";
+      row.addEventListener("click", function () { selectSymbol(c.symbol); });
+      watchlistEl.appendChild(row);
+    });
+  }
+
+  async function refreshWatchlist() {
+    if (!constituents.length) return;
+    try {
+      var quotes = await MarketData.getQuotes(constituents.map(function (c) { return c.symbol; }));
+      Object.assign(lastQuotes, quotes);
+      renderWatchlist();
+      if (selectedSymbol && quotes[selectedSymbol]) updateSelectedHeader(quotes[selectedSymbol]);
+      processExecutedOrders(PortfolioTrading.checkPendingOrders(currentPricesMap()));
+      renderAll();
+      clearConnectionIssue();
+    } catch (e) {
+      showConnectionIssue(e);
+    }
+  }
+
+  function clearConnectionIssue() {
+    var alertEl = document.getElementById("dataSourceAlert");
+    if (alertEl.className !== "alert info") {
+      alertEl.className = "alert info";
+      alertEl.textContent = "Precios en tiempo real vía Yahoo Finance, a través del proxy local. Los datos pueden llevar cierto retraso respecto al mercado en tiempo real.";
+    }
+  }
+
+  function showConnectionIssue(e) {
+    var alertEl = document.getElementById("dataSourceAlert");
+    alertEl.className = "alert warn";
+    var isNetwork = e && /Failed to fetch|NetworkError|Load failed/i.test(e.message || "");
+    if (isNetwork) {
+      alertEl.innerHTML = "No se ha podido conectar con el proxy local. <strong>Solución:</strong> abre una terminal en la carpeta del proyecto, ejecuta <code>node proxy/proxy.js</code>, déjalo abierto y recarga esta página.";
+    } else {
+      alertEl.textContent = "No se han podido obtener precios (" + (e && e.message ? e.message : "error desconocido") + "). Se reintentará automáticamente.";
+    }
+  }
+
+  /* ---------- Selección y gráfico ---------- */
+  function updateSelectedHeader(q) {
+    document.getElementById("selectedPrice").textContent = q.price.toFixed(2) + " €";
+    var changeEl = document.getElementById("selectedChange");
+    changeEl.textContent = fmtPct(q.changePercent) + " (" + (q.change >= 0 ? "+" : "") + q.change.toFixed(2) + " €)";
+    changeEl.style.color = q.changePercent >= 0 ? "var(--success)" : "var(--danger)";
+    updateEstTotal();
+  }
+
+  async function selectSymbol(symbol) {
+    selectedSymbol = symbol;
+    var c = constituents.find(function (x) { return x.symbol === symbol; });
+    document.getElementById("selectedName").textContent = c ? c.name : symbol;
+    document.getElementById("selectedTicker").textContent = symbol;
+    renderWatchlist();
+    document.getElementById("orderFeedback").textContent = "";
+    if (!chart) chart = Charts.create("chart");
+    try {
+      var series = await MarketData.getTimeSeries(symbol, currentInterval, currentRange);
+      if (chart) chart.setData(series);
+      var quotes = await MarketData.getQuotes([symbol]);
+      Object.assign(lastQuotes, quotes);
+      if (quotes[symbol]) updateSelectedHeader(quotes[symbol]);
+      processExecutedOrders(PortfolioTrading.checkPendingOrders(currentPricesMap()));
+      renderAll();
+      clearConnectionIssue();
+    } catch (e) {
+      showConnectionIssue(e);
+    }
+  }
+
+  /* ---------- Orden ---------- */
+  var qtyInput = document.getElementById("qtyInput");
+  var orderTypeSelect = document.getElementById("orderTypeSelect");
+  var triggerPriceField = document.getElementById("triggerPriceField");
+  var triggerPriceInput = document.getElementById("triggerPriceInput");
+  var triggerPriceLabel = document.getElementById("triggerPriceLabel");
+  var orderHint = document.getElementById("orderHint");
+
+  var HINTS = {
+    market: "Orden a mercado: se ejecuta al instante al precio actual.",
+    limit: "Orden limitada: se ejecutará cuando el precio alcance tu nivel (compra: precio ≤ límite; venta: precio ≥ límite). Queda pendiente hasta entonces.",
+    stop: "Orden stop: se ejecutará cuando el precio cruce tu nivel de disparo (compra: precio ≥ disparo, para entrar en una ruptura; venta/stop loss: precio ≤ disparo, para limitar pérdidas). Queda pendiente hasta entonces."
+  };
+
+  qtyInput.addEventListener("input", updateEstTotal);
+  orderTypeSelect.addEventListener("change", function () {
+    var type = orderTypeSelect.value;
+    triggerPriceField.hidden = type === "market";
+    triggerPriceLabel.textContent = type === "stop" ? "Precio de disparo (stop)" : "Precio límite";
+    orderHint.textContent = HINTS[type];
+    updateEstTotal();
+  });
+
+  function updateEstTotal() {
+    var q = selectedSymbol ? lastQuotes[selectedSymbol] : null;
+    var qty = parseFloat(qtyInput.value) || 0;
+    var price = orderTypeSelect.value !== "market" ? parseFloat(triggerPriceInput.value) || 0 : (q ? q.price : 0);
+    document.getElementById("estTotal").textContent = fmtEUR(price * qty);
+  }
+  triggerPriceInput.addEventListener("input", updateEstTotal);
+
+  function processExecutedOrders(executed) {
+    if (!executed || !executed.length) return;
+    var fb = document.getElementById("orderFeedback");
+    executed.forEach(function (o) {
+      if (o.cancelled) {
+        fb.className = "quiz-feedback ko";
+        fb.textContent = "Orden pendiente de " + o.symbol + " cancelada: " + o.reason;
+      } else {
+        fb.className = "quiz-feedback ok";
+        fb.textContent = "Orden " + o.type + " ejecutada: " + (o.side === "buy" ? "compra" : "venta") + " de " + o.qty + " x " + o.symbol + " a " + o.filledPrice.toFixed(2) + " €.";
+      }
+    });
+  }
+
+  function placeOrder(side) {
+    var fb = document.getElementById("orderFeedback");
+    try {
+      if (!selectedSymbol) throw new Error("Selecciona primero un valor.");
+      var c = constituents.find(function (x) { return x.symbol === selectedSymbol; });
+      var qty = parseFloat(qtyInput.value);
+      var type = orderTypeSelect.value;
+      var order = { symbol: selectedSymbol, name: c.name, side: side, type: type, qty: qty };
+      if (type === "market") {
+        if (!lastQuotes[selectedSymbol]) throw new Error("Todavía no hay precio disponible para este valor.");
+        order.currentPrice = lastQuotes[selectedSymbol].price;
+      } else {
+        order.triggerPrice = parseFloat(triggerPriceInput.value);
+      }
+      var result = PortfolioTrading.placeOrder(order);
+      fb.className = "quiz-feedback ok";
+      fb.textContent = result.executed
+        ? "Orden ejecutada al instante: " + (side === "buy" ? "compra" : "venta") + " de " + qty + " x " + selectedSymbol + "."
+        : "Orden " + type + " colocada. Se ejecutará automáticamente cuando se cumpla la condición.";
+      renderAll();
+    } catch (e) {
+      fb.className = "quiz-feedback ko";
+      fb.textContent = e.message;
+    }
+  }
+
+  document.getElementById("buyBtn").addEventListener("click", function () { placeOrder("buy"); });
+  document.getElementById("sellBtn").addEventListener("click", function () { placeOrder("sell"); });
+
+  document.getElementById("resetBtn").addEventListener("click", function () {
+    if (!confirm("¿Reiniciar tu cuenta de Trading? Se perderá todo el historial y las posiciones virtuales.")) return;
+    PortfolioTrading.reset(PortfolioTrading.DEFAULT_BALANCE);
+    renderAll();
+  });
+
+  /* ---------- Render general ---------- */
+  function currentPricesMap() {
+    var map = {};
+    Object.keys(lastQuotes).forEach(function (s) { map[s] = lastQuotes[s].price; });
+    return map;
+  }
+
+  function renderAll() {
+    renderStats();
+    renderPositions();
+    renderPending();
+    renderHistory();
+  }
+
+  function renderStats() {
+    var stats = PortfolioTrading.getStats(currentPricesMap());
+    document.getElementById("statCash").textContent = fmtEUR(stats.cash);
+    document.getElementById("statPositions").textContent = fmtEUR(stats.positionsValue);
+    document.getElementById("statTotal").textContent = fmtEUR(stats.totalValue);
+    var plEl = document.getElementById("statPL");
+    plEl.textContent = fmtEUR(stats.totalPL) + " (" + fmtPct(stats.totalPLPercent) + ")";
+    setValueClass(plEl, stats.totalPL);
+  }
+
+  function renderPositions() {
+    var state = PortfolioTrading.getState();
+    var tbody = document.querySelector("#positionsTable tbody");
+    tbody.innerHTML = "";
+    var symbols = Object.keys(state.positions);
+    if (!symbols.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="color:var(--text-muted)">Todavía no tienes posiciones abiertas.</td></tr>';
+      return;
+    }
+    symbols.forEach(function (sym) {
+      var pos = state.positions[sym];
+      var price = lastQuotes[sym] ? lastQuotes[sym].price : pos.avgCost;
+      var pl = (price - pos.avgCost) * pos.qty;
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + pos.name + " (" + sym + ")</td><td>" + pos.qty + "</td><td>" + pos.avgCost.toFixed(2) + " €</td><td>" + price.toFixed(2) + " €</td>" +
+        '<td style="color:' + (pl >= 0 ? "var(--success)" : "var(--danger)") + '">' + fmtEUR(pl) + '</td>' +
+        '<td><button class="btn btn-outline btn-sm close-btn" data-symbol="' + sym + '">Cerrar</button></td>';
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll(".close-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var sym = btn.getAttribute("data-symbol");
+        var q = lastQuotes[sym];
+        if (!q) { alert("No hay precio disponible ahora mismo para cerrar esta posición."); return; }
+        var pos = PortfolioTrading.getState().positions[sym];
+        try {
+          PortfolioTrading.sell(sym, pos.qty, q.price);
+          renderAll();
+        } catch (e) { alert(e.message); }
+      });
+    });
+  }
+
+  function renderPending() {
+    var pending = PortfolioTrading.getPendingOrders();
+    var card = document.getElementById("pendingCard");
+    var tbody = document.querySelector("#pendingTable tbody");
+    if (!pending.length) { card.style.display = "none"; return; }
+    card.style.display = "block";
+    tbody.innerHTML = "";
+    pending.forEach(function (o) {
+      var tipo = (o.side === "buy" ? "Compra " : "Venta ") + (o.type === "stop" ? "stop" : "limitada");
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + o.name + " (" + o.symbol + ")</td>" +
+        '<td><span class="badge ' + (o.side === "buy" ? "buy" : "sell") + '">' + tipo + "</span></td>" +
+        "<td>" + o.qty + "</td><td>" + o.triggerPrice.toFixed(2) + " €</td>" +
+        '<td><button class="btn btn-outline btn-sm cancel-btn" data-id="' + o.id + '">Cancelar</button></td>';
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll(".cancel-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        PortfolioTrading.cancelOrder(btn.getAttribute("data-id"));
+        renderAll();
+      });
+    });
+  }
+
+  function renderHistory() {
+    var state = PortfolioTrading.getState();
+    var tbody = document.querySelector("#historyTable tbody");
+    if (!state.history.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="color:var(--text-muted)">Todavía no has realizado ninguna operación.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = "";
+    state.history.slice(0, 30).forEach(function (h) {
+      var date = new Date(h.ts).toLocaleString("es-ES");
+      var plCell = h.side === "sell"
+        ? '<td style="color:' + (h.realizedPL >= 0 ? "var(--success)" : "var(--danger)") + '">' + fmtEUR(h.realizedPL) + "</td>"
+        : "<td>—</td>";
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + date + "</td><td>" + h.name + " (" + h.symbol + ")</td>" +
+        '<td><span class="badge ' + (h.side === "buy" ? "buy" : "sell") + '">' + (h.side === "buy" ? "Compra" : "Venta") + "</span></td>" +
+        "<td>" + h.qty + "</td><td>" + h.price.toFixed(2) + " €</td><td>" + fmtEUR(h.total) + "</td>" + plCell;
+      tbody.appendChild(tr);
+    });
+  }
+
+  /* ---------- Arranque ---------- */
+  async function init() {
+    var res = await fetch("../data/ibex35.json");
+    var data = await res.json();
+    constituents = data.constituents;
+    renderWatchlist();
+    renderAll();
+
+    refreshWatchlist();
+    setInterval(refreshWatchlist, 20000);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

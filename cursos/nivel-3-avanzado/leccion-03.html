@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Derivados II: CFDs y apalancamiento | Nivel 3 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 3 · Avanzado</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Patrones chartistas y Fibonacci</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Derivados I: futuros y opciones</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Derivados II: CFDs y apalancamiento</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Análisis macroeconómico</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Ciclos económicos y sectores</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Introducción al backtesting</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Money management avanzado</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Fiscalidad avanzada</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Derivados II: CFDs y apalancamiento</h1>
+    <p class="lesson-meta">Nivel 3 · Avanzado — Lección 3 de 8 · <span id="lessonDoneState"></span></p>
+
+    <h2>Qué es un CFD</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · CFD (Contract for Difference)</div>
+      Contrato entre un inversor y un proveedor (normalmente un bróker especializado) para intercambiar la diferencia de valor de un activo subyacente entre el momento de apertura y el de cierre de la posición, sin llegar nunca a poseer el activo real.
+    </div>
+    <p>Los CFDs permiten operar tanto al alza (comprar/ir "largo") como a la baja (vender/ir "corto") sobre acciones, índices, materias primas o divisas, habitualmente con apalancamiento.</p>
+
+    <div class="callout warn">
+      <div class="callout-title">Aviso regulatorio</div>
+      Los CFDs son productos de alto riesgo. La normativa europea de protección al inversor minorista (ESMA/CNMV) obliga a los proveedores a mostrar de forma destacada qué porcentaje de sus clientes minoristas pierde dinero operando CFDs, y ese porcentaje suele ser muy elevado (con frecuencia, la mayoría de las cuentas minoristas). Además, existen límites regulatorios al apalancamiento máximo ofrecido a clientes minoristas en la Unión Europea.
+    </div>
+
+    <h2>Qué es el apalancamiento</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Apalancamiento</div>
+      Uso de capital prestado (implícito en el producto) para controlar una posición de tamaño muy superior al capital realmente depositado (el "margen"), multiplicando tanto las ganancias como las pérdidas potenciales en la misma proporción.
+    </div>
+    <div class="callout example">
+      Con un apalancamiento de 1:10, depositando 1.000 € de margen puedes abrir una posición equivalente a 10.000 €. Si el activo sube un 5%, tu ganancia sobre el margen depositado es del 50% (5% × 10). Pero si el activo <strong>baja</strong> un 5%, tu pérdida también es del 50% sobre tu margen: con una caída del 10%, perderías el 100% de tu margen depositado.
+    </div>
+
+    <h2>Margen y llamada de margen (margin call)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Margin call</div>
+      Aviso (y, en muchos casos, cierre automático de la posición por parte del bróker) que se produce cuando las pérdidas de una posición apalancada reducen el capital disponible en la cuenta por debajo de un umbral mínimo requerido para mantener esa posición abierta.
+    </div>
+    <p>Con productos con protección de saldo negativo (obligatoria para clientes minoristas en la normativa europea vigente), no se puede perder más del capital depositado; sin esa protección (por ejemplo, operando como cliente profesional), en teoría se podría llegar a deber dinero al bróker más allá del capital inicial.</p>
+
+    <h2>Coste del apalancamiento: financiación overnight</h2>
+    <p>Mantener una posición apalancada abierta de un día para otro suele implicar un coste de financiación (intereses sobre la parte "prestada" de la posición), que se acumula cada noche que la posición permanece abierta. Esto hace que los CFDs y productos apalancados similares sean, por diseño, más adecuados para operativa de corto plazo que para mantenerlos durante meses.</p>
+
+    <h2>Por qué el apalancamiento es tan peligroso para principiantes</h2>
+    <div class="callout tip">
+      <div class="callout-title">Conexión con la gestión del riesgo (Nivel 2)</div>
+      Recuerda la lección de gestión del riesgo: una pérdida del 50% requiere un +100% para recuperarse. El apalancamiento hace mucho más fácil y rápido llegar a pérdidas de ese tamaño (o mayores) en movimientos de precio que, sin apalancamiento, habrían sido perfectamente asumibles. Por eso, quien empieza debería, como mínimo, dominar primero la operativa sin apalancamiento (o con apalancamiento muy bajo) antes de considerar estos productos, y siempre aplicando un tamaño de posición y stop loss todavía más estrictos.
+    </div>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>Un CFD replica la diferencia de valor de un activo sin llegar a poseerlo realmente.</li>
+      <li>El apalancamiento multiplica tanto ganancias como pérdidas en la misma proporción sobre el margen depositado.</li>
+      <li>La normativa europea limita el apalancamiento máximo y exige protección de saldo negativo para clientes minoristas.</li>
+      <li>Mantener posiciones apalancadas de un día para otro genera costes de financiación adicionales.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-02.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-04.html">Siguiente: Análisis macroeconómico →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 3 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué es un CFD?", options: ["Un contrato para intercambiar la diferencia de valor de un activo, sin poseerlo realmente", "Un tipo de acción con dividendo garantizado", "Un fondo de inversión indexado sin apalancamiento", "Un impuesto sobre las plusvalías"], correct: 0, explain: "El CFD (Contract for Difference) liquida la diferencia de valor del subyacente entre apertura y cierre, sin transferencia de propiedad del activo." },
+    { q: "Con un apalancamiento de 1:10, si el activo subyacente cae un 10%, ¿qué ocurre aproximadamente con el margen depositado?", options: ["Se pierde aproximadamente el 1%", "Se pierde aproximadamente el 10%", "Se pierde aproximadamente el 100%", "No hay ningún efecto sobre el margen"], correct: 2, explain: "Con apalancamiento 1:10, una caída del 10% en el subyacente se traduce en una pérdida aproximada del 100% sobre el margen depositado." },
+    { q: "¿Qué es una 'margin call'?", options: ["Una llamada del bróker para felicitarte por tus ganancias", "El aviso o cierre automático que ocurre cuando las pérdidas reducen el capital disponible por debajo del mínimo requerido", "Un tipo de dividendo especial", "Una orden limitada de compra"], correct: 1, explain: "La margin call se activa cuando el capital disponible en la cuenta cae por debajo del umbral necesario para mantener la posición apalancada." },
+    { q: "¿Por qué se recomienda especial prudencia con el apalancamiento para principiantes?", options: ["Porque no tiene ningún riesgo real", "Porque amplifica tanto ganancias como pérdidas, acelerando el riesgo de pérdidas grandes y difíciles de recuperar", "Porque solo puede usarse con bonos del Estado", "Porque siempre garantiza mayores beneficios a largo plazo"], correct: 1, explain: "El apalancamiento multiplica el impacto de los movimientos de precio, haciendo mucho más fácil sufrir pérdidas grandes y de recuperación difícil." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-3-avanzado", "leccion-03");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-3-avanzado", "leccion-03");
+</script>
+</body>
+</html>

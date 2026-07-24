@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Patrones chartistas, Fibonacci, Ichimoku y Bollinger | Nivel 3 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 3 · Avanzado</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Patrones chartistas y Fibonacci</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Derivados I: futuros y opciones</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Derivados II: CFDs y apalancamiento</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Análisis macroeconómico</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Ciclos económicos y sectores</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Introducción al backtesting</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Money management avanzado</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Fiscalidad avanzada</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Patrones chartistas, Fibonacci, Ichimoku y Bandas de Bollinger</h1>
+    <p class="lesson-meta">Nivel 3 · Avanzado — Lección 1 de 8 · <span id="lessonDoneState"></span></p>
+
+    <p>Con las bases del análisis técnico del Nivel 2 asentadas, toca ampliar la caja de herramientas con recursos más sofisticados, muy usados por traders con experiencia.</p>
+
+    <h2>Patrones chartistas</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Patrón chartista</div>
+      Formación geométrica reconocible en el gráfico de precios, que históricamente se ha asociado con cierta probabilidad de continuación o cambio de tendencia.
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Patrón</th><th>Qué suele anticipar</th></tr></thead>
+      <tbody>
+        <tr><td>Hombro-cabeza-hombro</td><td>Posible cambio de tendencia alcista a bajista (o invertido, de bajista a alcista)</td></tr>
+        <tr><td>Doble techo / doble suelo</td><td>Posible agotamiento de una tendencia tras dos intentos fallidos de superar un nivel</td></tr>
+        <tr><td>Triángulos (ascendente, descendente, simétrico)</td><td>Consolidación previa a una posible ruptura, en la dirección que rompa con volumen</td></tr>
+        <tr><td>Banderas y banderines</td><td>Pausa breve dentro de una tendencia fuerte, con posible continuación tras la pausa</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <div class="callout-title">Aviso</div>
+      Los patrones chartistas son, en gran medida, subjetivos en su identificación (dos analistas pueden "ver" patrones distintos en el mismo gráfico) y su fiabilidad estadística es objeto de debate constante. Se usan como apoyo dentro de un plan de gestión del riesgo, nunca como certeza.
+    </div>
+
+    <h2>Retrocesos de Fibonacci</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Retroceso de Fibonacci</div>
+      Herramienta que traza niveles horizontales basados en la secuencia matemática de Fibonacci (principalmente 23,6%, 38,2%, 50%, 61,8% y 78,6%) entre un máximo y un mínimo significativos, con el objetivo de identificar posibles zonas donde el precio podría detener una corrección antes de continuar su tendencia previa.
+    </div>
+    <p>Su popularidad viene, en parte, de que muchos operadores los vigilan (de forma similar al efecto de los soportes/resistencias visto en el Nivel 2), lo que puede generar cierto efecto autocumplido alrededor de esos niveles, especialmente el 61,8% ("proporción áurea").</p>
+
+    <h2>Ichimoku Kinko Hyo</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Ichimoku</div>
+      Sistema de análisis técnico de origen japonés que combina varias líneas (Tenkan-sen, Kijun-sen, Senkou Span A y B, Chikou Span) para ofrecer, en un único gráfico, información sobre tendencia, momentum y niveles de soporte/resistencia dinámicos, representados mediante una "nube" (Kumo).
+    </div>
+    <p>De forma simplificada: cuando el precio cotiza por encima de la nube, el contexto se interpreta como alcista; por debajo, como bajista; dentro de la nube, como zona de indecisión o transición.</p>
+
+    <h2>Bandas de Bollinger</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Bandas de Bollinger</div>
+      Indicador compuesto por una media móvil central y dos bandas trazadas a una distancia de un número determinado de desviaciones típicas por encima y por debajo de esa media, que se ensanchan o estrechan según la volatilidad reciente del activo.
+    </div>
+    <ul>
+      <li>Bandas muy estrechas ("squeeze") indican baja volatilidad reciente, a menudo previa a un movimiento fuerte en cualquier dirección.</li>
+      <li>El precio tocando la banda superior o inferior no es, por sí solo, una señal automática de venta o compra: en tendencias fuertes, el precio puede "caminar" pegado a una banda durante bastante tiempo.</li>
+    </ul>
+
+    <h2>Cómo se combinan estas herramientas en la práctica</h2>
+    <div class="callout tip">
+      <div class="callout-title">Idea clave</div>
+      Ningún analista técnico serio decide solo con un indicador aislado. Lo habitual es combinar contexto de tendencia (medias móviles, Ichimoku), zonas de interés (soportes/resistencias, Fibonacci) y confirmación (volumen, MACD, patrones de velas) antes de tomar una decisión, siempre dentro de un marco de gestión del riesgo definido de antemano.
+    </div>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>Los patrones chartistas son formaciones geométricas con cierta probabilidad histórica asociada, pero de identificación subjetiva.</li>
+      <li>Los retrocesos de Fibonacci marcan posibles zonas de corrección dentro de una tendencia.</li>
+      <li>Ichimoku ofrece una visión conjunta de tendencia y soporte/resistencia dinámico mediante su "nube".</li>
+      <li>Las Bandas de Bollinger reflejan la volatilidad reciente y ayudan a detectar posibles compresiones previas a movimientos fuertes.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="index.html">← Volver al índice del nivel</a>
+      <a class="btn btn-primary" href="leccion-02.html">Siguiente: Derivados I — futuros y opciones →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 3 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué son los retrocesos de Fibonacci?", options: ["Un tipo de bono del Estado", "Niveles basados en una secuencia matemática que marcan posibles zonas de corrección dentro de una tendencia", "Un ratio de rentabilidad contable", "Un tipo de orden stop"], correct: 1, explain: "Los retrocesos de Fibonacci trazan niveles (23,6%, 38,2%, 61,8%, etc.) entre un máximo y un mínimo para identificar posibles zonas de corrección." },
+    { q: "En el sistema Ichimoku, ¿qué suele interpretarse cuando el precio cotiza por encima de la 'nube' (Kumo)?", options: ["Contexto bajista", "Contexto alcista", "Que la empresa ha quebrado", "Que el volumen es cero"], correct: 1, explain: "De forma simplificada, cotizar por encima de la nube se interpreta como contexto alcista en el sistema Ichimoku." },
+    { q: "¿Qué indica un 'squeeze' (estrechamiento) en las Bandas de Bollinger?", options: ["Un aumento sostenido de la volatilidad", "Una baja volatilidad reciente, a menudo previa a un movimiento fuerte", "Que la empresa va a repartir dividendo", "Que el precio ha tocado su máximo histórico"], correct: 1, explain: "Las bandas se estrechan cuando la volatilidad reciente es baja, situación que a menudo precede a movimientos de precio más amplios." },
+    { q: "¿Cómo se recomienda usar los patrones chartistas y estas herramientas técnicas avanzadas?", options: ["De forma aislada, como certeza absoluta de la dirección futura", "Combinadas entre sí y con gestión del riesgo, nunca como certeza absoluta", "Solo para decidir la fiscalidad de una operación", "Únicamente en mercados de bonos"], correct: 1, explain: "Se recomienda combinar varias herramientas (tendencia, zonas de interés, confirmación) junto con una gestión del riesgo definida, sin tratarlas como certezas." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-3-avanzado", "leccion-01");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-3-avanzado", "leccion-01");
+</script>
+</body>
+</html>

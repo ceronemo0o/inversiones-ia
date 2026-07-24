@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Análisis macroeconómico | Nivel 3 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 3 · Avanzado</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Patrones chartistas y Fibonacci</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Derivados I: futuros y opciones</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Derivados II: CFDs y apalancamiento</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Análisis macroeconómico</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Ciclos económicos y sectores</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Introducción al backtesting</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Money management avanzado</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Fiscalidad avanzada</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Análisis macroeconómico: tipos de interés, PIB, inflación y bancos centrales</h1>
+    <p class="lesson-meta">Nivel 3 · Avanzado — Lección 4 de 8 · <span id="lessonDoneState"></span></p>
+
+    <p>Hasta ahora has analizado empresas concretas (análisis fundamental) y el propio precio (análisis técnico). El análisis macroeconómico añade una tercera capa: el contexto económico general que afecta a todos los mercados a la vez (recuerda el "riesgo sistemático" del Nivel 1).</p>
+
+    <h2>Tipos de interés</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Tipo de interés de referencia</div>
+      Precio del dinero fijado por un banco central (en la eurozona, el <strong>Banco Central Europeo, BCE</strong>), que influye en el coste de financiación de bancos, empresas y particulares en toda la economía.
+    </div>
+    <p>Cuando los tipos de interés suben, financiarse (pedir un préstamo, emitir deuda) se vuelve más caro para empresas y particulares, lo que tiende a enfriar el consumo y la inversión, y suele presionar a la baja las valoraciones de los activos de riesgo (entre otras razones, porque los bonos "seguros" pasan a ofrecer una rentabilidad más competitiva, restando atractivo relativo a la renta variable). Cuando los tipos bajan, ocurre generalmente lo contrario.</p>
+
+    <h2>PIB (Producto Interior Bruto)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · PIB</div>
+      Valor total de todos los bienes y servicios finales producidos en un país durante un periodo determinado. Su variación (crecimiento o contracción) es el indicador más usado para medir la salud general de una economía.
+    </div>
+    <p>Dos trimestres consecutivos de PIB en contracción se usan, de forma habitual (aunque no universal ni oficial en todos los países), como definición práctica de <strong>recesión técnica</strong>.</p>
+
+    <h2>Inflación y su medición</h2>
+    <p>Ya viste en el Nivel 1 qué es la inflación. Aquí la retomamos desde la perspectiva de política monetaria: los bancos centrales suelen tener un <strong>objetivo de inflación</strong> (en el caso del BCE, en torno al 2% a medio plazo) y ajustan los tipos de interés precisamente para intentar mantener la inflación cerca de ese objetivo: subiendo tipos si la inflación está muy por encima, bajándolos si la economía se debilita en exceso o la inflación es demasiado baja.</p>
+
+    <h2>Bancos centrales: BCE y Reserva Federal (Fed)</h2>
+    <table class="data-table">
+      <thead><tr><th>Banco central</th><th>Ámbito</th><th>Función principal</th></tr></thead>
+      <tbody>
+        <tr><td>BCE (Banco Central Europeo)</td><td>Zona euro</td><td>Estabilidad de precios (objetivo de inflación) y política monetaria única para los países del euro</td></tr>
+        <tr><td>Reserva Federal (Fed)</td><td>Estados Unidos</td><td>Estabilidad de precios y máximo empleo (mandato dual)</td></tr>
+      </tbody>
+    </table>
+    <p>Las decisiones de estos bancos centrales (y, especialmente, las expectativas del mercado sobre sus próximas decisiones) mueven de forma notable los mercados globales, incluidos los mercados de acciones, bonos y divisas, más allá de las fronteras de su propia área económica, dado el elevado grado de interconexión de la economía global.</p>
+
+    <h2>Indicadores adelantados habituales a seguir</h2>
+    <ul>
+      <li><strong>Índices de gestores de compras (PMI)</strong>: encuestas a directivos de compras que anticipan, con cierta antelación, la evolución de la actividad industrial y de servicios.</li>
+      <li><strong>Tasa de desempleo</strong>: mide la salud del mercado laboral; una tasa muy baja puede presionar salarios e inflación al alza.</li>
+      <li><strong>Curva de tipos</strong>: relación entre los tipos de interés de bonos a distintos plazos. Una <strong>inversión de la curva</strong> (tipos a corto plazo más altos que a largo plazo) se ha usado históricamente como señal de alerta de posible recesión futura, aunque no es una predicción infalible.</li>
+    </ul>
+
+    <div class="callout tip">
+      <div class="callout-title">Cómo se aplica esto en la práctica</div>
+      No hace falta convertirse en economista profesional para invertir bien, pero entender el contexto macro ayuda a interpretar por qué el mercado en conjunto sube o baja en un periodo determinado, independientemente de los resultados concretos de una empresa individual, y a calibrar mejor el riesgo general que se está asumiendo en cada momento del ciclo.
+    </div>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>Los tipos de interés fijados por los bancos centrales influyen en el coste de financiación de toda la economía y en el atractivo relativo de los activos de riesgo.</li>
+      <li>El PIB mide la actividad económica total; su contracción sostenida define la recesión técnica.</li>
+      <li>Los bancos centrales (BCE, Fed) ajustan la política monetaria buscando estabilidad de precios (y, en el caso de la Fed, también pleno empleo).</li>
+      <li>Indicadores como el PMI, el desempleo y la curva de tipos ayudan a anticipar la evolución del ciclo económico.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-03.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-05.html">Siguiente: Ciclos económicos y sectores →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 3 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué efecto tiende a tener una subida de tipos de interés sobre los activos de riesgo, de forma general?", options: ["Los hace automáticamente más atractivos siempre", "Tiende a presionarlos a la baja, entre otras razones porque la deuda 'segura' se vuelve más competitiva", "No tiene ningún efecto en absoluto", "Elimina por completo el riesgo de mercado"], correct: 1, explain: "Subidas de tipos encarecen la financiación y hacen más atractivos relativamente los activos seguros, lo que suele presionar a la baja a los activos de riesgo." },
+    { q: "¿Qué mide el PIB?", options: ["El precio medio de las acciones de un país", "El valor total de bienes y servicios finales producidos en un país en un periodo", "El tipo de interés fijado por el banco central", "La inflación medida por el IPC"], correct: 1, explain: "El PIB (Producto Interior Bruto) mide el valor total de la producción económica de un país en un periodo determinado." },
+    { q: "¿Cuál es, según una definición práctica habitual, la 'recesión técnica'?", options: ["Un solo mes de caída del IBEX 35", "Dos trimestres consecutivos de contracción del PIB", "Una subida de tipos de interés de más del 1%", "Una inflación superior al 5% durante un año"], correct: 1, explain: "Dos trimestres consecutivos de PIB en contracción se usa habitualmente como definición práctica de recesión técnica." },
+    { q: "¿Qué se ha usado históricamente como señal de alerta de posible recesión futura?", options: ["Una inversión de la curva de tipos (tipos a corto plazo superiores a los de largo plazo)", "Un aumento del volumen de negociación en bolsa", "Una subida del IBEX 35", "Un PER bajo en el sector bancario"], correct: 0, explain: "La inversión de la curva de tipos se ha utilizado históricamente como indicador de alerta ante posibles recesiones, aunque no es una predicción infalible." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-3-avanzado", "leccion-04");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-3-avanzado", "leccion-04");
+</script>
+</body>
+</html>

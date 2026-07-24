@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tipos de órdenes: mercado, limitada y stop | Nivel 1 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 1 · Principiante</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Invertir vs. especular vs. trading</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Dinero e inflación</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Interés compuesto</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Qué es una acción</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. La bolsa (BME)</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Índices bursátiles</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Tipos de activos</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Dividendos vs. plusvalías</a></li>
+      <li><a data-lid="leccion-09" href="leccion-09.html">9. Riesgo y rentabilidad</a></li>
+      <li><a data-lid="leccion-10" href="leccion-10.html">10. Diversificación</a></li>
+      <li><a data-lid="leccion-11" href="leccion-11.html">11. El bróker y la CNMV</a></li>
+      <li><a data-lid="leccion-12" href="leccion-12.html">12. Fiscalidad básica</a></li>
+      <li><a data-lid="leccion-13" href="leccion-13.html">13. Tipos de órdenes</a></li>
+      <li><a data-lid="leccion-14" href="leccion-14.html">14. Primeros pasos</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Tipos de órdenes: mercado, limitada y stop</h1>
+    <p class="lesson-meta">Nivel 1 · Principiante — Lección 13 de 14 · <span id="lessonDoneState"></span></p>
+
+    <p>Cuando quieres comprar o vender, no basta con decir "compra X acciones": tienes que decirle al bróker exactamente <em>cómo</em> quieres que se ejecute esa operación. Esto se hace mediante distintos tipos de orden.</p>
+
+    <h2>Orden a mercado</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Orden a mercado</div>
+      Orden que se ejecuta inmediatamente al mejor precio disponible en ese momento, sin especificar un precio concreto.
+    </div>
+    <p><strong>Ventaja</strong>: ejecución prácticamente instantánea (si hay suficiente liquidez). <strong>Desventaja</strong>: no controlas el precio exacto al que se ejecuta; en valores poco líquidos o momentos de alta volatilidad, el precio final puede diferir bastante del último precio visto (esto se llama <em>slippage</em> o deslizamiento).</p>
+
+    <h2>Orden limitada</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Orden limitada</div>
+      Orden que especifica un precio máximo (para comprar) o mínimo (para vender) al que estás dispuesto a operar. Solo se ejecutará a ese precio o mejor; si el mercado no llega a ese nivel, la orden queda pendiente sin ejecutarse.
+    </div>
+    <div class="callout example">
+      Una acción cotiza a 24,80 €. Lanzas una orden de compra limitada a 24,50 €. Tu orden esperará sin ejecutarse hasta que el precio de venta disponible baje a 24,50 € o menos. Si el precio nunca baja hasta ahí, tu orden simplemente no se ejecuta.
+    </div>
+    <p><strong>Ventaja</strong>: control total sobre el precio máximo/mínimo aceptable. <strong>Desventaja</strong>: no hay garantía de que la orden llegue a ejecutarse si el mercado nunca alcanza ese precio.</p>
+
+    <h2>Orden stop (stop de venta / stop loss)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Orden stop</div>
+      Orden que permanece inactiva hasta que el precio del activo alcanza un nivel determinado (el "precio stop"), momento en el que se activa y se convierte automáticamente en una orden a mercado (o, en la variante "stop-limit", en una orden limitada).
+    </div>
+    <p>El uso más habitual es el <strong>stop loss</strong> (límite de pérdidas): una orden de venta que se activa si el precio cae hasta un nivel que consideras la pérdida máxima que estás dispuesto a asumir, protegiéndote de caídas mayores mientras no estés mirando la pantalla.</p>
+    <div class="callout example">
+      Compras una acción a 30 €. Colocas un stop loss de venta a 27 €. Si el precio cae hasta 27 €, se lanza automáticamente una orden de venta a mercado, limitando tu pérdida aproximadamente al 10% (30 € → 27 €), sin que tengas que estar pendiente de la pantalla en todo momento.
+    </div>
+
+    <h2>Stop-limit</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Stop-limit</div>
+      Variante de la orden stop en la que, al activarse el precio stop, en lugar de lanzarse una orden a mercado se lanza una orden <strong>limitada</strong> a un precio que tú defines. Da más control sobre el precio final de ejecución, pero con el riesgo de que, en mercados que se mueven muy rápido, el precio pase de largo sin llegar a ejecutarse la orden.
+    </div>
+
+    <h2>Comparativa</h2>
+    <table class="data-table">
+      <thead><tr><th>Tipo de orden</th><th>Certeza de ejecución</th><th>Control sobre el precio</th></tr></thead>
+      <tbody>
+        <tr><td>A mercado</td><td>Muy alta</td><td>Baja</td></tr>
+        <tr><td>Limitada</td><td>Media (depende de si se alcanza el precio)</td><td>Alta</td></tr>
+        <tr><td>Stop (stop loss)</td><td>Alta una vez activada (se ejecuta a mercado)</td><td>Media</td></tr>
+        <tr><td>Stop-limit</td><td>Media (puede no ejecutarse si el precio salta)</td><td>Alta</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-title">Dónde practicarlo</div>
+      En la zona de práctica de esta web podrás colocar órdenes de compra y venta sobre valores reales del IBEX 35 con dinero virtual, para familiarizarte con estos conceptos antes de operar con dinero real.
+    </div>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>La orden a mercado prioriza la ejecución inmediata sobre el control del precio.</li>
+      <li>La orden limitada prioriza el control del precio sobre la certeza de ejecución.</li>
+      <li>La orden stop se activa al alcanzar un precio determinado y suele usarse para limitar pérdidas (stop loss).</li>
+      <li>La orden stop-limit combina ambos conceptos, con el riesgo de no ejecutarse si el precio se mueve muy rápido.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-12.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-14.html">Siguiente: Primeros pasos prácticos →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 1 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué caracteriza a una orden a mercado?", options: ["Se ejecuta al instante al mejor precio disponible, sin fijar precio exacto", "Nunca se ejecuta si el precio sube", "Solo se puede usar para vender, nunca para comprar", "Requiere esperar a que cierre la sesión"], correct: 0, explain: "La orden a mercado busca ejecución inmediata, aceptando el mejor precio disponible en ese momento, sin garantizar un precio exacto." },
+    { q: "Colocas una orden de compra limitada a 15 € sobre una acción que cotiza a 16 €. ¿Qué ocurre?", options: ["Se ejecuta inmediatamente a 16 €", "Queda pendiente hasta que el precio de venta disponible baje a 15 € o menos", "Se cancela automáticamente al momento", "Se ejecuta a un precio aleatorio"], correct: 1, explain: "Una orden limitada de compra solo se ejecuta al precio fijado o mejor (más bajo); si el mercado no baja hasta ahí, queda pendiente." },
+    { q: "¿Para qué se usa típicamente una orden stop loss?", options: ["Para maximizar comisiones", "Para limitar automáticamente las pérdidas si el precio cae hasta un nivel determinado", "Para garantizar el mejor precio de compra posible siempre", "Para evitar pagar impuestos"], correct: 1, explain: "El stop loss es una orden de venta que se activa al alcanzar un precio determinado, ayudando a limitar las pérdidas sin vigilancia constante." },
+    { q: "¿Qué diferencia a una orden stop-limit de una orden stop simple?", options: ["No hay ninguna diferencia", "Al activarse, el stop-limit lanza una orden limitada (a un precio fijado) en lugar de una orden a mercado", "El stop-limit solo sirve para comprar, nunca para vender", "El stop-limit se ejecuta siempre antes que el stop simple"], correct: 1, explain: "El stop-limit, al alcanzar el precio de activación, genera una orden limitada (no a mercado), dando más control sobre el precio de ejecución final." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-1-principiante", "leccion-13");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-1-principiante", "leccion-13");
+</script>
+</body>
+</html>

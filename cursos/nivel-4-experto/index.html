@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nivel 4 — Experto | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+<div style="border-bottom:1px solid var(--border); background:var(--bg-alt)">
+  <div class="container" style="padding:10px 20px; font-size:.88rem">
+    <a href="../../practica/index.html">← Volver a Práctica</a>
+  </div>
+</div>
+
+<main>
+  <div class="container hero">
+    <span class="level-tag">Nivel 4</span>
+    <h1 style="margin-top:10px">Experto — Gestión profesional</h1>
+    <p class="lead">El último nivel: gestión de carteras al estilo institucional, opciones avanzadas, trading intradía profesional, sistemas propios y, lo más importante, cómo construir tu propio plan de inversión o trading y seguir formándote de por vida.</p>
+    <div class="progress-bar" style="max-width:400px"><span id="pbLevel" style="width:0%"></span></div>
+    <p class="progress-label" id="plLevel">0 / 6 lecciones completadas</p>
+  </div>
+
+  <div class="container section">
+    <div class="grid" id="lessonGrid" style="grid-template-columns: 1fr;"></div>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 4 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSONS = [
+    { id: "leccion-01", title: "Gestión de carteras profesional: Markowitz, frontera eficiente y ratios de Sharpe/Sortino", desc: "Cómo los profesionales construyen carteras óptimas matemáticamente." },
+    { id: "leccion-02", title: "Opciones avanzadas: las griegas y estrategias combinadas", desc: "Delta, gamma, theta, vega, y estrategias como spreads, covered calls y straddles." },
+    { id: "leccion-03", title: "Trading intradía profesional: order flow y scalping", desc: "Cómo operan los traders profesionales de muy corto plazo." },
+    { id: "leccion-04", title: "Trading sistemático y algorítmico básico", desc: "Automatizar la ejecución de una estrategia definida por reglas." },
+    { id: "leccion-05", title: "Tu plan de inversión/trading propio y el diario de operaciones", desc: "El documento que reúne todo lo aprendido en un sistema personal." },
+    { id: "leccion-06", title: "Cómo seguir formándote de por vida", desc: "Libros, certificaciones profesionales y comunidad para seguir creciendo." }
+  ];
+
+  var grid = document.getElementById("lessonGrid");
+  LESSONS.forEach(function (l, i) {
+    var done = Progress.isDone("nivel-4-experto", l.id);
+    var el = document.createElement("a");
+    el.href = l.id + ".html";
+    el.className = "card";
+    el.style.textDecoration = "none";
+    el.style.flexDirection = "row";
+    el.style.alignItems = "center";
+    el.style.justifyContent = "space-between";
+    el.style.gap = "16px";
+    el.innerHTML =
+      '<div style="display:flex;gap:14px;align-items:center;min-width:0">' +
+      '<div style="width:36px;height:36px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;background:' + (done ? 'var(--primary-soft);color:var(--primary)' : 'var(--bg-alt);color:var(--text-muted);border:1px solid var(--border)') + '">' + (done ? "✓" : (i + 1)) + '</div>' +
+      '<div style="min-width:0"><h3 style="margin:0">' + l.title + '</h3><p style="margin-top:2px">' + l.desc + '</p></div>' +
+      '</div>' +
+      '<span class="btn btn-outline btn-sm" style="flex:none">' + (done ? "Repasar" : "Empezar") + '</span>';
+    grid.appendChild(el);
+  });
+
+  var ids = LESSONS.map(function (l) { return l.id; });
+  var stats = Progress.levelStats("nivel-4-experto", ids);
+  document.getElementById("pbLevel").style.width = stats.pct + "%";
+  document.getElementById("plLevel").textContent = stats.done + " / " + stats.total + " lecciones completadas";
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Opciones avanzadas: las griegas y estrategias combinadas | Nivel 4 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 4 · Experto</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Gestión de carteras profesional</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Opciones avanzadas y griegas</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Trading intradía profesional</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Trading sistemático y algorítmico</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Tu plan propio y diario de operaciones</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Cómo seguir formándote</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Opciones avanzadas: las griegas y estrategias combinadas</h1>
+    <p class="lesson-meta">Nivel 4 · Experto — Lección 2 de 6 · <span id="lessonDoneState"></span></p>
+
+    <p>En el Nivel 3 aprendiste qué son las opciones. Ahora toca entender qué factores mueven su precio (las "griegas") y cómo se combinan varias opciones en una misma estrategia para construir perfiles de riesgo muy concretos.</p>
+
+    <h2>Las griegas: qué mueve el precio de una opción</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Delta (Δ)</div>
+      Mide cuánto se espera que varíe el precio de la opción por cada 1 € de variación en el precio del activo subyacente. Una call con delta 0,50 subiría aproximadamente 0,50 € si el subyacente sube 1 €. También se interpreta, de forma aproximada, como la probabilidad de que la opción termine "dentro del dinero" (con valor) al vencimiento.
+    </div>
+    <div class="callout def">
+      <div class="callout-title">Definición · Gamma (Γ)</div>
+      Mide cuánto varía la delta ante un cambio en el precio del subyacente. Es, en cierto modo, "la aceleración" frente a la delta como "velocidad": indica cuánto de estable (o inestable) es la sensibilidad de la opción al precio.
+    </div>
+    <div class="callout def">
+      <div class="callout-title">Definición · Theta (Θ)</div>
+      Mide cuánto valor pierde la opción cada día que pasa, únicamente por el paso del tiempo (manteniendo todo lo demás constante), fenómeno conocido como <strong>decaimiento temporal (time decay)</strong>. Theta suele acelerarse a medida que se acerca el vencimiento.
+    </div>
+    <div class="callout def">
+      <div class="callout-title">Definición · Vega (V)</div>
+      Mide cuánto varía el precio de la opción ante un cambio de un 1% en la <strong>volatilidad implícita</strong> del subyacente (la volatilidad que el mercado "espera" para el futuro, implícita en el precio actual de las opciones). Un aumento de la volatilidad esperada, en igualdad de condiciones, tiende a encarecer tanto las calls como las puts.
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-title">Idea clave</div>
+      Comprar una opción significa, de forma simplificada, estar "largo" en delta, gamma y vega, pero "corto" en theta (el paso del tiempo juega en tu contra). Vender una opción invierte todas estas exposiciones: el vendedor se beneficia del paso del tiempo (theta a favor) pero está expuesto a subidas de volatilidad y a movimientos fuertes del precio en su contra.
+    </div>
+
+    <h2>Estrategias combinadas habituales</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Covered call (venta de call cubierta)</div>
+      Estrategia que consiste en poseer el activo subyacente (por ejemplo, 100 acciones) y vender simultáneamente una opción call sobre ese mismo activo, cobrando la prima como ingreso adicional. A cambio, se limita el beneficio si el precio sube muy por encima del strike (porque las acciones podrían "ser llamadas", es decir, tener que venderlas al precio de ejercicio). Es una estrategia habitual para generar ingresos adicionales sobre una posición que ya se piensa mantener.
+    </div>
+    <div class="callout def">
+      <div class="callout-title">Definición · Spread (vertical)</div>
+      Combinación de comprar una opción y vender simultáneamente otra opción del mismo tipo (call o put) sobre el mismo subyacente y vencimiento, pero con distinto strike. Reduce el coste inicial (la prima cobrada por la opción vendida compensa parte de la prima pagada por la comprada) a cambio de limitar también la ganancia máxima posible.
+    </div>
+    <div class="callout def">
+      <div class="callout-title">Definición · Straddle</div>
+      Estrategia que combina comprar una call y una put con el mismo strike y vencimiento sobre el mismo subyacente, apostando por un movimiento fuerte del precio en cualquier dirección (sube mucho o baja mucho), sin necesidad de acertar la dirección exacta. Se beneficia de aumentos de volatilidad y de movimientos grandes del precio; pierde valor si el precio se mantiene estable (por el efecto combinado de theta en ambas patas).
+    </div>
+
+    <h2>Comparativa de perfiles de riesgo</h2>
+    <table class="data-table">
+      <thead><tr><th>Estrategia</th><th>Expectativa de mercado</th><th>Riesgo principal</th></tr></thead>
+      <tbody>
+        <tr><td>Compra de call/put simple</td><td>Movimiento direccional fuerte</td><td>Pérdida de la prima si no se mueve como esperado</td></tr>
+        <tr><td>Covered call</td><td>Lateral o ligeramente alcista</td><td>Renunciar a ganancias si el precio sube mucho</td></tr>
+        <tr><td>Spread vertical</td><td>Movimiento moderado en una dirección</td><td>Ganancia y pérdida ambas limitadas</td></tr>
+        <tr><td>Straddle</td><td>Movimiento fuerte, dirección incierta</td><td>Pérdida de ambas primas si el precio no se mueve lo suficiente</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn">
+      <div class="callout-title">Aviso</div>
+      Operar opciones con estrategias combinadas requiere entender bien cada "griega" y cómo interactúan entre sí; un error de cálculo puede generar un perfil de riesgo muy distinto al que se pretendía. Se recomienda practicar extensamente en un entorno simulado antes de operar opciones combinadas con capital real.
+    </div>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>Delta, gamma, theta y vega miden la sensibilidad del precio de una opción al precio del subyacente, al propio delta, al tiempo y a la volatilidad, respectivamente.</li>
+      <li>Comprar opciones expone a favor de delta/gamma/vega, pero en contra de theta; vender opciones invierte esa exposición.</li>
+      <li>Estrategias como covered call, spreads y straddles combinan varias opciones para construir perfiles de riesgo específicos según la expectativa de mercado.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-01.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-03.html">Siguiente: Trading intradía profesional →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 4 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué mide la 'delta' de una opción?", options: ["El decaimiento por el paso del tiempo", "Cuánto varía el precio de la opción por cada 1 € de variación en el subyacente", "La volatilidad implícita del mercado", "El dividendo pagado por la empresa"], correct: 1, explain: "Delta mide la sensibilidad del precio de la opción ante cambios en el precio del activo subyacente." },
+    { q: "¿Qué representa 'theta' en una opción?", options: ["La sensibilidad a la volatilidad implícita", "La pérdida de valor de la opción por el simple paso del tiempo", "La probabilidad de que la opción esté dentro del dinero", "El precio de ejercicio de la opción"], correct: 1, explain: "Theta mide el decaimiento temporal: cuánto valor pierde la opción cada día que pasa, manteniendo todo lo demás constante." },
+    { q: "¿Qué caracteriza a una estrategia de 'covered call'?", options: ["Comprar una put sin poseer el subyacente", "Poseer el activo subyacente y vender una call sobre él para generar ingreso, limitando la ganancia máxima", "Comprar simultáneamente una call y una put con el mismo strike", "Vender el activo subyacente en corto sin cobertura"], correct: 1, explain: "La covered call combina la tenencia del subyacente con la venta de una call, generando ingreso por la prima a cambio de limitar la ganancia si el precio sube mucho." },
+    { q: "¿Qué expectativa de mercado busca aprovechar un straddle?", options: ["Que el precio se mantenga completamente estable", "Un movimiento fuerte del precio en cualquier dirección, sin necesidad de acertar el sentido", "Una caída moderada y predecible del precio", "El pago de un dividendo extraordinario"], correct: 1, explain: "El straddle combina una call y una put con el mismo strike, beneficiándose de movimientos fuertes en cualquier dirección." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-4-experto", "leccion-02");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-4-experto", "leccion-02");
+</script>
+</body>
+</html>

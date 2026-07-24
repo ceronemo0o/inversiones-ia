@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Indicadores técnicos: medias móviles, RSI, MACD y volumen | Nivel 2 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 2 · Intermedio</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Análisis fundamental</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Ratios fundamentales</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Análisis técnico y velas</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Soportes y resistencias</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Indicadores técnicos</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Gestión del riesgo</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Psicología del inversor</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Estilos de trading/inversión</a></li>
+      <li><a data-lid="leccion-09" href="leccion-09.html">9. ETFs a fondo</a></li>
+      <li><a data-lid="leccion-10" href="leccion-10.html">10. Construcción de cartera</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>Indicadores técnicos: medias móviles, RSI, MACD y volumen</h1>
+    <p class="lesson-meta">Nivel 2 · Intermedio — Lección 5 de 10 · <span id="lessonDoneState"></span></p>
+
+    <p>Los indicadores técnicos son cálculos matemáticos derivados del precio y el volumen, pensados para hacer más objetivas ciertas lecturas que, a simple vista, pueden ser subjetivas.</p>
+
+    <h2>Medias móviles (Moving Averages)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Media móvil simple (SMA)</div>
+      Promedio del precio de cierre de un activo durante un número determinado de periodos (por ejemplo, 20, 50 o 200 días), que se recalcula ("se mueve") con cada nuevo periodo. Suaviza el ruido del precio para ver la dirección general con más claridad.
+    </div>
+    <p>Una variante muy usada es la <strong>media móvil exponencial (EMA)</strong>, que da más peso a los precios recientes, reaccionando más rápido a los cambios que la SMA.</p>
+    <ul>
+      <li>Cuando el precio está por encima de sus medias móviles principales, suele interpretarse como contexto alcista; por debajo, como contexto bajista.</li>
+      <li>El cruce de una media móvil rápida (por ejemplo, de 50 días) por encima de una lenta (por ejemplo, de 200 días) se conoce popularmente como <strong>"cruce dorado" (golden cross)</strong>, y se interpreta como señal alcista; el cruce contrario se llama <strong>"cruce de la muerte" (death cross)</strong>.</li>
+    </ul>
+
+    <h2>RSI (Índice de Fuerza Relativa)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · RSI</div>
+      Oscilador que mide la velocidad y magnitud de los movimientos recientes de precio, en una escala de 0 a 100, para valorar si un activo está en condiciones de "sobrecompra" o "sobreventa".
+    </div>
+    <ul>
+      <li><strong>RSI por encima de 70</strong>: se interpreta habitualmente como posible sobrecompra (el precio ha subido mucho y rápido; podría estar "agotado" a corto plazo).</li>
+      <li><strong>RSI por debajo de 30</strong>: se interpreta habitualmente como posible sobreventa (el precio ha caído mucho y rápido; podría estar cerca de un rebote).</li>
+    </ul>
+    <div class="callout warn">
+      <div class="callout-title">Aviso</div>
+      En tendencias muy fuertes, el RSI puede mantenerse en zona de "sobrecompra" o "sobreventa" durante mucho tiempo sin que el precio revierta. No es una señal de compra/venta automática por sí sola.
+    </div>
+
+    <h2>MACD (Convergencia/Divergencia de Medias Móviles)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · MACD</div>
+      Indicador que se calcula como la diferencia entre dos medias móviles exponenciales (típicamente de 12 y 26 periodos), junto con una "línea de señal" (media del propio MACD, típicamente de 9 periodos). Ayuda a identificar cambios de momentum (impulso) y posibles cambios de tendencia.
+    </div>
+    <p>Una señal habitual: cuando la línea MACD cruza por encima de su línea de señal, se interpreta como una señal alcista; cuando cruza por debajo, como bajista. El histograma del MACD (la diferencia entre ambas líneas) ayuda a visualizar si el impulso está acelerando o desacelerando.</p>
+
+    <h2>Volumen</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Volumen</div>
+      Número de acciones (o contratos) negociados en un periodo determinado. Es, junto al precio, el otro dato "puro" del mercado (no derivado matemáticamente de otros indicadores).
+    </div>
+    <p>El volumen se usa habitualmente para <strong>confirmar</strong> movimientos de precio: una ruptura de resistencia con volumen alto se considera más fiable que la misma ruptura con volumen bajo, porque indica una participación real y amplia del mercado, no solo unas pocas operaciones aisladas.</p>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>Las medias móviles suavizan el precio para identificar la tendencia general (SMA y EMA).</li>
+      <li>El RSI mide sobrecompra/sobreventa en una escala de 0 a 100.</li>
+      <li>El MACD ayuda a detectar cambios de momentum mediante el cruce de dos medias exponenciales.</li>
+      <li>El volumen confirma (o pone en duda) la fiabilidad de un movimiento de precio.</li>
+      <li>Ningún indicador es infalible por sí solo: se combinan entre sí y con el contexto general del mercado.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-04.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-06.html">Siguiente: Gestión del riesgo →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 2 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué hace una media móvil?", options: ["Predice con certeza el precio futuro exacto", "Suaviza el precio histórico para ver la dirección general con más claridad", "Calcula el PER de la empresa", "Mide únicamente el volumen negociado"], correct: 1, explain: "La media móvil promedia el precio de los últimos N periodos, suavizando el ruido de corto plazo." },
+    { q: "Un RSI de 85, ¿con qué condición se asocia habitualmente?", options: ["Sobreventa", "Sobrecompra", "Volumen nulo", "Un cruce dorado confirmado"], correct: 1, explain: "Un RSI por encima de 70 (y más aún en 85) se interpreta habitualmente como posible sobrecompra." },
+    { q: "¿Qué representa el MACD?", options: ["La diferencia entre dos medias móviles exponenciales, junto a una línea de señal", "El volumen acumulado del año", "El ratio deuda/EBITDA de una empresa", "El precio de cierre del día anterior"], correct: 0, explain: "El MACD se construye a partir de la diferencia entre dos EMAs (habitualmente de 12 y 26 periodos) y una línea de señal (media del propio MACD)." },
+    { q: "¿Por qué se usa el volumen para 'confirmar' una ruptura de resistencia?", options: ["Porque el volumen determina el PER de la empresa", "Porque una ruptura con volumen alto refleja mayor participación real del mercado y suele considerarse más fiable", "Porque el volumen siempre predice el precio exacto", "El volumen no tiene relación con las rupturas de nivel"], correct: 1, explain: "Un volumen elevado en una ruptura indica que muchos participantes están respaldando ese movimiento, dándole más credibilidad." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-2-intermedio", "leccion-05");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-2-intermedio", "leccion-05");
+</script>
+</body>
+</html>

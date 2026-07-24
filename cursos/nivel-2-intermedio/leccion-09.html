@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ETFs a fondo | Nivel 2 | Inversiones IA</title>
+<link rel="stylesheet" href="../../css/styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../practica/index.html" class="active">Práctica</a>
+      <a href="../../invertir/index.html">Invertir</a>
+      <a href="../../trading/index.html">Trading</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container lesson-shell">
+  <aside class="lesson-toc">
+    <h4>Nivel 2 · Intermedio</h4>
+    <ol>
+      <li><a data-lid="leccion-01" href="leccion-01.html">1. Análisis fundamental</a></li>
+      <li><a data-lid="leccion-02" href="leccion-02.html">2. Ratios fundamentales</a></li>
+      <li><a data-lid="leccion-03" href="leccion-03.html">3. Análisis técnico y velas</a></li>
+      <li><a data-lid="leccion-04" href="leccion-04.html">4. Soportes y resistencias</a></li>
+      <li><a data-lid="leccion-05" href="leccion-05.html">5. Indicadores técnicos</a></li>
+      <li><a data-lid="leccion-06" href="leccion-06.html">6. Gestión del riesgo</a></li>
+      <li><a data-lid="leccion-07" href="leccion-07.html">7. Psicología del inversor</a></li>
+      <li><a data-lid="leccion-08" href="leccion-08.html">8. Estilos de trading/inversión</a></li>
+      <li><a data-lid="leccion-09" href="leccion-09.html">9. ETFs a fondo</a></li>
+      <li><a data-lid="leccion-10" href="leccion-10.html">10. Construcción de cartera</a></li>
+    </ol>
+    <div class="toc-back"><a href="index.html">← Volver al nivel</a></div>
+  </aside>
+
+  <article class="lesson-content">
+    <h1>ETFs a fondo</h1>
+    <p class="lesson-meta">Nivel 2 · Intermedio — Lección 9 de 10 · <span id="lessonDoneState"></span></p>
+
+    <p>Ya conoces la definición básica de ETF del Nivel 1. Ahora vamos a profundizar en cómo funcionan por dentro y qué mirar para elegir uno bueno.</p>
+
+    <h2>Réplica física vs. réplica sintética</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Réplica física</div>
+      El ETF compra directamente los activos reales que componen el índice que replica (por ejemplo, un ETF del IBEX 35 de réplica física compra realmente acciones de las 35 empresas del índice, en la proporción correspondiente).
+    </div>
+    <div class="callout def">
+      <div class="callout-title">Definición · Réplica sintética</div>
+      El ETF no compra los activos reales, sino que utiliza un derivado financiero (un contrato de permuta o "swap") con una contraparte (normalmente un banco de inversión) que se compromete a pagarle el rendimiento exacto del índice. Es más eficiente en algunos casos, pero introduce un <strong>riesgo de contraparte</strong> adicional (que la entidad que ofrece el swap incumpla), generalmente mitigado por normativa europea (colateral, límites de exposición).
+    </div>
+
+    <h2>Gestión pasiva vs. gestión activa</h2>
+    <p>La inmensa mayoría de ETFs son de <strong>gestión pasiva</strong>: su único objetivo es replicar lo más fielmente posible un índice, sin que un gestor tome decisiones activas de qué comprar o vender. Existen también ETFs de gestión activa (menos comunes), donde un gestor sí toma decisiones dentro de ciertos límites, aunque cotizando igualmente en bolsa como un ETF normal.</p>
+
+    <h2>Tracking error</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · Tracking error</div>
+      Diferencia entre la rentabilidad real de un ETF y la rentabilidad del índice que se supone que replica. Un buen ETF indexado debería tener un tracking error muy pequeño; un tracking error grande indica que el ETF no está cumpliendo bien su función.
+    </div>
+
+    <h2>TER (Total Expense Ratio)</h2>
+    <div class="callout def">
+      <div class="callout-title">Definición · TER</div>
+      Porcentaje anual que se cobra automáticamente (deducido del valor del fondo, sin necesidad de que el inversor pague nada aparte) en concepto de gestión y gastos del ETF. Un TER del 0,20% anual sobre 10.000 € invertidos supone unos 20 € al año en gastos.
+    </div>
+    <p>El TER importa mucho a largo plazo por el mismo efecto del interés compuesto: una pequeña diferencia de comisión anual, mantenida durante 20-30 años, puede suponer una diferencia significativa en el capital final.</p>
+
+    <h2>Liquidez y volumen de negociación</h2>
+    <p>Un ETF con poco volumen de negociación puede tener un <strong>spread</strong> (diferencia entre el precio de compra y venta) más amplio, encareciendo la operación de forma indirecta. Conviene priorizar ETFs con volumen de negociación saludable y patrimonio gestionado (AUM, <em>Assets Under Management</em>) elevado.</p>
+
+    <h2>Divisa de denominación y cobertura (hedging)</h2>
+    <p>Un ETF que invierte en activos denominados en una divisa distinta al euro (por ejemplo, un ETF sobre el S&amp;P 500, en dólares) introduce un riesgo de tipo de cambio adicional: si el dólar se deprecia frente al euro, tu rentabilidad en euros puede verse afectada aunque el índice en dólares haya subido. Algunos ETFs ofrecen versiones "con cobertura de divisa" (hedged) que intentan neutralizar este efecto, a cambio de un coste ligeramente superior.</p>
+
+    <h2>Checklist para elegir un ETF</h2>
+    <ul>
+      <li>☐ ¿Qué índice replica exactamente, y encaja con la exposición que busco?</li>
+      <li>☐ ¿Réplica física o sintética? ¿Estoy cómodo con el tipo de riesgo asociado?</li>
+      <li>☐ ¿Cuál es su TER comparado con ETFs similares?</li>
+      <li>☐ ¿Cuál es su tracking error histórico?</li>
+      <li>☐ ¿Tiene volumen de negociación y patrimonio gestionado suficientes?</li>
+      <li>☐ ¿En qué divisa está denominado y necesito una versión con cobertura?</li>
+      <li>☐ ¿Reparte dividendos (de distribución) o los reinvierte automáticamente (de acumulación)?</li>
+    </ul>
+
+    <h2>Resumen</h2>
+    <ul>
+      <li>Un ETF puede replicar un índice de forma física (comprando los activos reales) o sintética (mediante un swap).</li>
+      <li>El tracking error mide cuánto se desvía el ETF del índice que replica.</li>
+      <li>El TER es el coste anual de gestión, con gran impacto acumulado a largo plazo.</li>
+      <li>La liquidez, la divisa de denominación y el tipo de reparto (distribución vs. acumulación) también son relevantes al elegir.</li>
+    </ul>
+
+    <div class="quiz-box">
+      <h2>Comprueba lo aprendido</h2>
+      <div id="quizContainer"></div>
+    </div>
+
+    <div class="lesson-nav">
+      <a class="btn btn-outline" href="leccion-08.html">← Anterior</a>
+      <a class="btn btn-primary" href="leccion-10.html">Siguiente: Construcción de cartera →</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Nivel 2 de 4.</div></footer>
+
+<script src="../../js/progress.js"></script>
+<script>
+  var LESSON_QUIZ = [
+    { q: "¿Qué diferencia a la réplica física de la réplica sintética en un ETF?", options: ["No hay ninguna diferencia real", "La física compra los activos reales del índice; la sintética usa un derivado (swap) con una contraparte", "La sintética siempre es más barata y sin ningún riesgo adicional", "La física solo existe para bonos"], correct: 1, explain: "La réplica física compra directamente los activos del índice; la sintética usa un swap con una contraparte, introduciendo riesgo de contraparte." },
+    { q: "¿Qué mide el tracking error de un ETF?", options: ["El precio de compra del ETF", "La diferencia entre la rentabilidad del ETF y la del índice que replica", "El número de acciones en circulación del ETF", "El tipo de cambio de la divisa del ETF"], correct: 1, explain: "El tracking error cuantifica cuánto se aleja el comportamiento real del ETF del índice de referencia que debería replicar." },
+    { q: "¿Qué es el TER de un ETF?", options: ["El precio máximo histórico del ETF", "El porcentaje anual de gastos de gestión, deducido automáticamente del fondo", "El importe mínimo de inversión permitido", "Un impuesto especial solo aplicable a ETFs sintéticos"], correct: 1, explain: "El TER (Total Expense Ratio) es el coste anual de gestión del ETF, expresado como porcentaje del patrimonio." },
+    { q: "¿Por qué puede importar la divisa de denominación de un ETF para un inversor europeo?", options: ["Porque no afecta nunca a la rentabilidad final", "Porque introduce un riesgo de tipo de cambio si el índice subyacente cotiza en otra divisa", "Porque todos los ETFs están denominados siempre en euros", "Porque determina directamente el TER del fondo"], correct: 1, explain: "Si el ETF invierte en activos en otra divisa, las variaciones del tipo de cambio afectan a la rentabilidad final en euros del inversor." }
+  ];
+</script>
+<script src="../../js/quiz.js"></script>
+<script>
+  initLessonProgressUI("nivel-2-intermedio", "leccion-09");
+  renderQuiz("quizContainer", LESSON_QUIZ, "nivel-2-intermedio", "leccion-09");
+</script>
+</body>
+</html>
