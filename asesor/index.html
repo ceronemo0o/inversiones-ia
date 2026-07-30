@@ -357,6 +357,11 @@
     }
     loadHistory();
     renderAutoPortfolio();
+
+    // Refresca precios y P&L de la cartera automática cada 20s, igual que
+    // en Práctica/Invertir/Trading, para que el resultado se vea "en vivo"
+    // mientras la página esté abierta (no hace falta recargar a mano).
+    setInterval(renderAutoPortfolio, 20000);
   }
   init();
 })();
