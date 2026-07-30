@@ -22,8 +22,8 @@
   </nav>
 </header>
 
-<main class="container section" style="max-width:520px; padding-top:40px">
-  <div id="loggedOutView">
+<main class="container section" style="max-width:900px; padding-top:40px">
+  <div id="loggedOutView" style="max-width:480px">
     <div class="alert info">
       Proyecto en pruebas: las cuentas y el dinero de esta web son <strong>100% virtuales</strong>, no se procesa ningún pago ni dinero real.
     </div>
@@ -58,7 +58,7 @@
   </div>
 
   <div id="loggedInView" style="display:none">
-    <div class="card">
+    <div class="card" style="max-width:480px; margin-bottom:20px">
       <h3 style="margin-top:0">Tu cuenta</h3>
       <p><strong>Email:</strong> <span id="accEmail">—</span></p>
       <div class="field">
@@ -76,6 +76,32 @@
       </div>
       <p class="quiz-feedback" id="accFeedback" style="margin-top:10px"></p>
     </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px">
+        <h3 style="margin:0">Mis inversiones</h3>
+        <button class="btn btn-outline btn-sm" id="refreshInvestmentsBtn">Actualizar</button>
+      </div>
+      <p style="font-size:.85rem; color:var(--text-muted); margin:6px 0 16px">Todas tus posiciones abiertas guardadas en tu cuenta, en Práctica, Invertir, Trading y la cartera automática del Asesor IA.</p>
+
+      <div class="stat-row" id="investmentsSummary" style="display:none">
+        <div class="stat-tile"><div class="label">Valor total invertido</div><div class="value" id="invTotalValue" style="font-size:1.2rem">—</div></div>
+        <div class="stat-tile"><div class="label">Resultado no realizado</div><div class="value" id="invTotalPL" style="font-size:1.2rem">—</div></div>
+      </div>
+
+      <div id="investmentsLoading" style="color:var(--text-muted); font-size:.9rem">Cargando…</div>
+      <div id="investmentsEmpty" style="display:none; color:var(--text-muted); font-size:.9rem">
+        Todavía no tienes ninguna posición abierta guardada en tu cuenta. Ve a
+        <a href="../practica/simulador.html">Práctica</a>, <a href="../invertir/index.html">Invertir</a>,
+        <a href="../trading/index.html">Trading</a> o el <a href="../asesor/index.html">Asesor IA</a> para empezar.
+      </div>
+      <div style="overflow-x:auto">
+        <table class="data-table" id="investmentsTable" style="display:none">
+          <thead><tr><th>Cartera</th><th>Valor</th><th>Cantidad</th><th>Coste medio</th><th>Precio actual</th><th>P&amp;L no realizado</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -83,8 +109,101 @@
 
 <script src="../js/progress.js"></script>
 <script src="../js/auth.js"></script>
+<script src="../js/marketData.js"></script>
 <script>
 (function () {
+  var CARTERAS = [
+    { key: "practica", label: "Práctica" },
+    { key: "invertir", label: "Invertir" },
+    { key: "trading", label: "Trading" },
+    { key: "auto", label: "Asesor IA (automática)" }
+  ];
+
+  function fmtEUR(n) {
+    return n.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
+  }
+
+  async function loadInvestments() {
+    var loadingEl = document.getElementById("investmentsLoading");
+    var emptyEl = document.getElementById("investmentsEmpty");
+    var tableEl = document.getElementById("investmentsTable");
+    var summaryEl = document.getElementById("investmentsSummary");
+    var tbody = tableEl.querySelector("tbody");
+
+    loadingEl.style.display = "block";
+    emptyEl.style.display = "none";
+    tableEl.style.display = "none";
+    summaryEl.style.display = "none";
+    tbody.innerHTML = "";
+
+    try {
+      var results = await Promise.all(CARTERAS.map(function (c) {
+        return fetch("/api/portfolio?key=" + encodeURIComponent(c.key), { credentials: "include" })
+          .then(function (res) { return res.ok ? res.json() : { state: null }; })
+          .catch(function () { return { state: null }; })
+          .then(function (data) { return { cartera: c, state: data.state }; });
+      }));
+
+      var rows = [];
+      var symbols = {};
+      results.forEach(function (r) {
+        if (!r.state || !r.state.positions) return;
+        Object.keys(r.state.positions).forEach(function (sym) {
+          var pos = r.state.positions[sym];
+          if (!pos || !pos.qty) return;
+          rows.push({ cartera: r.cartera.label, symbol: sym, name: pos.name || sym, qty: pos.qty, avgCost: pos.avgCost });
+          symbols[sym] = true;
+        });
+      });
+
+      loadingEl.style.display = "none";
+
+      if (!rows.length) {
+        emptyEl.style.display = "block";
+        return;
+      }
+
+      var quotes = {};
+      try {
+        quotes = await MarketData.getQuotes(Object.keys(symbols));
+      } catch (e) {}
+
+      var totalValue = 0, totalPL = 0;
+      rows.forEach(function (row) {
+        var q = quotes[row.symbol];
+        var price = q ? q.price : row.avgCost;
+        var value = row.qty * price;
+        var pl = (price - row.avgCost) * row.qty;
+        totalValue += value;
+        totalPL += pl;
+
+        var tr = document.createElement("tr");
+        var plColor = pl > 0 ? "var(--success)" : (pl < 0 ? "var(--danger)" : "inherit");
+        tr.innerHTML =
+          "<td>" + row.cartera + "<br><span style=\"color:var(--text-muted); font-size:.8rem\">" + row.name + " (" + row.symbol + ")</span></td>" +
+          "<td>" + fmtEUR(value) + "</td>" +
+          "<td>" + row.qty + "</td>" +
+          "<td>" + fmtEUR(row.avgCost) + "</td>" +
+          "<td>" + (q ? fmtEUR(price) : "—") + "</td>" +
+          "<td style=\"color:" + plColor + "\">" + (pl >= 0 ? "+" : "") + fmtEUR(pl) + "</td>";
+        tbody.appendChild(tr);
+      });
+
+      tableEl.style.display = "table";
+      summaryEl.style.display = "flex";
+      document.getElementById("invTotalValue").textContent = fmtEUR(totalValue);
+      var plEl = document.getElementById("invTotalPL");
+      plEl.textContent = (totalPL >= 0 ? "+" : "") + fmtEUR(totalPL);
+      plEl.style.color = totalPL > 0 ? "var(--success)" : (totalPL < 0 ? "var(--danger)" : "inherit");
+    } catch (e) {
+      loadingEl.style.display = "none";
+      emptyEl.style.display = "block";
+      emptyEl.textContent = "No se han podido cargar tus inversiones. Inténtalo de nuevo más tarde.";
+    }
+  }
+
+  document.getElementById("refreshInvestmentsBtn").addEventListener("click", loadInvestments);
+
   document.getElementById("loginBtn").addEventListener("click", async function () {
     var fb = document.getElementById("loginFeedback");
     try {
@@ -131,6 +250,7 @@
       document.getElementById("loggedInView").style.display = "block";
       document.getElementById("accEmail").textContent = user.email;
       document.getElementById("riskSelect").value = user.riskProfile || "moderado";
+      loadInvestments();
     }
   }
   init();

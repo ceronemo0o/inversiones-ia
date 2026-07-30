@@ -7,6 +7,12 @@
  */
 
 var PortfolioSync = (function () {
+  function hasLocalActivity(state) {
+    return (state.history && state.history.length > 0) ||
+      (state.positions && Object.keys(state.positions).length > 0) ||
+      state.cash !== state.initialBalance;
+  }
+
   async function load(key, portfolioInstance) {
     var user = await Auth.me();
     if (!user) return false;
@@ -18,18 +24,25 @@ var PortfolioSync = (function () {
         portfolioInstance.setState(data.state);
         return true;
       }
+      // Todavía no hay nada guardado en la cuenta para esta cartera. Si el
+      // navegador ya tenía operaciones (por ejemplo, hechas antes de
+      // registrarse), las adoptamos ahora en la cuenta para no perderlas.
+      var local = portfolioInstance.getState();
+      if (hasLocalActivity(local)) {
+        save(key, portfolioInstance);
+      }
     } catch (e) {}
     return false;
   }
 
   function save(key, portfolioInstance) {
-    Auth.me().then(function (user) {
-      if (!user) return;
-      fetch("/api/portfolio", {
+    return Auth.me().then(function (user) {
+      if (!user) return false;
+      return fetch("/api/portfolio", {
         method: "POST", credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ key: key, state: portfolioInstance.getState() })
-      }).catch(function () {});
+      }).then(function (res) { return res.ok; }).catch(function () { return false; });
     });
   }
 
