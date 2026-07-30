@@ -201,11 +201,29 @@ var MarketData = (function () {
     return parsed.candles;
   }
 
+  /**
+   * El IBEX 35 (BME) cotiza de lunes a viernes, 9:00-17:30 hora de Madrid.
+   * Fuera de ese horario los precios que devuelve Yahoo quedan "congelados"
+   * en el último cierre, así que un P&L en 0€ tras comprar justo antes del
+   * cierre (o mientras el mercado está cerrado) es normal, no un fallo.
+   */
+  function isMarketOpen() {
+    var parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "Europe/Madrid", weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false
+    }).formatToParts(new Date());
+    var map = {};
+    parts.forEach(function (p) { map[p.type] = p.value; });
+    var isWeekday = ["Mon", "Tue", "Wed", "Thu", "Fri"].indexOf(map.weekday) !== -1;
+    var minutes = parseInt(map.hour, 10) * 60 + parseInt(map.minute, 10);
+    return isWeekday && minutes >= 9 * 60 && minutes < 17 * 60 + 30;
+  }
+
   return {
     getProxyBase: getProxyBase,
     setProxyBase: setProxyBase,
     getFetchMode: getFetchMode,
     getQuotes: getQuotes,
-    getTimeSeries: getTimeSeries
+    getTimeSeries: getTimeSeries,
+    isMarketOpen: isMarketOpen
   };
 })();

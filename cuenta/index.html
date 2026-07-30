@@ -83,6 +83,7 @@
         <button class="btn btn-outline btn-sm" id="refreshInvestmentsBtn">Actualizar</button>
       </div>
       <p style="font-size:.85rem; color:var(--text-muted); margin:6px 0 16px">Todas tus posiciones abiertas guardadas en tu cuenta, en Práctica, Invertir, Trading y la cartera automática del Asesor IA.</p>
+      <p id="marketStatusNote" style="font-size:.8rem; color:var(--text-muted); margin:0 0 16px"></p>
 
       <div class="stat-row" id="investmentsSummary" style="display:none">
         <div class="stat-tile"><div class="label">Valor total invertido</div><div class="value" id="invTotalValue" style="font-size:1.2rem">—</div></div>
@@ -204,6 +205,14 @@
 
   document.getElementById("refreshInvestmentsBtn").addEventListener("click", loadInvestments);
 
+  function updateMarketStatus() {
+    var el = document.getElementById("marketStatusNote");
+    if (!el) return;
+    el.textContent = MarketData.isMarketOpen()
+      ? "🟢 Mercado abierto ahora mismo — los precios se mueven en vivo."
+      : "🔴 Mercado cerrado ahora mismo (el IBEX 35 abre de lunes a viernes, 9:00–17:30 hora española). El resultado de tus posiciones no cambiará hasta la próxima apertura.";
+  }
+
   document.getElementById("loginBtn").addEventListener("click", async function () {
     var fb = document.getElementById("loginFeedback");
     try {
@@ -251,6 +260,7 @@
       document.getElementById("accEmail").textContent = user.email;
       document.getElementById("riskSelect").value = user.riskProfile || "moderado";
       loadInvestments();
+      updateMarketStatus();
     }
   }
   init();

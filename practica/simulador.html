@@ -37,6 +37,7 @@
   <div class="alert info" id="dataSourceAlert">
     Los precios proceden de <strong>Yahoo Finance</strong> (sin necesidad de clave ni registro), a través del proxy local del proyecto. Si acabas de instalar la web, asegúrate de que <code>node proxy/proxy.js</code> esté en marcha (se arranca solo si seguiste la configuración del README). Los datos pueden llevar cierto retraso respecto al mercado en tiempo real.
   </div>
+  <p id="marketStatusNote" style="font-size:.85rem; color:var(--text-muted); margin:-10px 0 20px"></p>
 
   <div class="stat-row">
     <div class="stat-tile"><div class="label">Saldo en efectivo</div><div class="value" id="statCash">—</div></div>
@@ -306,11 +307,21 @@
     });
   }
 
+  function updateMarketStatus() {
+    var el = document.getElementById("marketStatusNote");
+    if (!el) return;
+    el.textContent = MarketData.isMarketOpen()
+      ? "🟢 Mercado abierto ahora mismo — los precios se mueven en vivo."
+      : "🔴 Mercado cerrado ahora mismo (el IBEX 35 abre de lunes a viernes, 9:00–17:30 hora española). Los precios quedan congelados en el último cierre hasta la próxima apertura, así que el resultado de tus posiciones no cambiará hasta entonces.";
+  }
+
   /* ---------- Arranque ---------- */
   async function init() {
     await PortfolioSync.load("practica", Portfolio);
     refreshStats();
     renderPositions();
+    updateMarketStatus();
+    setInterval(updateMarketStatus, 60000);
 
     var res = await fetch("../data/ibex35.json");
     var data = await res.json();

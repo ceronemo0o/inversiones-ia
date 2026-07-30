@@ -54,6 +54,7 @@
 
       <div class="card">
         <h3 style="margin-top:0">Gestión automática (práctica)</h3>
+        <p id="marketStatusNote" style="font-size:.8rem; color:var(--text-muted); margin:0 0 10px"></p>
         <div class="stat-row" style="grid-template-columns: 1fr 1fr; margin-bottom:14px">
           <div class="stat-tile"><div class="label">Valor total</div><div class="value" id="autoTotal" style="font-size:1.1rem">—</div></div>
           <div class="stat-tile"><div class="label">Resultado</div><div class="value" id="autoPL" style="font-size:1.1rem">—</div></div>
@@ -343,6 +344,14 @@
     });
   }
 
+  function updateMarketStatus() {
+    var el = document.getElementById("marketStatusNote");
+    if (!el) return;
+    el.textContent = MarketData.isMarketOpen()
+      ? "🟢 Mercado abierto ahora mismo — los precios se mueven en vivo."
+      : "🔴 Mercado cerrado ahora mismo (el IBEX 35 abre de lunes a viernes, 9:00–17:30 hora española). El resultado no cambiará hasta la próxima apertura.";
+  }
+
   /* ---------------- Arranque ---------------- */
   async function init() {
     var user = await Auth.me();
@@ -357,6 +366,8 @@
     }
     loadHistory();
     renderAutoPortfolio();
+    updateMarketStatus();
+    setInterval(updateMarketStatus, 60000);
 
     // Refresca precios y P&L de la cartera automática cada 20s, igual que
     // en Práctica/Invertir/Trading, para que el resultado se vea "en vivo"
