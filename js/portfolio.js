@@ -51,6 +51,12 @@ function PortfolioFactory(storageKey, defaultBalance) {
     return load();
   }
 
+  function setState(state) {
+    if (!state || typeof state !== "object") return;
+    if (!state.pendingOrders) state.pendingOrders = [];
+    save(state);
+  }
+
   function reset(balance) {
     var s = defaultState(balance || DEFAULT_BALANCE);
     save(s);
@@ -271,6 +277,7 @@ function PortfolioFactory(storageKey, defaultBalance) {
 
   return {
     getState: getState,
+    setState: setState,
     reset: reset,
     buy: buy,
     sell: sell,

@@ -1,0 +1,12 @@
+name = "inversiones-ia"
+pages_build_output_dir = "."
+compatibility_date = "2026-07-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "inversiones-ia-db"
+database_id = "c4c30313-826c-4777-a352-a2f9c8df615a"
+
+[ai]
+binding = "AI"

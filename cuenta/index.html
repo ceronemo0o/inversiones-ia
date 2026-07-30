@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mi cuenta | Inversiones IA</title>
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../index.html">Inicio</a>
+      <a href="../practica/index.html">Práctica</a>
+      <a href="../invertir/index.html">Invertir</a>
+      <a href="../trading/index.html">Trading</a>
+      <a href="../asesor/index.html">Asesor IA</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container section" style="max-width:520px; padding-top:40px">
+  <div id="loggedOutView">
+    <div class="alert info">
+      Proyecto en pruebas: las cuentas y el dinero de esta web son <strong>100% virtuales</strong>, no se procesa ningún pago ni dinero real.
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-top:0">Iniciar sesión</h3>
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input type="text" id="loginEmail" style="width:100%" />
+      </div>
+      <div class="field">
+        <label for="loginPassword">Contraseña</label>
+        <input type="password" id="loginPassword" style="width:100%" />
+      </div>
+      <button class="btn btn-primary" id="loginBtn">Entrar</button>
+      <p class="quiz-feedback" id="loginFeedback" style="margin-top:10px"></p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">Crear cuenta</h3>
+      <div class="field">
+        <label for="regEmail">Email</label>
+        <input type="text" id="regEmail" style="width:100%" />
+      </div>
+      <div class="field">
+        <label for="regPassword">Contraseña (mínimo 8 caracteres)</label>
+        <input type="password" id="regPassword" style="width:100%" />
+      </div>
+      <button class="btn btn-primary" id="regBtn">Crear cuenta</button>
+      <p class="quiz-feedback" id="regFeedback" style="margin-top:10px"></p>
+    </div>
+  </div>
+
+  <div id="loggedInView" style="display:none">
+    <div class="card">
+      <h3 style="margin-top:0">Tu cuenta</h3>
+      <p><strong>Email:</strong> <span id="accEmail">—</span></p>
+      <div class="field">
+        <label for="riskSelect">Perfil de riesgo por defecto</label>
+        <select id="riskSelect" style="width:220px">
+          <option value="conservador">Conservador</option>
+          <option value="moderado">Moderado</option>
+          <option value="agresivo">Agresivo</option>
+        </select>
+      </div>
+      <p style="font-size:.85rem; color:var(--text-muted)">Este perfil se usa como valor por defecto en el Asesor IA y en la gestión automática de tu cartera de práctica.</p>
+      <div style="display:flex; gap:10px; margin-top:10px">
+        <a class="btn btn-primary btn-sm" href="../asesor/index.html">Ir al Asesor IA</a>
+        <button class="btn btn-outline btn-sm" id="logoutBtn">Cerrar sesión</button>
+      </div>
+      <p class="quiz-feedback" id="accFeedback" style="margin-top:10px"></p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Proyecto en pruebas. Cuentas y dinero 100% virtuales.</div></footer>
+
+<script src="../js/progress.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+(function () {
+  document.getElementById("loginBtn").addEventListener("click", async function () {
+    var fb = document.getElementById("loginFeedback");
+    try {
+      await Auth.login(document.getElementById("loginEmail").value.trim(), document.getElementById("loginPassword").value);
+      location.reload();
+    } catch (e) {
+      fb.className = "quiz-feedback ko";
+      fb.textContent = e.message;
+    }
+  });
+
+  document.getElementById("regBtn").addEventListener("click", async function () {
+    var fb = document.getElementById("regFeedback");
+    try {
+      await Auth.register(document.getElementById("regEmail").value.trim(), document.getElementById("regPassword").value);
+      location.reload();
+    } catch (e) {
+      fb.className = "quiz-feedback ko";
+      fb.textContent = e.message;
+    }
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", async function () {
+    await Auth.logout();
+    location.reload();
+  });
+
+  document.getElementById("riskSelect").addEventListener("change", async function () {
+    var fb = document.getElementById("accFeedback");
+    try {
+      await Auth.setRiskProfile(this.value);
+      fb.className = "quiz-feedback ok";
+      fb.textContent = "Guardado.";
+    } catch (e) {
+      fb.className = "quiz-feedback ko";
+      fb.textContent = e.message;
+    }
+  });
+
+  async function init() {
+    var user = await Auth.me(true);
+    if (user) {
+      document.getElementById("loggedOutView").style.display = "none";
+      document.getElementById("loggedInView").style.display = "block";
+      document.getElementById("accEmail").textContent = user.email;
+      document.getElementById("riskSelect").value = user.riskProfile || "moderado";
+    }
+  }
+  init();
+})();
+</script>
+</body>
+</html>

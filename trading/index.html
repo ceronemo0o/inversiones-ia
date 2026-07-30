@@ -17,6 +17,7 @@
       <a href="../practica/index.html">Práctica</a>
       <a href="../invertir/index.html">Invertir</a>
       <a href="index.html" class="active">Trading</a>
+      <a href="../asesor/index.html">Asesor IA</a>
       <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
     </div>
   </nav>
@@ -134,9 +135,11 @@
 <footer class="site-footer"><div class="container">Inversiones IA — Terminal de trading educativo. Dinero 100% virtual. Ninguna parte de esta web constituye asesoramiento financiero.</div></footer>
 
 <script src="../js/progress.js"></script>
+<script src="../js/auth.js"></script>
 <script src="../js/marketData.js"></script>
 <script src="../js/charts.js"></script>
 <script src="../js/portfolio.js"></script>
+<script src="../js/portfolioSync.js"></script>
 <script>
 (function () {
   var PortfolioTrading = PortfolioFactory("invia_portfolio_trading_v1", 10000);
@@ -307,6 +310,7 @@
         fb.textContent = "Orden " + o.type + " ejecutada: " + (o.side === "buy" ? "compra" : "venta") + " de " + o.qty + " x " + o.symbol + " a " + o.filledPrice.toFixed(2) + " €.";
       }
     });
+    PortfolioSync.save("trading", PortfolioTrading);
   }
 
   function placeOrder(side) {
@@ -329,6 +333,7 @@
         ? "Orden ejecutada al instante: " + (side === "buy" ? "compra" : "venta") + " de " + qty + " x " + selectedSymbol + "."
         : "Orden " + type + " colocada. Se ejecutará automáticamente cuando se cumpla la condición.";
       renderAll();
+      PortfolioSync.save("trading", PortfolioTrading);
     } catch (e) {
       fb.className = "quiz-feedback ko";
       fb.textContent = e.message;
@@ -342,6 +347,7 @@
     if (!confirm("¿Reiniciar tu cuenta de Trading? Se perderá todo el historial y las posiciones virtuales.")) return;
     PortfolioTrading.reset(PortfolioTrading.DEFAULT_BALANCE);
     renderAll();
+    PortfolioSync.save("trading", PortfolioTrading);
   });
 
   /* ---------- Render general ---------- */
@@ -396,6 +402,7 @@
         try {
           PortfolioTrading.sell(sym, pos.qty, q.price);
           renderAll();
+          PortfolioSync.save("trading", PortfolioTrading);
         } catch (e) { alert(e.message); }
       });
     });
@@ -448,6 +455,8 @@
 
   /* ---------- Arranque ---------- */
   async function init() {
+    await PortfolioSync.load("trading", PortfolioTrading);
+
     var res = await fetch("../data/ibex35.json");
     var data = await res.json();
     constituents = data.constituents;

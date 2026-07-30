@@ -17,6 +17,7 @@
       <a href="index.html" class="active">Práctica</a>
       <a href="../invertir/index.html">Invertir</a>
       <a href="../trading/index.html">Trading</a>
+      <a href="../asesor/index.html">Asesor IA</a>
       <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
     </div>
   </nav>
@@ -101,9 +102,11 @@
 <footer class="site-footer"><div class="container">Inversiones IA — Simulador educativo. Dinero 100% virtual. Ninguna parte de esta web constituye asesoramiento financiero.</div></footer>
 
 <script src="../js/progress.js"></script>
+<script src="../js/auth.js"></script>
 <script src="../js/marketData.js"></script>
 <script src="../js/charts.js"></script>
 <script src="../js/portfolio.js"></script>
+<script src="../js/portfolioSync.js"></script>
 <script>
 (function () {
   var constituents = [];
@@ -234,6 +237,7 @@
       fb.textContent = "Compra ejecutada: " + qty + " x " + selectedSymbol + " a " + lastQuotes[selectedSymbol].price.toFixed(2) + " €.";
       refreshStats();
       renderPositions();
+      PortfolioSync.save("practica", Portfolio);
     } catch (e) {
       fb.className = "quiz-feedback ko";
       fb.textContent = e.message;
@@ -250,6 +254,7 @@
       fb.textContent = "Venta ejecutada: " + qty + " x " + selectedSymbol + " a " + lastQuotes[selectedSymbol].price.toFixed(2) + " €.";
       refreshStats();
       renderPositions();
+      PortfolioSync.save("practica", Portfolio);
     } catch (e) {
       fb.className = "quiz-feedback ko";
       fb.textContent = e.message;
@@ -261,6 +266,7 @@
     Portfolio.reset(Portfolio.DEFAULT_BALANCE);
     refreshStats();
     renderPositions();
+    PortfolioSync.save("practica", Portfolio);
   });
 
   /* ---------- Estadísticas y posiciones ---------- */
@@ -302,6 +308,7 @@
 
   /* ---------- Arranque ---------- */
   async function init() {
+    await PortfolioSync.load("practica", Portfolio);
     refreshStats();
     renderPositions();
 

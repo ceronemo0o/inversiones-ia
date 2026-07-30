@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Asesor IA | Inversiones IA</title>
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="dot">●</span> Inversiones IA</a>
+    <div class="nav-links">
+      <a href="../index.html">Inicio</a>
+      <a href="../practica/index.html">Práctica</a>
+      <a href="../invertir/index.html">Invertir</a>
+      <a href="../trading/index.html">Trading</a>
+      <a href="index.html" class="active">Asesor IA</a>
+      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main class="container section" style="padding-top:24px">
+  <h1 style="margin:0 0 6px">Asesor IA</h1>
+  <p style="color:var(--text-muted); margin:0 0 20px">Pregúntale lo que quieras sobre invertir o trading, y prueba la gestión automática de una cartera de práctica según tu perfil de riesgo.</p>
+
+  <div class="alert warn">
+    <strong>Proyecto en fase de pruebas.</strong> Este asesor usa un modelo de IA real, pero todo lo que dice tiene fines educativos: no es asesoramiento financiero personalizado ni una recomendación con garantías. La "gestión automática" solo mueve el <strong>dinero virtual</strong> de tu cartera de práctica — nunca dinero real.
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 380px; gap:20px; align-items:start" id="asesorLayout">
+    <div class="card" style="display:flex; flex-direction:column; height:600px">
+      <h3 style="margin-top:0">Chat</h3>
+      <div id="chatMessages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding:4px 2px"></div>
+      <div style="display:flex; gap:8px; margin-top:12px">
+        <input type="text" id="chatInput" placeholder="Ej: ¿qué cartera encaja con un perfil moderado ahora mismo?" style="flex:1" />
+        <button class="btn btn-primary" id="chatSendBtn">Enviar</button>
+      </div>
+      <p style="font-size:.78rem; color:var(--text-muted); margin:8px 0 0">El asesor conoce tu perfil de riesgo y algunos precios actuales del IBEX 35 para dar ejemplos realistas.</p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:20px">
+      <div class="card">
+        <h3 style="margin-top:0">Tu perfil de riesgo</h3>
+        <select id="riskSelect" style="width:100%">
+          <option value="conservador">Conservador</option>
+          <option value="moderado" selected>Moderado</option>
+          <option value="agresivo">Agresivo</option>
+        </select>
+        <p style="font-size:.8rem; color:var(--text-muted); margin-top:8px" id="riskLoginHint"></p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Gestión automática (práctica)</h3>
+        <div class="stat-row" style="grid-template-columns: 1fr 1fr; margin-bottom:14px">
+          <div class="stat-tile"><div class="label">Valor total</div><div class="value" id="autoTotal" style="font-size:1.1rem">—</div></div>
+          <div class="stat-tile"><div class="label">Resultado</div><div class="value" id="autoPL" style="font-size:1.1rem">—</div></div>
+        </div>
+        <button class="btn btn-primary btn-sm" id="generateBtn" style="width:100%; margin-bottom:8px">Generar distribución sugerida</button>
+        <button class="btn btn-outline btn-sm" id="applyBtn" style="width:100%; display:none; margin-bottom:8px">Aplicar a mi cartera de práctica</button>
+        <button class="btn btn-outline btn-sm" id="resetAutoBtn" style="width:100%">Reiniciar cartera automática</button>
+        <p class="quiz-feedback" id="autoFeedback" style="margin-top:8px"></p>
+        <div id="allocationBox" style="margin-top:12px; display:flex; flex-direction:column; gap:8px"></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Posiciones (cartera automática)</h3>
+        <div style="overflow-x:auto">
+          <table class="data-table" id="autoPositionsTable">
+            <thead><tr><th>Valor</th><th>Cant.</th><th>P&amp;L</th></tr></thead>
+            <tbody><tr><td colspan="3" style="color:var(--text-muted)">Sin posiciones.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container">Inversiones IA — Asesor educativo. Todo el dinero es virtual. Ninguna parte de esta web constituye asesoramiento financiero real.</div></footer>
+
+<style>
+  @media (max-width: 880px) { #asesorLayout { grid-template-columns: 1fr !important; } }
+  .chat-bubble { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: .92rem; line-height: 1.5; white-space: pre-wrap; }
+  .chat-bubble.user { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 2px; }
+  .chat-bubble.assistant { align-self: flex-start; background: var(--bg-alt); border: 1px solid var(--border); border-bottom-left-radius: 2px; }
+  .chat-bubble.thinking { align-self: flex-start; color: var(--text-muted); font-style: italic; }
+</style>
+
+<script src="../js/progress.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/marketData.js"></script>
+<script src="../js/portfolio.js"></script>
+<script src="../js/portfolioSync.js"></script>
+<script>
+(function () {
+  var PortfolioAuto = PortfolioFactory("invia_portfolio_auto_v1", 10000);
+  var history = [];
+  var lastAllocations = null;
+  var lastQuotesCache = {};
+
+  function fmtEUR(n) {
+    if (n == null || isNaN(n)) return "—";
+    return n.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
+  }
+  function fmtPct(n) {
+    if (n == null || isNaN(n)) return "—";
+    return (n >= 0 ? "+" : "") + n.toFixed(2) + "%";
+  }
+
+  /* ---------------- Chat ---------------- */
+  var chatMessages = document.getElementById("chatMessages");
+  var chatInput = document.getElementById("chatInput");
+  var chatSendBtn = document.getElementById("chatSendBtn");
+  var riskSelect = document.getElementById("riskSelect");
+
+  function addBubble(role, text) {
+    var div = document.createElement("div");
+    div.className = "chat-bubble " + role;
+    div.textContent = text;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return div;
+  }
+
+  async function loadHistory() {
+    var user = await Auth.me();
+    if (!user) {
+      addBubble("assistant", "Hola, soy el Asesor IA de Inversiones IA. Puedes preguntarme sobre inversión, trading, o pedirme un ejemplo de cartera según tu perfil de riesgo. Inicia sesión para que tu historial se guarde en tu cuenta.");
+      return;
+    }
+    try {
+      var res = await fetch("/api/advisor", { credentials: "include" });
+      var data = await res.json();
+      if (data.messages && data.messages.length) {
+        data.messages.forEach(function (m) {
+          addBubble(m.role, m.content);
+          history.push({ role: m.role, content: m.content });
+        });
+      } else {
+        addBubble("assistant", "Hola " + user.email + ", soy el Asesor IA. Pregúntame lo que quieras sobre inversión o trading.");
+      }
+    } catch (e) {
+      addBubble("assistant", "Hola, soy el Asesor IA de Inversiones IA. Pregúntame lo que quieras.");
+    }
+  }
+
+  async function sendMessage() {
+    var text = chatInput.value.trim();
+    if (!text) return;
+    chatInput.value = "";
+    addBubble("user", text);
+    history.push({ role: "user", content: text });
+    var thinking = addBubble("thinking", "Pensando…");
+    chatSendBtn.disabled = true;
+
+    var snapshot = Object.keys(lastQuotesCache).map(function (s) { return lastQuotesCache[s]; });
+
+    try {
+      var res = await fetch("/api/advisor", {
+        method: "POST", credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, history: history.slice(0, -1), riskProfile: riskSelect.value, marketSnapshot: snapshot })
+      });
+      var data = await res.json();
+      thinking.remove();
+      if (!res.ok) {
+        addBubble("assistant", "⚠️ " + (data.error || "No se pudo obtener respuesta."));
+      } else {
+        addBubble("assistant", data.reply);
+        history.push({ role: "assistant", content: data.reply });
+      }
+    } catch (e) {
+      thinking.remove();
+      addBubble("assistant", "⚠️ Error de conexión. Inténtalo de nuevo.");
+    }
+    chatSendBtn.disabled = false;
+  }
+
+  chatSendBtn.addEventListener("click", sendMessage);
+  chatInput.addEventListener("keydown", function (e) { if (e.key === "Enter") sendMessage(); });
+
+  /* ---------------- Gestión automática ---------------- */
+  var generateBtn = document.getElementById("generateBtn");
+  var applyBtn = document.getElementById("applyBtn");
+  var allocationBox = document.getElementById("allocationBox");
+  var autoFeedback = document.getElementById("autoFeedback");
+
+  generateBtn.addEventListener("click", async function () {
+    autoFeedback.textContent = "";
+    generateBtn.disabled = true;
+    generateBtn.textContent = "Analizando el mercado…";
+    try {
+      var res = await fetch("/api/allocate", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ riskProfile: riskSelect.value })
+      });
+      var data = await res.json();
+      if (!res.ok) throw new Error(data.error || "No se pudo generar la distribución.");
+      lastAllocations = data.allocations;
+      renderAllocations(data);
+      applyBtn.style.display = "block";
+    } catch (e) {
+      autoFeedback.className = "quiz-feedback ko";
+      autoFeedback.textContent = e.message;
+    }
+    generateBtn.disabled = false;
+    generateBtn.textContent = "Generar distribución sugerida";
+  });
+
+  function renderAllocations(data) {
+    allocationBox.innerHTML = "";
+    var cashRow = document.createElement("div");
+    cashRow.innerHTML = '<div style="display:flex; justify-content:space-between; font-size:.85rem; margin-bottom:4px"><span>Efectivo (colchón)</span><span>' + data.cashBufferPct + '%</span></div>';
+    allocationBox.appendChild(cashRow);
+    data.allocations.forEach(function (a) {
+      var row = document.createElement("div");
+      row.style.borderTop = "1px solid var(--border)";
+      row.style.paddingTop = "8px";
+      row.innerHTML =
+        '<div style="display:flex; justify-content:space-between; font-size:.85rem; font-weight:700"><span>' + a.name + ' (' + a.symbol + ')</span><span>' + Math.round(a.weight * 100) + '%</span></div>' +
+        '<div style="font-size:.75rem; color:var(--text-muted); margin-top:2px">' + a.reasoning + '</div>';
+      allocationBox.appendChild(row);
+    });
+    var disc = document.createElement("p");
+    disc.style.fontSize = ".72rem";
+    disc.style.color = "var(--text-muted)";
+    disc.style.marginTop = "8px";
+    disc.textContent = data.disclaimer;
+    allocationBox.appendChild(disc);
+  }
+
+  applyBtn.addEventListener("click", async function () {
+    if (!lastAllocations) return;
+    autoFeedback.textContent = "";
+    applyBtn.disabled = true;
+    applyBtn.textContent = "Aplicando…";
+    try {
+      await applyAllocation(lastAllocations);
+      autoFeedback.className = "quiz-feedback ok";
+      autoFeedback.textContent = "Cartera automática actualizada.";
+      await renderAutoPortfolio();
+      PortfolioSync.save("auto", PortfolioAuto);
+    } catch (e) {
+      autoFeedback.className = "quiz-feedback ko";
+      autoFeedback.textContent = e.message;
+    }
+    applyBtn.disabled = false;
+    applyBtn.textContent = "Aplicar a mi cartera de práctica";
+  });
+
+  async function applyAllocation(allocations) {
+    var state = PortfolioAuto.getState();
+    var symbols = {};
+    allocations.forEach(function (a) { symbols[a.symbol] = true; });
+    Object.keys(state.positions).forEach(function (s) { symbols[s] = true; });
+
+    var quotes = await MarketData.getQuotes(Object.keys(symbols));
+    Object.assign(lastQuotesCache, quotes);
+
+    var totalValue = state.cash;
+    Object.keys(state.positions).forEach(function (sym) {
+      var q = quotes[sym];
+      var price = q ? q.price : state.positions[sym].avgCost;
+      totalValue += state.positions[sym].qty * price;
+    });
+
+    var targetSymbols = {};
+    allocations.forEach(function (a) { targetSymbols[a.symbol] = a.weight; });
+
+    // Vende primero lo que ya no forma parte de la distribución objetivo.
+    Object.keys(PortfolioAuto.getState().positions).forEach(function (sym) {
+      if (!targetSymbols[sym] && quotes[sym]) {
+        var pos = PortfolioAuto.getState().positions[sym];
+        if (pos && pos.qty > 0) { try { PortfolioAuto.sell(sym, pos.qty, quotes[sym].price); } catch (e) {} }
+      }
+    });
+
+    allocations.forEach(function (a) {
+      var q = quotes[a.symbol];
+      if (!q) return;
+      var targetValue = totalValue * a.weight;
+      var current = PortfolioAuto.getState().positions[a.symbol];
+      var currentValue = current ? current.qty * q.price : 0;
+      var diff = targetValue - currentValue;
+      if (diff > q.price) {
+        var buyQty = Math.floor(diff / q.price);
+        if (buyQty > 0) { try { PortfolioAuto.buy(a.symbol, a.name, buyQty, q.price); } catch (e) {} }
+      } else if (diff < -q.price && current) {
+        var sellQty = Math.min(current.qty, Math.floor(-diff / q.price));
+        if (sellQty > 0) { try { PortfolioAuto.sell(a.symbol, sellQty, q.price); } catch (e) {} }
+      }
+    });
+  }
+
+  document.getElementById("resetAutoBtn").addEventListener("click", function () {
+    if (!confirm("¿Reiniciar la cartera automática de práctica?")) return;
+    PortfolioAuto.reset(PortfolioAuto.DEFAULT_BALANCE);
+    lastAllocations = null;
+    applyBtn.style.display = "none";
+    allocationBox.innerHTML = "";
+    renderAutoPortfolio();
+    PortfolioSync.save("auto", PortfolioAuto);
+  });
+
+  async function renderAutoPortfolio() {
+    var state = PortfolioAuto.getState();
+    var symbols = Object.keys(state.positions);
+    var quotes = symbols.length ? await MarketData.getQuotes(symbols) : {};
+    Object.assign(lastQuotesCache, quotes);
+
+    var positionsValue = 0, unrealized = 0;
+    symbols.forEach(function (sym) {
+      var pos = state.positions[sym];
+      var price = quotes[sym] ? quotes[sym].price : pos.avgCost;
+      positionsValue += pos.qty * price;
+      unrealized += (price - pos.avgCost) * pos.qty;
+    });
+    var totalValue = state.cash + positionsValue;
+    var totalPL = totalValue - state.initialBalance;
+
+    document.getElementById("autoTotal").textContent = fmtEUR(totalValue);
+    var plEl = document.getElementById("autoPL");
+    plEl.textContent = fmtEUR(totalPL);
+    plEl.classList.remove("pos", "neg");
+    plEl.classList.add(totalPL >= 0 ? "pos" : "neg");
+
+    var tbody = document.querySelector("#autoPositionsTable tbody");
+    if (!symbols.length) {
+      tbody.innerHTML = '<tr><td colspan="3" style="color:var(--text-muted)">Sin posiciones.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = "";
+    symbols.forEach(function (sym) {
+      var pos = state.positions[sym];
+      var price = quotes[sym] ? quotes[sym].price : pos.avgCost;
+      var pl = (price - pos.avgCost) * pos.qty;
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + sym + "</td><td>" + pos.qty + "</td>" +
+        '<td style="color:' + (pl >= 0 ? "var(--success)" : "var(--danger)") + '">' + fmtEUR(pl) + "</td>";
+      tbody.appendChild(tr);
+    });
+  }
+
+  /* ---------------- Arranque ---------------- */
+  async function init() {
+    var user = await Auth.me();
+    var hint = document.getElementById("riskLoginHint");
+    if (user) {
+      riskSelect.value = user.riskProfile || "moderado";
+      hint.textContent = "Guardado en tu cuenta (" + user.email + ").";
+      riskSelect.addEventListener("change", function () { Auth.setRiskProfile(riskSelect.value); });
+      await PortfolioSync.load("auto", PortfolioAuto);
+    } else {
+      hint.textContent = "Inicia sesión para guardar tu perfil y tu cartera automática en tu cuenta.";
+    }
+    loadHistory();
+    renderAutoPortfolio();
+  }
+  init();
+})();
+</script>
+</body>
+</html>
