@@ -29,7 +29,7 @@ export async function onRequestPost(context) {
   var session = await createSession(env.DB, userId);
 
   return jsonResponse(
-    { ok: true, user: { id: userId, email: email, riskProfile: "moderado" } },
+    { ok: true, user: { id: userId, email: email, riskProfile: "moderado", markets: ["spain"] } },
     201,
     { "Set-Cookie": sessionCookieHeader(request, session.token, session.maxAgeSeconds) }
   );

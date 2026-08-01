@@ -59,7 +59,17 @@ var Auth = (function () {
     if (cached) cached.riskProfile = riskProfile;
   }
 
-  return { me: me, register: register, login: login, logout: logout, setRiskProfile: setRiskProfile };
+  async function setMarkets(markets) {
+    var res = await fetch("/api/auth/me", {
+      method: "POST", credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ markets: markets })
+    });
+    if (!res.ok) { var d = await res.json(); throw new Error(d.error || "No se pudo guardar."); }
+    if (cached) cached.markets = markets;
+  }
+
+  return { me: me, register: register, login: login, logout: logout, setRiskProfile: setRiskProfile, setMarkets: setMarkets };
 })();
 
 /* ---------------- Estado de sesión en la barra de navegación ---------------- */

@@ -128,14 +128,67 @@ var MarketData = (function () {
       currency: meta.currency || "EUR"
     };
 
+    // Yahoo cotiza los valores de Londres en peniques (GBp/GBX), no en libras.
+    if (quote.currency === "GBp" || quote.currency === "GBX") {
+      ["price", "open", "high", "low", "previousClose", "change"].forEach(function (k) { quote[k] /= 100; });
+      candles.forEach(function (c) { c.open /= 100; c.high /= 100; c.low /= 100; c.close /= 100; });
+      quote.currency = "GBP";
+    }
+
     return { quote: quote, candles: candles };
   }
 
+  var fxCache = {}; // currency -> { rate, ts } — cuántos euros vale 1 unidad de esa divisa
+  var FX_TTL_MS = 5 * 60 * 1000;
+
+  /**
+   * Tipo de cambio de `currency` a EUR, vía el mismo endpoint de Yahoo
+   * (p.ej. "USDEUR=X", "GBPEUR=X"). Se cachea más tiempo que las cotizaciones
+   * porque las divisas se mueven mucho menos que una acción individual.
+   */
+  async function getFxRate(currency) {
+    if (currency === "EUR") return 1;
+    var now = Date.now();
+    var cached = fxCache[currency];
+    if (cached && now - cached.ts < FX_TTL_MS) return cached.rate;
+    try {
+      var json = await fetchWithFallback(buildUrl(currency + "EUR=X", "1d", "5d"));
+      var result = json && json.chart && json.chart.result && json.chart.result[0];
+      var rate = result && result.meta && result.meta.regularMarketPrice;
+      if (!rate) throw new Error("Sin tipo de cambio disponible para " + currency);
+      fxCache[currency] = { rate: rate, ts: now };
+      return rate;
+    } catch (e) {
+      if (cached) return cached.rate; // mejor un tipo de cambio caducado que ninguno
+      throw e;
+    }
+  }
+
+  /**
+   * Toda la web opera en euros (saldo virtual, coste medio, P&L), así que
+   * cualquier valor cotizado en otra divisa (EEUU, Reino Unido...) se
+   * convierte a EUR aquí mismo, una única vez, para que el resto del código
+   * (portfolio.js, las páginas de Práctica/Invertir/Trading...) no tenga que
+   * saber nada sobre tipos de cambio.
+   */
   async function fetchSymbol(symbol, interval, range) {
     var url = buildUrl(symbol, interval, range);
     var json = await fetchWithFallback(url);
     var parsed = parseChartResponse(symbol, json);
     if (!parsed) throw new Error("Sin datos disponibles para " + symbol);
+
+    if (parsed.quote.currency !== "EUR") {
+      var nativeCurrency = parsed.quote.currency;
+      var nativePrice = parsed.quote.price;
+      var rate = await getFxRate(nativeCurrency);
+      ["price", "open", "high", "low", "previousClose", "change"].forEach(function (k) { parsed.quote[k] *= rate; });
+      parsed.candles.forEach(function (c) { c.open *= rate; c.high *= rate; c.low *= rate; c.close *= rate; });
+      parsed.quote.nativeCurrency = nativeCurrency;
+      parsed.quote.nativePrice = nativePrice;
+      parsed.quote.fxRate = rate;
+      parsed.quote.currency = "EUR";
+    }
+
     return parsed;
   }
 
@@ -202,20 +255,35 @@ var MarketData = (function () {
   }
 
   /**
-   * El IBEX 35 (BME) cotiza de lunes a viernes, 9:00-17:30 hora de Madrid.
-   * Fuera de ese horario los precios que devuelve Yahoo quedan "congelados"
-   * en el último cierre, así que un P&L en 0€ tras comprar justo antes del
-   * cierre (o mientras el mercado está cerrado) es normal, no un fallo.
+   * Horario aproximado de apertura de cada bolsa (hora local de la plaza).
+   * "indices" usa el horario de EEUU porque la mayoría de ETFs de la lista
+   * cotizan en Nueva York.
    */
-  function isMarketOpen() {
+  var MARKET_HOURS = {
+    spain: { tz: "Europe/Madrid", open: 9 * 60, close: 17 * 60 + 30 },
+    germany: { tz: "Europe/Berlin", open: 9 * 60, close: 17 * 60 + 30 },
+    france: { tz: "Europe/Paris", open: 9 * 60, close: 17 * 60 + 30 },
+    uk: { tz: "Europe/London", open: 8 * 60, close: 16 * 60 + 30 },
+    usa: { tz: "America/New_York", open: 9 * 60 + 30, close: 16 * 60 },
+    indices: { tz: "America/New_York", open: 9 * 60 + 30, close: 16 * 60 }
+  };
+
+  /**
+   * Fuera del horario de apertura de la plaza correspondiente, los precios
+   * que devuelve Yahoo quedan "congelados" en el último cierre, así que un
+   * P&L en 0€ justo tras comprar (o mientras el mercado está cerrado) es
+   * normal, no un fallo. marketId por defecto "spain" (IBEX 35).
+   */
+  function isMarketOpen(marketId) {
+    var cfg = MARKET_HOURS[marketId] || MARKET_HOURS.spain;
     var parts = new Intl.DateTimeFormat("en-US", {
-      timeZone: "Europe/Madrid", weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false
+      timeZone: cfg.tz, weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false
     }).formatToParts(new Date());
     var map = {};
     parts.forEach(function (p) { map[p.type] = p.value; });
     var isWeekday = ["Mon", "Tue", "Wed", "Thu", "Fri"].indexOf(map.weekday) !== -1;
     var minutes = parseInt(map.hour, 10) * 60 + parseInt(map.minute, 10);
-    return isWeekday && minutes >= 9 * 60 && minutes < 17 * 60 + 30;
+    return isWeekday && minutes >= cfg.open && minutes < cfg.close;
   }
 
   return {

@@ -1,0 +1,10 @@
+{
+  "markets": [
+    { "id": "spain", "label": "España (IBEX 35)", "flag": "🇪🇸", "file": "ibex35.json", "defaultOn": true },
+    { "id": "uk", "label": "Reino Unido (FTSE 100)", "flag": "🇬🇧", "file": "ftse100.json", "defaultOn": false },
+    { "id": "germany", "label": "Alemania (DAX)", "flag": "🇩🇪", "file": "dax.json", "defaultOn": false },
+    { "id": "france", "label": "Francia (CAC 40)", "flag": "🇫🇷", "file": "cac40.json", "defaultOn": false },
+    { "id": "usa", "label": "EEUU (selección S&P 500 / Nasdaq)", "flag": "🇺🇸", "file": "sp500.json", "defaultOn": false },
+    { "id": "indices", "label": "Fondos e índices globales", "flag": "🌐", "file": "indices.json", "defaultOn": false }
+  ]
+}

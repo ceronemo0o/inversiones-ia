@@ -1,0 +1,17 @@
+{
+  "market": "Fondos e índices globales",
+  "exchangeSuffix": "",
+  "note": "No se puede invertir directamente en un índice, así que aquí se usan los ETFs (fondos cotizados) más conocidos que replican cada uno. Cotizan en dólares o euros según el fondo; la web convierte automáticamente a euros.",
+  "constituents": [
+    { "symbol": "SPY", "name": "S&P 500 (SPDR ETF)", "sector": "Índice / EEUU grandes compañías" },
+    { "symbol": "QQQ", "name": "Nasdaq 100 (Invesco ETF)", "sector": "Índice / EEUU tecnología" },
+    { "symbol": "DIA", "name": "Dow Jones Industrial Average (SPDR ETF)", "sector": "Índice / EEUU industriales" },
+    { "symbol": "IWM", "name": "Russell 2000 (iShares ETF)", "sector": "Índice / EEUU pequeña capitalización" },
+    { "symbol": "VTI", "name": "Mercado total de EEUU (Vanguard ETF)", "sector": "Índice / EEUU mercado total" },
+    { "symbol": "EFA", "name": "Mercados desarrollados fuera de EEUU (iShares MSCI EAFE)", "sector": "Índice / Internacional desarrollado" },
+    { "symbol": "VGK", "name": "Europa (Vanguard FTSE Europe ETF)", "sector": "Índice / Europa" },
+    { "symbol": "EXW1.DE", "name": "Euro Stoxx 50 (iShares Core ETF)", "sector": "Índice / Eurozona grandes compañías" },
+    { "symbol": "GLD", "name": "Oro (SPDR Gold Shares)", "sector": "Materia prima / Oro" },
+    { "symbol": "TLT", "name": "Bonos del Tesoro EEUU a largo plazo (iShares ETF)", "sector": "Renta fija / Bonos" }
+  ]
+}

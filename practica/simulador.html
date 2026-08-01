@@ -48,8 +48,12 @@
 
   <div class="practice-layout">
     <div class="card">
-      <h3 style="margin-top:0">IBEX 35 — Valores</h3>
-      <div class="watchlist" id="watchlist"></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap">
+        <h3 style="margin:0" id="watchlistTitle">España (IBEX 35) — Valores</h3>
+        <div id="marketSelectorSlot"></div>
+      </div>
+      <div id="marketTabs" style="display:none; gap:6px; flex-wrap:wrap; margin-top:12px"></div>
+      <div class="watchlist" id="watchlist" style="margin-top:12px"></div>
     </div>
 
     <div style="display:flex; flex-direction:column; gap:20px">
@@ -105,12 +109,17 @@
 <script src="../js/progress.js"></script>
 <script src="../js/auth.js"></script>
 <script src="../js/marketData.js"></script>
+<script src="../js/marketSelector.js"></script>
 <script src="../js/charts.js"></script>
 <script src="../js/portfolio.js"></script>
 <script src="../js/portfolioSync.js"></script>
 <script>
 (function () {
-  var constituents = [];
+  var constituents = []; // constituentes del mercado/pestaña actualmente visible en la watchlist
+  var allConstituentsBySymbol = {}; // símbolo -> constituente, de TODOS los mercados activos (para posiciones fuera de la pestaña actual)
+  var marketsData = {}; // marketId -> { meta, constituents, ... }
+  var activeMarkets = ["spain"];
+  var currentTab = "spain";
   var selectedSymbol = null;
   var lastQuotes = {};
   var chart = null;
@@ -152,9 +161,14 @@
   }
 
   async function refreshWatchlist() {
-    if (!constituents.length) return;
+    // Además de la pestaña de mercado que se está viendo, siempre se refrescan
+    // también los símbolos de posiciones abiertas (aunque sean de otro mercado
+    // no seleccionado ahora mismo), para que el P&L nunca se quede desactualizado.
+    var symbols = constituents.map(function (c) { return c.symbol; });
+    Object.keys(Portfolio.getState().positions).forEach(function (s) { if (symbols.indexOf(s) === -1) symbols.push(s); });
+    if (!symbols.length) return;
     try {
-      var quotes = await MarketData.getQuotes(constituents.map(function (c) { return c.symbol; }));
+      var quotes = await MarketData.getQuotes(symbols);
       Object.assign(lastQuotes, quotes);
       renderWatchlist();
       if (selectedSymbol && quotes[selectedSymbol]) updateSelectedHeader(quotes[selectedSymbol]);
@@ -163,6 +177,46 @@
     } catch (e) {
       showConnectionIssue(e);
     }
+  }
+
+  /* ---------- Selección de mercado ---------- */
+  async function loadActiveMarkets() {
+    activeMarkets = await MarketSelector.getActive();
+    var loaded = await Promise.all(activeMarkets.map(function (id) { return MarketSelector.loadMarketConstituents(id); }));
+    activeMarkets.forEach(function (id, i) {
+      marketsData[id] = loaded[i];
+      if (loaded[i]) loaded[i].constituents.forEach(function (c) { allConstituentsBySymbol[c.symbol] = c; });
+    });
+    if (activeMarkets.indexOf(currentTab) === -1) currentTab = activeMarkets[0];
+    setCurrentTab(currentTab);
+  }
+
+  function renderMarketTabs() {
+    var el = document.getElementById("marketTabs");
+    el.innerHTML = "";
+    if (activeMarkets.length <= 1) { el.style.display = "none"; return; }
+    el.style.display = "flex";
+    activeMarkets.forEach(function (id) {
+      var m = marketsData[id];
+      if (!m) return;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn-sm " + (id === currentTab ? "btn-primary" : "btn-outline");
+      btn.textContent = m.meta.flag + " " + m.meta.label.split(" (")[0];
+      btn.addEventListener("click", function () { setCurrentTab(id); });
+      el.appendChild(btn);
+    });
+  }
+
+  function setCurrentTab(id) {
+    if (!marketsData[id]) return;
+    currentTab = id;
+    constituents = marketsData[id].constituents;
+    document.getElementById("watchlistTitle").textContent = marketsData[id].meta.label + " — Valores";
+    renderMarketTabs();
+    renderWatchlist();
+    updateMarketStatus();
+    refreshWatchlist();
   }
 
   function clearConnectionIssue() {
@@ -195,7 +249,7 @@
 
   async function selectSymbol(symbol) {
     selectedSymbol = symbol;
-    var c = constituents.find(function (x) { return x.symbol === symbol; });
+    var c = allConstituentsBySymbol[symbol];
     document.getElementById("selectedName").textContent = c ? c.name : symbol;
     document.getElementById("selectedTicker").textContent = symbol;
     renderWatchlist();
@@ -231,9 +285,9 @@
     var fb = document.getElementById("orderFeedback");
     try {
       if (!selectedSymbol || !lastQuotes[selectedSymbol]) throw new Error("Selecciona primero un valor con precio disponible.");
-      var c = constituents.find(function (x) { return x.symbol === selectedSymbol; });
+      var c = allConstituentsBySymbol[selectedSymbol];
       var qty = parseFloat(qtyInput.value);
-      Portfolio.buy(selectedSymbol, c.name, qty, lastQuotes[selectedSymbol].price);
+      Portfolio.buy(selectedSymbol, c ? c.name : selectedSymbol, qty, lastQuotes[selectedSymbol].price);
       fb.className = "quiz-feedback ok";
       fb.textContent = "Compra ejecutada: " + qty + " x " + selectedSymbol + " a " + lastQuotes[selectedSymbol].price.toFixed(2) + " €.";
       refreshStats();
@@ -310,9 +364,11 @@
   function updateMarketStatus() {
     var el = document.getElementById("marketStatusNote");
     if (!el) return;
-    el.textContent = MarketData.isMarketOpen()
-      ? "🟢 Mercado abierto ahora mismo — los precios se mueven en vivo."
-      : "🔴 Mercado cerrado ahora mismo (el IBEX 35 abre de lunes a viernes, 9:00–17:30 hora española). Los precios quedan congelados en el último cierre hasta la próxima apertura, así que el resultado de tus posiciones no cambiará hasta entonces.";
+    var m = marketsData[currentTab];
+    var label = m ? m.meta.label : "Este mercado";
+    el.textContent = MarketData.isMarketOpen(currentTab)
+      ? "🟢 " + label + ": abierto ahora mismo — los precios se mueven en vivo."
+      : "🔴 " + label + ": cerrado ahora mismo. Los precios quedan congelados en el último cierre hasta la próxima apertura, así que el resultado de las posiciones de este mercado no cambiará hasta entonces.";
   }
 
   /* ---------- Arranque ---------- */
@@ -320,15 +376,11 @@
     await PortfolioSync.load("practica", Portfolio);
     refreshStats();
     renderPositions();
-    updateMarketStatus();
     setInterval(updateMarketStatus, 60000);
 
-    var res = await fetch("../data/ibex35.json");
-    var data = await res.json();
-    constituents = data.constituents;
-    renderWatchlist();
+    await MarketSelector.renderWidget(document.getElementById("marketSelectorSlot"), loadActiveMarkets);
+    await loadActiveMarkets();
 
-    refreshWatchlist();
     setInterval(refreshWatchlist, 20000);
   }
 

@@ -84,17 +84,25 @@ export async function createSession(db, userId) {
   return { token: token, maxAgeSeconds: SESSION_DAYS * 24 * 60 * 60 };
 }
 
+export function parseMarkets(marketsJson) {
+  try {
+    var parsed = JSON.parse(marketsJson);
+    if (Array.isArray(parsed) && parsed.length) return parsed;
+  } catch (e) {}
+  return ["spain"];
+}
+
 export async function getSessionUser(request, db) {
   var cookies = parseCookies(request);
   var token = cookies[SESSION_COOKIE];
   if (!token) return null;
   var row = await db.prepare(
-    "SELECT s.token as token, s.expires_at as expiresAt, u.id as id, u.email as email, u.risk_profile as riskProfile " +
+    "SELECT s.token as token, s.expires_at as expiresAt, u.id as id, u.email as email, u.risk_profile as riskProfile, u.markets as markets " +
     "FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token = ?"
   ).bind(token).first();
   if (!row) return null;
   if (row.expiresAt < Date.now()) return null;
-  return { id: row.id, email: row.email, riskProfile: row.riskProfile };
+  return { id: row.id, email: row.email, riskProfile: row.riskProfile, markets: parseMarkets(row.markets) };
 }
 
 export function jsonResponse(data, status, extraHeaders) {
