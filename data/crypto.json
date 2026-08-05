@@ -1,0 +1,17 @@
+{
+  "market": "Criptomonedas",
+  "exchangeSuffix": "",
+  "note": "Las criptomonedas cotizan 24 horas al día, los 7 días de la semana (no tienen horario de apertura/cierre como una bolsa tradicional). Son activos mucho más volátiles que una acción o un fondo indexado: úsalas para practicar y entender el riesgo, no como referencia de lo que deberías hacer con dinero real. Cotizan en dólares; la web convierte automáticamente a euros.",
+  "constituents": [
+    { "symbol": "BTC-USD", "name": "Bitcoin", "sector": "Criptomoneda" },
+    { "symbol": "ETH-USD", "name": "Ethereum", "sector": "Criptomoneda" },
+    { "symbol": "BNB-USD", "name": "BNB", "sector": "Criptomoneda" },
+    { "symbol": "SOL-USD", "name": "Solana", "sector": "Criptomoneda" },
+    { "symbol": "XRP-USD", "name": "XRP", "sector": "Criptomoneda" },
+    { "symbol": "ADA-USD", "name": "Cardano", "sector": "Criptomoneda" },
+    { "symbol": "DOGE-USD", "name": "Dogecoin", "sector": "Criptomoneda" },
+    { "symbol": "DOT-USD", "name": "Polkadot", "sector": "Criptomoneda" },
+    { "symbol": "LTC-USD", "name": "Litecoin", "sector": "Criptomoneda" },
+    { "symbol": "AVAX-USD", "name": "Avalanche", "sector": "Criptomoneda" }
+  ]
+}

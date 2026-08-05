@@ -1,0 +1,14 @@
+{
+  "market": "Materias primas",
+  "exchangeSuffix": "",
+  "note": "Contratos de futuros sobre materias primas (oro, plata, energía, metales industriales), la forma habitual de seguir su precio. Cotizan casi 24 horas al día de domingo noche a viernes noche (cerrado el fin de semana). Cotizan en dólares; la web convierte automáticamente a euros.",
+  "constituents": [
+    { "symbol": "GC=F", "name": "Oro", "sector": "Metal precioso" },
+    { "symbol": "SI=F", "name": "Plata", "sector": "Metal precioso" },
+    { "symbol": "PL=F", "name": "Platino", "sector": "Metal precioso" },
+    { "symbol": "PA=F", "name": "Paladio", "sector": "Metal precioso" },
+    { "symbol": "HG=F", "name": "Cobre", "sector": "Metal industrial" },
+    { "symbol": "CL=F", "name": "Petróleo (WTI)", "sector": "Energía" },
+    { "symbol": "NG=F", "name": "Gas natural", "sector": "Energía" }
+  ]
+}

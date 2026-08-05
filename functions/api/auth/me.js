@@ -1,6 +1,6 @@
 import { getSessionUser, jsonResponse } from "../../_lib/auth.js";
 
-var ALLOWED_MARKETS = ["spain", "uk", "germany", "france", "usa", "indices"];
+var ALLOWED_MARKETS = ["spain", "uk", "germany", "france", "usa", "indices", "crypto", "commodities"];
 
 export async function onRequestGet(context) {
   var user = await getSessionUser(context.request, context.env.DB);

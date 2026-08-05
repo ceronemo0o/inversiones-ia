@@ -5,6 +5,8 @@
     { "id": "germany", "label": "Alemania (DAX)", "flag": "🇩🇪", "file": "dax.json", "defaultOn": false },
     { "id": "france", "label": "Francia (CAC 40)", "flag": "🇫🇷", "file": "cac40.json", "defaultOn": false },
     { "id": "usa", "label": "EEUU (selección S&P 500 / Nasdaq)", "flag": "🇺🇸", "file": "sp500.json", "defaultOn": false },
-    { "id": "indices", "label": "Fondos e índices globales", "flag": "🌐", "file": "indices.json", "defaultOn": false }
+    { "id": "indices", "label": "Fondos e índices globales", "flag": "🌐", "file": "indices.json", "defaultOn": false },
+    { "id": "crypto", "label": "Criptomonedas", "flag": "🪙", "file": "crypto.json", "defaultOn": false },
+    { "id": "commodities", "label": "Materias primas (oro, plata, petróleo...)", "flag": "⛏️", "file": "commodities.json", "defaultOn": false }
   ]
 }

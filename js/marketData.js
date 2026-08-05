@@ -265,7 +265,8 @@ var MarketData = (function () {
     france: { tz: "Europe/Paris", open: 9 * 60, close: 17 * 60 + 30 },
     uk: { tz: "Europe/London", open: 8 * 60, close: 16 * 60 + 30 },
     usa: { tz: "America/New_York", open: 9 * 60 + 30, close: 16 * 60 },
-    indices: { tz: "America/New_York", open: 9 * 60 + 30, close: 16 * 60 }
+    indices: { tz: "America/New_York", open: 9 * 60 + 30, close: 16 * 60 },
+    commodities: { tz: "America/New_York", open: 0, close: 0 } // el rango real se calcula aparte, ver isMarketOpen
   };
 
   /**
@@ -275,14 +276,27 @@ var MarketData = (function () {
    * normal, no un fallo. marketId por defecto "spain" (IBEX 35).
    */
   function isMarketOpen(marketId) {
+    // Las criptomonedas cotizan 24/7, sin días ni horas de cierre.
+    if (marketId === "crypto") return true;
+
     var cfg = MARKET_HOURS[marketId] || MARKET_HOURS.spain;
     var parts = new Intl.DateTimeFormat("en-US", {
       timeZone: cfg.tz, weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false
     }).formatToParts(new Date());
     var map = {};
     parts.forEach(function (p) { map[p.type] = p.value; });
-    var isWeekday = ["Mon", "Tue", "Wed", "Thu", "Fri"].indexOf(map.weekday) !== -1;
     var minutes = parseInt(map.hour, 10) * 60 + parseInt(map.minute, 10);
+
+    // Las materias primas (futuros) cotizan casi 24h de domingo noche a
+    // viernes noche (hora de Chicago/Nueva York), cerrado el fin de semana.
+    if (marketId === "commodities") {
+      if (map.weekday === "Sat") return false;
+      if (map.weekday === "Sun") return minutes >= 23 * 60; // reabre domingo por la noche
+      if (map.weekday === "Fri") return minutes < 23 * 60; // cierra viernes por la noche
+      return true; // lunes a jueves, prácticamente siempre abierto
+    }
+
+    var isWeekday = ["Mon", "Tue", "Wed", "Thu", "Fri"].indexOf(map.weekday) !== -1;
     return isWeekday && minutes >= cfg.open && minutes < cfg.close;
   }
 

@@ -46,6 +46,12 @@
     <div class="stat-tile"><div class="label">Resultado total</div><div class="value" id="statPL">—</div></div>
   </div>
 
+  <div class="card" id="equityCard" style="margin-bottom:20px; display:none">
+    <h3 style="margin-top:0">Evolución acumulada de tu cartera</h3>
+    <p style="font-size:.82rem; color:var(--text-muted); margin:0 0 12px">El valor total nunca se reinicia: cada día parte de donde se quedó el anterior. Se guarda una foto de tu cartera cada día que la visitas.</p>
+    <div class="chart-box" id="equityChart" style="height:180px"></div>
+  </div>
+
   <div class="practice-layout">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap">
@@ -123,6 +129,7 @@
   var selectedSymbol = null;
   var lastQuotes = {};
   var chart = null;
+  var equityChart = null;
 
   function fmtEUR(n) {
     if (n == null || isNaN(n)) return "—";
@@ -172,6 +179,7 @@
       Object.assign(lastQuotes, quotes);
       renderWatchlist();
       if (selectedSymbol && quotes[selectedSymbol]) updateSelectedHeader(quotes[selectedSymbol]);
+      refreshStats();
       renderPositions();
       clearConnectionIssue();
     } catch (e) {
@@ -339,6 +347,17 @@
     var plEl = document.getElementById("statPL");
     plEl.textContent = fmtEUR(stats.totalPL) + " (" + fmtPct(stats.totalPLPercent) + ")";
     setValueClass(plEl, stats.totalPL);
+    Portfolio.recordSnapshot(stats.totalValue);
+    renderEquityCurve();
+  }
+
+  function renderEquityCurve() {
+    var points = Portfolio.getEquityHistory();
+    var card = document.getElementById("equityCard");
+    if (points.length < 2) { card.style.display = "none"; return; }
+    card.style.display = "block";
+    if (!equityChart) equityChart = Charts.createEquityCurve("equityChart");
+    if (equityChart) equityChart.setData(points);
   }
 
   function renderPositions() {

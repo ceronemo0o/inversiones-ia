@@ -81,6 +81,18 @@ var MarketSelector = (function () {
     var panel = document.createElement("div");
     panel.style.cssText = "position:absolute; right:0; top:115%; background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:12px; min-width:270px; box-shadow:0 8px 24px rgba(0,0,0,.18); z-index:50; display:none";
 
+    // Si se marcan varias casillas seguidas muy rápido, cada "change" dispara su
+    // propio guardado en el servidor; como son peticiones independientes, la más
+    // lenta podría responder después y pisar el resultado de la más reciente.
+    // Para evitarlo, el guardado en el servidor se retrasa un poco y solo se
+    // envía la última selección, aunque la UI (localStorage + onChange) se
+    // actualiza al instante en cada clic.
+    var saveTimer = null;
+    function persistDebounced(markets) {
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(function () { setActive(markets); }, 400);
+    }
+
     registry.forEach(function (m) {
       var row = document.createElement("label");
       row.style.cssText = "display:flex; align-items:center; gap:8px; padding:5px 0; font-size:.88rem; cursor:pointer";
@@ -88,11 +100,12 @@ var MarketSelector = (function () {
       cb.type = "checkbox";
       cb.checked = active.indexOf(m.id) !== -1;
       cb.dataset.marketId = m.id;
-      cb.addEventListener("change", async function () {
+      cb.addEventListener("change", function () {
         var checked = Array.prototype.slice.call(panel.querySelectorAll("input[type=checkbox]:checked")).map(function (i) { return i.dataset.marketId; });
         if (!checked.length) { cb.checked = true; return; } // siempre al menos un mercado activo
         active = checked;
-        await setActive(active);
+        try { localStorage.setItem(LOCAL_KEY, JSON.stringify(active)); } catch (e) {}
+        persistDebounced(active);
         if (onChange) onChange(active);
       });
       row.appendChild(cb);

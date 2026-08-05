@@ -76,5 +76,56 @@ var Charts = (function () {
     };
   }
 
-  return { create: create };
+  /**
+   * Gráfico de área simple para la evolución acumulada del valor de una
+   * cartera día a día (no velas). Verde si el valor ha subido desde el
+   * primer punto, rojo si ha bajado, igual que el resto de indicadores
+   * de P&L de la web.
+   */
+  function createEquityCurve(containerId) {
+    var el = document.getElementById(containerId);
+    if (!el || typeof LightweightCharts === "undefined") return null;
+
+    var chart = LightweightCharts.createChart(el, Object.assign({
+      width: el.clientWidth,
+      height: el.clientHeight,
+      timeScale: { timeVisible: false, secondsVisible: false }
+    }, themeOptions()));
+
+    var series = chart.addAreaSeries({ lineWidth: 2 });
+
+    function resize() {
+      chart.applyOptions({ width: el.clientWidth, height: el.clientHeight });
+    }
+    window.addEventListener("resize", resize);
+
+    var mql = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+    function refreshTheme() {
+      chart.applyOptions(themeOptions());
+    }
+    if (mql && mql.addEventListener) mql.addEventListener("change", refreshTheme);
+    var themeBtn = document.getElementById("themeToggle");
+    if (themeBtn) themeBtn.addEventListener("click", function () { setTimeout(refreshTheme, 0); });
+
+    return {
+      setData: function (points) {
+        if (!points || points.length < 2) return;
+        var up = points[points.length - 1].value >= points[0].value;
+        var color = up ? "#1c7c3f" : "#b3261e";
+        series.applyOptions({
+          lineColor: color,
+          topColor: up ? "rgba(28,124,63,.25)" : "rgba(179,38,30,.25)",
+          bottomColor: up ? "rgba(28,124,63,.02)" : "rgba(179,38,30,.02)"
+        });
+        series.setData(points.map(function (p) { return { time: p.date, value: p.value }; }));
+        chart.timeScale().fitContent();
+      },
+      destroy: function () {
+        window.removeEventListener("resize", resize);
+        chart.remove();
+      }
+    };
+  }
+
+  return { create: create, createEquityCurve: createEquityCurve };
 })();

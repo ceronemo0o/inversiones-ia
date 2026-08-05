@@ -23,7 +23,8 @@ function PortfolioFactory(storageKey, defaultBalance) {
       initialBalance: balance,
       positions: {},
       history: [],
-      pendingOrders: []
+      pendingOrders: [],
+      equityHistory: []
     };
   }
 
@@ -37,6 +38,7 @@ function PortfolioFactory(storageKey, defaultBalance) {
       }
       var parsed = JSON.parse(raw);
       if (!parsed.pendingOrders) parsed.pendingOrders = [];
+      if (!parsed.equityHistory) parsed.equityHistory = [];
       return parsed;
     } catch (e) {
       return defaultState(DEFAULT_BALANCE);
@@ -54,7 +56,34 @@ function PortfolioFactory(storageKey, defaultBalance) {
   function setState(state) {
     if (!state || typeof state !== "object") return;
     if (!state.pendingOrders) state.pendingOrders = [];
+    if (!state.equityHistory) state.equityHistory = [];
     save(state);
+  }
+
+  /**
+   * Guarda (o actualiza si ya existe una de hoy) una foto del valor total de
+   * la cartera para el día de hoy. Como el valor total nunca se "resetea"
+   * entre sesiones (siempre es efectivo + posiciones al precio actual), esto
+   * construye de forma natural un histórico acumulado día a día: cada nuevo
+   * día parte exactamente de donde se quedó el anterior.
+   */
+  function recordSnapshot(totalValue) {
+    if (totalValue == null || isNaN(totalValue)) return;
+    var state = load();
+    if (!state.equityHistory) state.equityHistory = [];
+    var today = new Date().toISOString().slice(0, 10);
+    var last = state.equityHistory[state.equityHistory.length - 1];
+    if (last && last.date === today) {
+      last.value = round2(totalValue);
+    } else {
+      state.equityHistory.push({ date: today, value: round2(totalValue) });
+      if (state.equityHistory.length > 730) state.equityHistory.shift();
+    }
+    save(state);
+  }
+
+  function getEquityHistory() {
+    return load().equityHistory || [];
   }
 
   function reset(balance) {
@@ -287,6 +316,8 @@ function PortfolioFactory(storageKey, defaultBalance) {
     checkPendingOrders: checkPendingOrders,
     getStats: getStats,
     getTradeStats: getTradeStats,
+    recordSnapshot: recordSnapshot,
+    getEquityHistory: getEquityHistory,
     DEFAULT_BALANCE: DEFAULT_BALANCE
   };
 }
